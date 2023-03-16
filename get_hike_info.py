@@ -33,11 +33,9 @@ def get_hike_info(url):
     # average_speed =
     # uphill =
     # downhill
+    total_info = {"title": title, "difficulty": difficulty, "duration": duration, "distance": distance}
+    return total_info
 
-    print(title, difficulty, duration, distance)
+print(get_hike_info(url))
 
 
-
-get_hike_info(url)
-end = time.time()
-print(end - start)
