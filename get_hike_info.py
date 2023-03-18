@@ -18,14 +18,14 @@ chrome_service = Service(chrome_path)
 driver = Chrome(options=options, service=chrome_service)
 driver.implicitly_wait(5)
 
-url = "https://www.komoot.com/smarttour/e926612355/mont-colombier-massif-des-bauges-boucle?tour_origin=smart_tour_search"
+# url = "https://www.komoot.com/smarttour/e926612355/mont-colombier-massif-des-bauges-boucle?tour_origin=smart_tour_search"
 
 
 # url = "https://www.komoot.com/smarttour/e925015085/le-chemin-des-papetiers-boucle-au-depart-de-valeyre-parc-naturel-regional-livradois-forez?tour_origin=smart_tour_search"
 #url = "https://www.komoot.com/smarttour/e925015085/le-chemin-des-papetiers-boucle-au-depart-de-valeyre-parc-naturel-regional-livradois-forez?tour_origin=smart_tour_search"
 # url = "https://www.komoot.com/smarttour/e991077160/le-tour-du-malorum-boucle-au-depart-de-bas-en-basset?tour_origin=smart_tour_search"
 # url = "https://www.komoot.com/smarttour/e991085326/mont-miaune-boucle-au-depart-de-retournac?tour_origin=smart_tour_search"
-# url = "https://www.komoot.com/smarttour/11996476?tour_origin=smart_tour_search"
+url = "https://www.komoot.com/smarttour/e1026309330/autour-du-vieux-lyon?tour_origin=smart_tour_search"
 
 def driver_get_url(url):
     """
@@ -63,9 +63,8 @@ def get_basic_hike_info(drive):
     downhill_text = downhill_text.replace(",", "")
     downhill = round(float(downhill_text.split()[0]) * conversions_to_km[downhill_text.split()[1]] * 1000,
                      2)  # put this one in m
-
     return {"2.Title": title, "3.Difficulty": difficulty, "4.Duration (hr)": duration, "5.Distance (km)": distance,
-            "6.Average_speed (km/hr)": average_speed, "7.Uphill (m)": uphill, "8.Downhill (m)": downhill}
+            "6.Average_speed (km/hr)": average_speed, "7.Uphill (m)": uphill, "8.Downhill (m)": downhill }
 
 
 def get_descriptions(drive):
@@ -88,7 +87,7 @@ def get_descriptions(drive):
         tips = driver.find_element(By.CSS_SELECTOR, "div[class='css-1xrtte3']").text
     except common.exceptions.NoSuchElementException:
         tips = ''
-    return {"9.Description": description, "10": tips}
+    return {"9.Description": description, "10.tips": tips}
 
 
 def get_way_type_and_surfaces(drive):
@@ -124,18 +123,24 @@ def get_localisation(drive):
     geography = driver.find_elements(By.XPATH, "//div[@class='css-1jg13ty']/*[@href]")
     record = 0
     localisation = dict()
+    all_loc = list()
     # The scrapping returns several times the same info: we identified that starting to record after Hiking trails & Routes is a good method. We stop after 3 levels because there can be repetition
     for geo in geography:
-        if geo.text == 'Hiking trails & Routes':
-            record += 1
-        elif record == 1:
-            localisation["level 1"] = geo.text
-            record += 1
-        elif record == 2:
-            localisation["level 2"] = geo.text
-            record += 1
-        elif record == 3:
-            localisation["level 3"] = geo.text
+        all_loc.append(geo.text)
+        if geo.text == 'Discover':
+            pass
+        else:
+            if geo.text == 'Hiking trails & Routes':
+                record += 1
+            elif record == 1:
+                localisation["level 1"] = geo.text
+                record += 1
+            elif record == 2:
+                localisation["level 2"] = geo.text
+                record += 1
+            elif record == 3:
+                localisation["level 3"] = geo.text
+    localisation["all levels"] = all_loc
     return localisation
 
 
@@ -144,11 +149,12 @@ def get_hike_info(drive):
     :param driver
     :return: Activate the get_info functions and return a dictionary with all the infos
     """
+    url = {"url": driver.current_url}
     basic_hike_info = get_basic_hike_info(drive)
     way_type_and_surfaces = get_way_type_and_surfaces(drive)
     description = get_descriptions(driver)
     localisation = get_localisation(driver)
-    information = {**basic_hike_info, **description, **localisation, **way_type_and_surfaces}
+    information = {**basic_hike_info, **description, **localisation, **way_type_and_surfaces, **url}
     return (information)
 
 

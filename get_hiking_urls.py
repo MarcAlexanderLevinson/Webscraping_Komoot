@@ -14,10 +14,11 @@ chrome_service = Service(chrome_path)
 driver = Chrome(options=options, service=chrome_service)
 driver.implicitly_wait(5)
 
+
 def get_all_hiking_urls(base_url):
     list_of_urls = []
     urls_of_hikes = []
-    for page_num in range(1,24): # check if range is correct and corresponds to the amount of webpages with hikes
+    for page_num in range(1, 24):  # check if range is correct and corresponds to the amount of webpages with hikes
         list_of_urls.append(f"{base_url}" + str(page_num))
 
     for url in tqdm(list_of_urls):
@@ -29,7 +30,3 @@ def get_all_hiking_urls(base_url):
             urls_of_hikes.append(content.find_element(By.TAG_NAME, "a").get_attribute("href"))
 
     return urls_of_hikes
-
-
-
-
