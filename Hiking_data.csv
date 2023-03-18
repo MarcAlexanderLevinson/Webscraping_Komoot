@@ -1,0 +1,275 @@
+1.ID,2.Title,3.Difficulty,4.Duration (hr),5.Distance (km),6.Average_speed (km/hr),7.Uphill (m),8.Downhill (m),9.Description,Asphalt (km),Footpath (km),Gravel (km),Hiking Path (km),Mountain Hiking Path (km),Natural (km),Path (km),Paved (km),Road (km),State Road (km),Street (km),Unknown (km),Unpaved (km)
+1,Autour du vieux Lyon,Easy,01:12,3.96,3.38,129.54,129.54,text still to be made,0.98,,0.85,0.71,,0.1,3.01,0.93,0.1,,0.23,1.05,0.11
+2,Notre Dame de Fourviere – Place Bellecour loop from Lyon Part-Dieu,Intermediate,04:15,15.64,3.7,205.74,205.74,text still to be made,7.15,0.1,0.16,0.18,,0.1,12.21,7.69,1.21,0.1,2.0,0.55,0.1
+3,Notre Dame de Fourviere – Vue de la basilique loop from Ampère - Victor Hugo,Intermediate,02:29,8.92,3.54,152.4,152.4,text still to be made,4.54,0.1,0.1,0.11,,0.1,6.65,3.75,0.48,0.1,1.59,0.43,0.1
+4,Cathédrale Saint-Jean – Place Bellecour loop from Guillotière,Easy,01:55,6.98,3.7,106.68,106.68,text still to be made,2.54,0.25,0.1,0.19,,0.11,6.2,4.04,0.11,0.1,0.19,0.2,0.1
+5,Cathédrale Saint-Jean – Porte des Enfants loop from Croix-Paquet,Expert,06:27,24.62,3.86,175.26,175.26,text still to be made,9.08,0.5,2.77,3.57,,2.01,18.99,9.85,0.55,0.1,1.01,0.89,0.1
+6,Place Bellecour – Notre Dame de Fourviere loop from Lyon-Perrache,Intermediate,02:21,8.32,3.54,167.64,167.64,text still to be made,4.73,0.1,0.1,0.1,,,7.37,2.62,0.76,0.1,0.15,0.89,
+7,Vue de la basilique – Notre Dame de Fourviere loop from Sans Souci,Intermediate,03:41,13.55,3.7,182.88,182.88,text still to be made,6.36,0.1,0.42,0.8,,0.24,10.36,6.23,1.13,0.1,1.24,0.32,
+8,Lass die Ampere fliessen ... – Place Bellecour loop from Confluence,Intermediate,02:29,9.67,3.86,45.72,45.72,text still to be made,5.94,0.1,0.17,0.17,,,7.92,3.11,0.53,0.1,1.03,0.45,
+9,Porte des Enfants – parc tête d'or loop from Lyon Jean Macé,Intermediate,03:23,13.18,3.86,53.34,53.34,text still to be made,4.33,0.23,4.04,3.81,,0.51,8.82,3.89,0.28,,0.1,0.1,0.37
+10,Vue de la basilique – Notre Dame de Fourviere loop from Bellecour,Expert,05:44,21.4,3.7,251.46,259.08,text still to be made,11.75,0.1,0.42,0.3,,0.1,13.79,7.48,4.7,1.03,1.46,1.66,
+11,Vue de la basilique – Notre Dame de Fourviere loop from Brotteaux,Intermediate,02:49,10.19,3.54,167.64,167.64,text still to be made,7.02,0.22,0.2,0.1,,0.1,9.25,2.77,0.22,0.1,0.4,0.19,0.1
+12,Notre Dame de Fourviere – Vue de la basilique loop from Lyon-Saint-Paul,Easy,00:58,3.14,3.22,114.3,121.92,text still to be made,1.51,,0.11,0.11,,0.1,2.29,1.06,0.39,,0.34,0.35,0.1
+13,Place Bellecour – Cour des Voraces (traboule) loop from Saxe - Gambetta,Intermediate,02:40,9.99,3.7,114.3,114.3,text still to be made,5.89,,0.15,0.17,,0.1,6.29,3.8,0.71,,2.83,0.1,
+14,Vue de la basilique – Notre Dame de Fourviere loop from Vieux Lyon - Cathédrale Saint-Jean,Intermediate,04:02,14.74,3.7,205.74,205.74,text still to be made,5.92,0.1,3.23,3.36,,0.68,9.9,4.55,0.31,,1.13,0.19,0.16
+15,Traboule – Cathédrale Saint-Jean loop from Cordeliers,Easy,00:55,3.41,3.7,45.72,45.72,text still to be made,0.76,,,,,,3.11,2.51,0.14,0.1,0.12,0.15,
+16,Cité Internationale – parc tête d'or loop from Masséna,Intermediate,02:41,10.4,3.86,53.34,53.34,text still to be made,3.04,,6.52,6.55,,0.1,3.72,0.71,,0.1,0.12,0.1,0.1
+17,Jardin de la visitation loop from Saint-Just,Intermediate,03:58,14.53,3.7,220.98,213.36,text still to be made,8.26,2.17,1.05,2.61,,1.58,3.19,0.76,4.96,0.1,1.58,1.11,1.79
+18,Place Bellecour – Cathédrale Saint-Jean loop from Jean Macé,Intermediate,02:35,9.96,3.86,60.96,60.96,text still to be made,3.72,0.1,0.16,0.24,,0.1,8.21,5.95,0.48,0.32,0.63,0.1,
+19,Notre Dame de Fourviere – Vue de la basilique loop from Petit Train de la Tête d'Or,Intermediate,03:09,11.49,3.7,182.88,182.88,text still to be made,5.01,,2.49,2.48,,0.1,7.27,3.57,1.06,0.1,0.68,0.33,0.1
+20,Vue de la basilique – Notre Dame de Fourviere loop from Vieux Lyon - Cathédrale Saint-Jean,Intermediate,03:44,12.28,3.22,403.86,403.86,text still to be made,6.65,0.1,0.72,0.87,,0.1,7.93,3.96,1.24,0.1,2.2,0.56,0.33
+21,Notre Dame de Fourviere – Place Bellecour loop from Monplaisir - Lumière,Intermediate,03:08,11.41,3.7,175.26,175.26,text still to be made,7.11,0.61,0.15,0.1,,,7.21,3.93,2.59,0.1,0.9,0.24,
+22,Notre Dame de Fourviere – Odéon de Lyon loop from Lyon-Perrache,Intermediate,04:08,14.95,3.54,251.46,251.46,text still to be made,6.57,0.69,1.03,0.93,,0.1,9.74,5.99,1.79,0.37,1.4,1.29,0.1
+23,Le Jardin des Roses anciennes – Cathédrale Saint-Jean loop from Cordeliers,Easy,01:01,3.44,3.38,99.06,99.06,text still to be made,1.53,,0.1,0.19,,0.11,2.66,1.35,,0.1,0.6,0.33,0.1
+24,"Einmal tanken, bitte! – Ausblick auf Lyon loop from Place Jean Jaurès",Intermediate,02:37,10.27,3.86,30.48,22.86,text still to be made,4.91,,0.55,1.16,,1.14,7.02,3.01,0.51,0.87,0.71,0.64,
+25,Porte des Enfants – parc tête d'or loop from Charpennes - Charles Hernu (Ligne B),Intermediate,02:04,8.08,3.86,30.48,30.48,text still to be made,2.8,,4.2,4.44,,0.5,2.33,0.56,0.51,,0.79,0.1,
+26,Parc tête d'or – Porte des Enfants loop from Masséna,Easy,01:22,5.29,3.86,22.86,30.48,text still to be made,3.35,,1.8,1.05,,,4.04,0.14,,0.1,0.2,,0.1
+27,Vue de la basilique – Notre Dame de Fourviere loop from Vieux Lyon - Cathédrale Saint-Jean,Intermediate,03:07,10.62,3.38,297.18,297.18,text still to be made,6.34,0.1,0.34,0.47,,0.1,4.41,2.4,3.06,0.29,2.38,1.29,0.26
+28,Lass die Ampere fliessen ... – Place Bellecour loop from Ampère - Victor Hugo,Easy,01:52,7.08,3.86,60.96,60.96,text still to be made,3.11,0.1,0.1,0.1,,,6.81,3.89,,0.1,0.16,0.1,
+29,Odéon de Lyon – Notre Dame de Fourviere loop from Confluence,Intermediate,02:15,8.06,3.54,144.78,144.78,text still to be made,3.27,0.25,0.27,0.28,,0.1,6.24,3.77,0.61,0.1,0.68,0.48,0.21
+30,Cour des Voraces (traboule) – Porte des Enfants loop from Croix-Rousse,Intermediate,04:10,15.8,3.86,137.16,137.16,text still to be made,2.96,0.1,9.0,8.47,,0.72,6.58,2.53,0.22,,0.43,0.1,0.53
+31,Hiking loop from Confluence,Easy,01:12,4.68,3.86,22.86,22.86,text still to be made,1.01,,,,,,4.38,3.32,0.31,,,0.21,0.16
+32,Confluence – Musée des Confluences loop from Confluence,Intermediate,02:09,8.48,3.86,22.86,22.86,text still to be made,2.24,,0.85,1.54,,1.17,6.92,3.98,,,,0.23,
+33,Porte des Enfants – parc tête d'or loop from La Croix-Rousse,Easy,01:55,7.5,3.86,30.48,30.48,text still to be made,3.32,,3.6,2.3,,,5.17,0.55,,,0.1,0.1,0.1
+34,Porte des Enfants loop from Garibaldi,Intermediate,02:07,8.24,3.86,38.1,38.1,text still to be made,2.32,0.19,1.29,1.45,,0.28,5.79,4.3,0.76,,0.1,0.1,0.1
+35,Aqueduc du Gier loop from Sainte-Foy-lès-Lyon,Intermediate,02:50,10.11,3.54,198.12,198.12,text still to be made,4.28,0.12,0.66,2.78,,1.34,3.41,0.19,3.09,,0.72,0.36,3.3
+36,Notre Dame de Fourviere – Odéon de Lyon loop from Foch,Easy,01:48,6.15,3.38,152.4,152.4,text still to be made,2.86,0.17,0.1,0.1,,0.1,4.86,3.15,0.61,0.1,0.48,0.1,0.1
+37,Musée des Confluences – Confluence loop from Stade de Gerland—Le LOU,Intermediate,02:24,9.46,4.02,22.86,22.86,text still to be made,3.83,,0.61,0.58,,0.4,8.16,3.3,0.51,0.1,0.18,1.22,0.1
+38,Botanischer Garten – Cité Internationale loop from Masséna,Intermediate,02:19,9.08,3.86,30.48,30.48,text still to be made,3.01,,5.54,5.41,,0.1,3.22,0.48,,,0.45,0.1,
+39,Slize ... soooo schmal loop from Place Guichard - Bourse du Travail,Easy,01:42,6.55,3.86,38.1,38.1,text still to be made,4.18,,0.1,0.1,,,4.38,2.37,,,2.17,,
+40,Fresque des Lyonnais – Traboule loop from L'Industrie,Intermediate,02:15,8.48,3.7,83.82,83.82,text still to be made,4.06,,0.22,0.11,,,7.34,3.96,0.13,0.76,0.13,0.21,0.1
+41,"Einmal tanken, bitte! – Ausblick auf Lyon loop from Saxe - Gambetta",Easy,01:58,7.71,3.86,30.48,30.48,text still to be made,1.67,,0.12,0.74,,0.61,6.69,4.62,0.1,,0.23,0.3,0.37
+42,Porte des Enfants – Notre Dame de Fourviere loop from Petit Train de la Tête d'Or,Intermediate,04:02,14.02,3.54,304.8,304.8,text still to be made,6.31,,2.27,2.06,,0.1,10.25,5.02,0.64,0.22,0.87,0.25,0.12
+43,Vue de la basilique – Notre Dame de Fourviere loop from Bellecour,Intermediate,04:39,17.06,3.7,251.46,251.46,text still to be made,8.11,1.32,1.0,1.13,,0.19,10.01,7.19,2.25,1.93,0.4,0.48,0.1
+44,Halles de Paul Bocuse – Neu und alt zusammen loop from Lyon Part-Dieu,Easy,01:42,6.58,3.86,30.48,30.48,text still to be made,3.77,0.23,0.1,0.1,,,5.38,2.77,0.16,,0.79,0.1,
+45,Place Bellecour – Cathédrale Saint-Jean loop from Sans Souci,Intermediate,02:04,7.98,3.86,45.72,45.72,text still to be made,4.59,0.1,,,,,5.7,3.4,1.98,0.1,0.22,,
+46,Notre Dame de Fourviere – Odéon de Lyon loop from Place Guichard - Bourse du Travail,Intermediate,03:02,10.91,3.54,175.26,175.26,text still to be made,5.65,,0.55,0.56,,0.1,8.47,4.39,0.93,0.14,0.84,0.22,0.1
+47,Lass die Ampere fliessen ... – Place Bellecour loop from Perrache,Easy,00:57,3.67,3.86,22.86,22.86,text still to be made,1.93,,0.1,0.1,,,3.43,1.66,,,0.25,0.1,
+48,Einkaufzentrum – Place Bellecour loop from Cordeliers,Easy,01:32,5.94,3.86,38.1,38.1,text still to be made,3.3,,0.1,0.12,,0.1,4.09,2.51,0.32,,1.42,0.1,
+49,Parc tête d'or – Porte des Enfants loop from Masséna,Intermediate,04:05,15.96,3.86,60.96,60.96,text still to be made,6.32,0.1,3.38,3.32,,0.82,10.53,5.18,0.21,1.11,0.74,0.27,
+50,Observatoire de Lyon – Fort de Côte-Lorette loop from Oullins,Intermediate,04:24,16.42,3.7,190.5,190.5,text still to be made,11.75,,0.1,1.43,,,3.17,2.38,9.82,0.82,1.22,0.37,1.87
+51,Traboule – Cathédrale Saint-Jean loop from Saint-Georges,Easy,00:41,2.54,3.7,22.86,22.86,text still to be made,0.48,0.22,,,,,1.8,1.95,0.35,,0.17,0.13,
+52,Place Bellecour – Cathédrale Saint-Jean loop from Bellecour,Easy,01:17,4.94,3.86,30.48,30.48,text still to be made,2.83,,0.17,0.17,,,3.01,1.93,0.43,0.1,1.32,0.1,
+53,Cathédrale Saint-Jean loop from Confluence,Intermediate,02:04,8.0,3.86,45.72,45.72,text still to be made,2.7,0.1,0.16,0.16,,,6.82,4.44,0.95,0.1,0.1,0.47,0.21
+54,Einkaufzentrum – Place Bellecour loop from Jean Macé,Intermediate,02:00,7.76,3.86,45.72,45.72,text still to be made,2.49,,0.48,0.8,,0.33,6.26,4.02,0.28,,0.42,0.1,0.38
+55,Sans Souci - Drachenschwanz – Die grüne Tram loop from Sans Souci,Easy,01:17,5.07,3.86,15.24,15.24,text still to be made,3.09,,0.79,0.74,,0.1,2.59,1.09,,0.34,1.4,,
+56,Mont Thou loop from Cuire,Expert,05:14,17.7,3.38,518.16,518.16,text still to be made,7.47,2.08,0.1,2.43,,2.9,3.54,5.1,4.07,0.1,5.55,0.14,2.04
+57,Notre Dame de Fourviere – Vue de la basilique loop from Foch,Intermediate,02:24,8.58,3.54,160.02,160.02,text still to be made,4.07,0.71,1.09,0.77,,,5.41,3.19,0.3,0.23,1.16,0.22,
+58,Fresque des Lyonnais – Cathédrale Saint-Jean loop from Lyon-Perrache,Intermediate,02:14,8.59,3.86,53.34,53.34,text still to be made,1.77,,,,,,8.11,6.18,,0.12,0.37,0.6,0.1
+59,Notre Dame de Fourviere – Odéon de Lyon loop from Gare Part-Dieu - Vivier Merle,Intermediate,04:28,16.42,3.7,228.6,228.6,text still to be made,6.82,0.1,2.62,2.46,,0.1,12.15,5.81,0.17,0.66,0.93,1.03,0.1
+60,Porte des Enfants – parc tête d'or loop from Sans Souci,Intermediate,02:49,11.02,3.86,38.1,38.1,text still to be made,6.86,,2.08,1.87,,0.15,7.0,1.93,0.8,0.38,0.98,,0.1
+61,Parc de Parilly loop from Grange Blanche,Intermediate,03:19,12.87,3.86,68.58,68.58,text still to be made,4.81,0.85,2.38,4.35,,1.69,5.23,2.45,0.1,0.51,1.88,1.01,0.53
+62,Cathédrale Saint-Jean – Fresque des Lyonnais loop from Cordeliers,Easy,01:45,5.95,3.38,152.4,152.4,text still to be made,2.77,0.1,0.76,0.64,,,3.65,2.11,0.43,0.25,0.93,0.16,0.16
+63,Halles de Paul Bocuse – Neu und alt zusammen loop from République - Villeurbanne,Easy,01:58,7.69,3.86,30.48,30.48,text still to be made,5.62,,0.1,0.1,,,4.68,2.06,0.43,0.1,2.46,,
+64,Porte des Enfants – parc tête d'or loop from Charpennes - Charles Hernu (Ligne B),Intermediate,02:22,9.25,3.86,38.1,38.1,text still to be made,4.84,,4.01,2.77,,0.1,5.62,0.34,0.27,0.1,0.58,0.1,0.1
+65,Parc tête d'or – Porte des Enfants loop from Buers,Intermediate,02:11,8.53,3.86,30.48,30.48,text still to be made,4.01,,2.93,3.43,,0.14,4.3,0.56,0.3,,0.51,0.5,0.42
+66,Vue de la basilique – Notre Dame de Fourviere loop from Masséna,Intermediate,03:23,12.05,3.54,228.6,228.6,text still to be made,5.62,0.3,1.74,0.92,,0.1,8.98,4.38,1.11,0.1,0.76,0.18,0.1
+67,Lass die Ampere fliessen ... – Place Bellecour loop from Gare Part-Dieu - Vivier Merle,Intermediate,03:15,12.65,3.86,53.34,53.34,text still to be made,5.13,,0.47,0.63,,0.18,11.09,6.24,0.43,0.2,0.3,0.61,
+68,Terrain de bosses – Rivière Yzeron loop from Sainte-Foy-lès-Lyon,Intermediate,02:19,8.64,3.7,106.68,106.68,text still to be made,0.64,,,2.35,,2.06,3.14,3.32,2.25,,0.92,1.67,0.97
+69,Die grüne Tram loop from Monplaisir,Easy,00:44,2.9,3.86,7.62,7.62,text still to be made,0.77,,1.01,0.82,,0.1,1.98,1.09,,0.1,,,
+70,Traboule – Cour des Voraces (traboule) loop from Hôtel de Ville - Louis Pradel,Easy,01:26,5.21,3.7,83.82,83.82,text still to be made,3.46,,0.1,0.1,,,3.41,1.66,0.47,,1.3,0.1,
+71,Porte des Enfants – Cour des Voraces (traboule) loop from Croix-Rousse,Easy,01:53,6.86,3.7,106.68,106.68,text still to be made,3.64,0.1,1.14,1.06,,,4.62,1.98,0.37,,0.76,0.1,0.1
+72,Place Bellecour – Einkaufzentrum loop from Jean Macé,Easy,01:24,5.41,3.86,22.86,22.86,text still to be made,2.4,,0.1,0.55,,0.48,3.65,2.46,0.1,0.16,1.03,0.1,
+73,Botanischer Garten loop from Brotteaux,Easy,01:01,3.98,3.86,15.24,15.24,text still to be made,2.16,,1.54,1.34,,,1.92,0.27,0.29,0.22,0.21,,
+74,Lass die Ampere fliessen ... – Place Bellecour loop from Perrache,Easy,01:10,4.49,3.86,30.48,30.48,text still to be made,2.56,0.1,0.1,0.1,,,4.28,1.83,0.13,0.1,0.1,0.1,
+75,Notre Dame de Fourviere – Odéon de Lyon loop from Fourvière,Easy,01:48,6.2,3.38,160.02,160.02,text still to be made,3.99,,0.55,0.58,,0.16,2.59,0.72,2.04,0.1,0.9,0.71,0.1
+76,"Einmal tanken, bitte! – Ausblick auf Lyon loop from Lyon Jean Macé",Intermediate,02:10,8.53,3.86,22.86,22.86,text still to be made,4.86,,0.29,0.74,,0.74,5.76,2.0,1.09,0.38,0.55,0.64,
+77,Porte des Enfants – parc tête d'or loop from Charpennes - Charles Hernu (Ligne B),Intermediate,02:11,8.55,3.86,38.1,38.1,text still to be made,3.43,0.17,2.24,2.4,,0.92,5.1,1.71,0.27,0.1,0.58,0.1,0.17
+78,Botanischer Garten – parc tête d'or loop from Flachet - Alain Gilles,Intermediate,02:38,10.28,3.86,38.1,38.1,text still to be made,6.98,,2.57,1.8,,,6.76,0.17,1.35,0.1,0.37,0.5,0.1
+79,Place Bellecour – Halles de Paul Bocuse loop from Flachet - Alain Gilles,Intermediate,03:33,13.79,3.86,68.58,68.58,text still to be made,8.58,0.22,0.55,0.37,,0.26,10.43,4.41,1.69,,1.06,0.1,
+80,Musée des Confluences – Brücken verbinden! loop from Lyon-Perrache,Easy,01:34,6.15,3.86,22.86,22.86,text still to be made,2.67,,0.15,0.1,,,5.68,2.95,0.4,,0.1,0.29,0.1
+81,Rivière Yzeron – Terrain de bosses loop from Saint-Irénée,Intermediate,04:20,15.9,3.7,236.22,236.22,text still to be made,5.49,,,5.01,,4.3,3.75,3.01,5.1,1.26,0.79,1.61,1.48
+82,Parc tête d'or – Porte des Enfants loop from Flachet - Alain Gilles,Intermediate,03:15,12.78,3.86,38.1,38.1,text still to be made,5.29,,5.28,4.6,,0.55,6.26,1.03,1.22,0.1,0.69,0.6,0.1
+83,Place Bellecour – Cathédrale Saint-Jean loop from Guillotière,Easy,00:49,3.14,3.86,22.86,22.86,text still to be made,1.0,0.1,0.1,0.1,,,2.69,2.08,0.26,0.1,0.1,0.1,
+84,Passerelle des quatre temps – Tour Métallique loop from Saint-Irénée,Easy,01:07,3.89,3.54,99.06,99.06,text still to be made,2.56,,0.66,0.63,,0.1,1.32,0.33,1.13,0.25,0.56,0.26,0.1
+85,Lass die Ampere fliessen ... – Place Bellecour loop from Perrache,Easy,00:58,3.78,3.86,15.24,15.24,text still to be made,2.01,,0.1,0.1,,,3.41,1.17,,,0.38,0.6,
+86,Place Bellecour – Cathédrale Saint-Jean loop from Gare Part-Dieu - Vivier Merle,Easy,01:38,6.23,3.86,45.72,45.72,text still to be made,1.87,0.1,,,,,5.75,4.09,0.13,0.1,0.33,0.28,
+87,Place Bellecour – Notre Dame de Fourviere loop from Perrache,Intermediate,03:49,13.55,3.54,259.08,259.08,text still to be made,7.0,,0.1,0.18,,0.11,10.27,5.79,0.95,0.1,2.14,0.48,0.1
+88,Cathédrale Saint-Jean – Place Bellecour loop from Hôtel de Ville - Louis Pradel,Easy,01:04,4.15,3.86,22.86,22.86,text still to be made,2.35,0.1,0.1,0.1,,,2.77,1.71,0.89,0.1,0.43,0.1,
+89,Sich Liebende loop from Croix-Rousse,Intermediate,02:35,9.46,3.7,144.78,144.78,text still to be made,3.59,1.4,0.24,0.39,,0.15,4.23,5.12,1.21,0.71,1.51,0.36,
+90,Odéon de Lyon – Notre Dame de Fourviere loop from Fourvière,Easy,00:48,2.91,3.7,45.72,45.72,text still to be made,1.11,,0.8,0.66,,0.1,1.58,0.31,0.47,,0.21,0.61,0.1
+91,Vue de la basilique – Notre Dame de Fourviere loop from Vieux Lyon - Cathédrale Saint-Jean,Easy,00:59,3.15,3.22,114.3,114.3,text still to be made,1.16,0.1,0.17,0.1,,,2.74,1.51,0.14,,0.26,0.31,
+92,Porte des Enfants – parc tête d'or loop from La Croix-Rousse,Easy,01:26,5.12,3.54,99.06,99.06,text still to be made,3.8,,0.61,0.61,,,3.77,0.69,0.76,,,,0.1
+93,Parc tête d'or – Porte des Enfants loop from Masséna,Intermediate,02:34,9.56,3.7,114.3,114.3,text still to be made,4.26,0.24,1.66,1.37,,0.32,5.44,3.11,1.03,0.1,1.46,0.1,0.17
+94,Confluence loop from Confluence,Easy,00:51,3.35,4.02,7.62,7.62,text still to be made,0.71,,0.27,0.27,,,3.07,2.37,,,,,
+95,Lass die Ampere fliessen ... – Place Bellecour loop from Foch,Easy,01:39,6.37,3.86,30.48,30.48,text still to be made,2.11,,1.34,1.06,,,5.09,2.56,0.16,,0.1,,0.37
+96,Botanischer Garten loop from Tonkin,Easy,00:54,3.56,3.86,7.62,7.62,text still to be made,1.98,,1.48,1.48,,,0.97,,,0.6,0.51,,0.1
+97,Porte des Enfants – Place Bellecour loop from Bellecour,Intermediate,02:01,7.39,3.7,99.06,106.68,text still to be made,3.4,0.1,0.95,0.84,,,5.42,3.04,0.43,,0.64,,
+98,Vue de la basilique – Notre Dame de Fourviere loop from République - Villeurbanne,Intermediate,04:18,15.5,3.54,259.08,259.08,text still to be made,7.31,0.53,1.98,1.88,,0.1,10.09,5.2,1.42,0.14,1.43,0.8,0.16
+99,Hiking loop from Gare d'Oullins,Intermediate,03:35,12.97,3.54,228.6,228.6,text still to be made,5.39,,1.03,3.36,0.1,2.4,3.75,1.59,3.7,,2.11,1.26,1.3
+100,Porte des Enfants – parc tête d'or loop from Les Brotteaux,Easy,01:00,3.88,3.86,15.24,15.24,text still to be made,1.27,,2.35,2.17,,,1.71,0.16,,,,,0.1
+101,Traboule – Cour des Voraces (traboule) loop from Foch,Easy,01:59,7.32,3.7,99.06,99.06,text still to be made,4.06,0.22,0.45,0.26,,,5.76,2.75,0.35,,0.72,0.1,
+102,Porte des Enfants – Place Bellecour loop from Lyon Part-Dieu,Intermediate,02:56,11.31,3.86,68.58,68.58,text still to be made,5.02,0.1,1.9,2.03,,0.26,7.97,3.91,0.13,0.47,0.71,0.22,
+103,Cathédrale Saint-Jean – Place Bellecour loop from Ménival,Intermediate,02:44,9.98,3.7,144.78,144.78,text still to be made,7.11,1.14,,,,,4.51,2.54,3.67,0.1,0.6,0.33,
+104,180 Grad Blick loop from Vieux Lyon - Cathédrale Saint-Jean,Easy,01:07,4.3,3.86,30.48,30.48,text still to be made,1.0,0.18,0.1,0.1,,,3.35,3.01,0.11,0.15,0.43,0.21,
+105,Cathédrale Saint-Jean – Notre Dame de Fourviere loop from Fourvière,Easy,01:27,4.84,3.38,144.78,144.78,text still to be made,1.61,0.4,0.71,0.66,,,2.25,2.29,0.61,0.22,0.71,0.17,0.1
+106,Cité Internationale – Porte des Enfants loop from Charpennes - Charles Hernu (Ligne A),Intermediate,02:25,9.53,3.86,22.86,30.48,text still to be made,3.57,,3.75,3.91,,0.68,4.46,0.89,0.38,,0.77,0.38,0.27
+107,Tour Métallique – Le Jardin des Roses anciennes loop from Lyon-Saint-Paul,Easy,00:44,2.16,2.9,106.68,106.68,text still to be made,0.71,,0.1,0.11,,0.1,1.71,1.16,0.1,,0.31,0.1,0.1
+108,Lass die Ampere fliessen ... – Place Bellecour loop from Jean Macé,Easy,01:15,4.8,3.86,30.48,30.48,text still to be made,2.27,,0.1,0.28,,0.21,3.72,1.85,0.77,,0.1,0.1,0.37
+109,Parc tête d'or – Porte des Enfants loop from République - Villeurbanne,Intermediate,02:29,9.69,3.86,38.1,38.1,text still to be made,5.23,0.1,1.29,1.11,,,6.47,3.15,0.1,0.1,2.03,0.1,
+110,Sans Souci - Drachenschwanz loop from Sans Souci,Easy,01:56,7.56,3.86,30.48,30.48,text still to be made,4.89,,0.23,0.47,,0.3,5.34,2.06,1.01,0.1,0.72,0.1,
+111,Parc tête d'or – Porte des Enfants loop from Garibaldi,Intermediate,03:12,12.54,3.86,45.72,45.72,text still to be made,6.79,,3.2,2.96,,0.11,6.92,2.27,1.37,,1.29,0.17,
+112,Tour Métallique – Notre Dame de Fourviere loop from Saint-Paul,Easy,01:20,4.36,3.22,137.16,144.78,text still to be made,1.01,,0.76,0.74,,0.1,3.22,1.95,0.1,0.1,0.35,0.45,0.14
+113,Fresque des Lyonnais – Cathédrale Saint-Jean loop from Gare de Vaise,Intermediate,02:37,10.06,3.86,68.58,68.58,text still to be made,4.1,0.1,0.1,0.1,,,7.79,5.83,0.71,0.1,1.48,0.1,
+114,Cathédrale Saint-Jean – Fresque des Lyonnais loop from Lyon-Saint-Paul,Easy,01:49,6.28,3.54,144.78,144.78,text still to be made,2.33,0.48,0.25,0.36,,0.1,3.75,2.57,0.29,0.13,1.27,0.9,0.11
+115,Cathédrale Saint-Jean – Tour Métallique loop from Saint-Irénée,Intermediate,02:02,6.98,3.38,167.64,167.64,text still to be made,3.51,0.61,0.64,0.61,,,2.8,2.56,1.96,0.43,0.58,0.21,0.1
+116,Burgerei „ la gryffondine“ – Lass die Ampere fliessen ... loop from Lyon 7e Arrondissement,Easy,00:58,3.72,3.86,22.86,22.86,text still to be made,2.01,,,0.3,,0.3,2.99,1.38,0.32,,0.11,0.1,
+117,Tour Métallique – Le Jardin des Roses anciennes loop from Hôtel de Ville - Louis Pradel,Easy,01:11,3.86,3.22,121.92,121.92,text still to be made,2.25,,0.1,0.11,,0.1,2.88,1.32,0.38,0.1,0.43,0.1,0.1
+118,Parc tête d'or – Porte des Enfants loop from Les Brotteaux,Easy,01:41,6.5,3.86,38.1,38.1,text still to be made,3.23,0.1,1.92,1.34,,,4.33,1.35,0.55,0.1,0.23,,
+119,Fresque des Lyonnais – Cathédrale Saint-Jean loop from Saint-Just,Intermediate,02:19,8.4,3.54,144.78,152.4,text still to be made,4.41,0.11,0.1,0.1,,,6.08,2.88,1.71,0.1,0.39,1.03,
+120,Place Bellecour – Einkaufzentrum loop from République - Villeurbanne,Intermediate,03:56,15.26,3.86,68.58,76.2,text still to be made,10.35,,0.19,0.31,,,10.51,4.65,1.21,0.1,3.19,0.1,
+121,Traboule – Fresque des Lyonnais loop from Charpennes - Charles Hernu (Ligne B),Intermediate,04:29,16.9,3.7,160.02,160.02,text still to be made,5.81,1.5,1.13,0.74,,0.1,10.36,9.5,1.92,0.24,2.2,0.48,0.1
+122,Hiking loop from Saxe - Gambetta,Easy,01:11,4.63,3.86,15.24,15.24,text still to be made,2.66,,0.72,0.47,,,2.78,1.22,0.85,0.1,0.5,0.1,
+123,Nekropole von La Doua loop from Buers,Easy,01:25,5.6,4.02,7.62,7.62,text still to be made,1.32,,2.74,2.74,,0.64,1.63,0.33,0.55,,0.69,0.21,0.36
+124,Cour des Voraces (traboule) – Porte des Enfants loop from Valmy,Intermediate,04:09,15.21,3.7,228.6,228.6,text still to be made,10.83,0.4,1.75,1.74,,0.1,7.03,2.2,1.61,2.08,2.33,0.13,0.22
+125,Hiking loop from Monplaisir - Lumière,Easy,01:07,4.39,3.86,15.24,15.24,text still to be made,2.9,,0.63,0.32,,0.1,3.83,0.84,0.1,,0.24,,
+126,Einkaufzentrum – Place Bellecour loop from Sans Souci,Intermediate,02:20,9.06,3.86,45.72,45.72,text still to be made,4.44,,0.2,0.1,,,6.98,4.23,1.27,0.1,0.74,0.12,0.1
+127,Confluence – Musée des Confluences loop from Jean Macé,Intermediate,02:22,9.32,3.86,22.86,22.86,text still to be made,3.09,,0.1,0.1,,,8.59,6.05,0.43,,0.19,0.1,0.1
+128,Place Bellecour – Notre Dame de Fourviere loop from Valmy,Intermediate,02:52,10.25,3.54,175.26,175.26,text still to be made,5.76,0.1,0.48,0.53,,0.11,7.16,3.17,0.53,0.2,1.82,0.61,0.11
+129,De St Jean à St Jean – Cathédrale Saint-Jean loop from Saint-Irénée,Intermediate,02:16,8.01,3.54,167.64,167.64,text still to be made,5.58,2.85,0.45,0.45,,,1.96,1.9,2.11,0.1,0.63,0.1,
+130,Notre Dame de Fourviere – Vue de la basilique loop from Lyon Part-Dieu,Intermediate,04:01,14.48,3.54,259.08,259.08,text still to be made,7.74,0.1,0.72,0.48,,0.1,10.62,4.88,1.92,0.1,1.45,1.01,0.1
+131,Place Bellecour – Lass die Ampere fliessen ... loop from La Mulatière,Intermediate,02:19,9.01,3.86,38.1,38.1,text still to be made,3.64,,0.56,0.16,,,8.69,4.22,0.1,,0.11,0.51,0.1
+132,Lass die Ampere fliessen ... – Place Bellecour loop from Lyon-Perrache,Easy,01:12,4.7,3.86,15.24,15.24,text still to be made,1.83,,0.1,0.1,,,4.39,2.32,,,0.3,0.53,
+133,Observatoire de Lyon – Fort de Côte-Lorette loop from Oullins,Intermediate,03:08,11.68,3.7,137.16,137.16,text still to be made,7.87,,0.1,0.6,,,3.78,2.29,4.15,1.98,1.17,0.4,1.03
+134,Sich Liebende loop from L'Industrie,Easy,01:49,6.61,3.7,106.68,106.68,text still to be made,3.65,,0.1,0.1,0.1,0.1,3.75,2.75,0.89,0.1,1.75,0.1,
+135,Fresque des Lyonnais – Porte des Enfants loop from Hôtel de Ville - Louis Pradel,Intermediate,04:27,15.85,3.54,289.56,297.18,text still to be made,6.36,1.16,2.9,2.51,,0.79,9.45,5.1,0.95,0.1,1.71,0.42,0.28
+136,Porte des Enfants – Lass die Ampere fliessen ... loop from Croix-Rousse,Intermediate,03:14,12.2,3.7,121.92,121.92,text still to be made,3.88,,0.63,0.76,,0.18,10.11,7.07,0.32,0.18,0.84,0.1,0.43
+137,Halles de Paul Bocuse – Neu und alt zusammen loop from Lyon Part-Dieu,Easy,00:44,2.83,3.86,7.62,15.24,text still to be made,1.63,,,0.11,,0.1,2.54,1.08,0.1,,0.12,0.1,
+138,Nekropole von La Doua loop from République - Villeurbanne,Expert,06:31,25.75,4.02,53.34,53.34,text still to be made,10.48,,5.62,3.88,,3.77,19.79,2.98,0.84,0.1,1.19,1.77,1.09
+139,Sans Souci - Drachenschwanz loop from Garibaldi,Easy,01:41,6.58,3.86,22.86,22.86,text still to be made,4.81,,0.63,0.47,,,3.4,1.11,0.98,,1.74,0.1,
+140,Notre Dame de Fourviere – Jardin de la visitation loop from Saint-Just,Easy,00:57,3.41,3.54,68.58,60.96,text still to be made,1.58,,0.8,0.63,,,1.3,0.18,1.21,,0.26,0.79,0.1
+141,Halles de Paul Bocuse – Place Bellecour loop from Gare Part-Dieu - Vivier Merle,Easy,01:37,6.26,3.86,38.1,38.1,text still to be made,3.09,,0.1,0.21,,0.14,5.44,2.8,,,0.61,0.15,
+142,Sans Souci - Drachenschwanz loop from Monplaisir - Lumière,Easy,00:55,3.59,3.86,15.24,15.24,text still to be made,3.46,,,,,,2.09,0.13,0.1,,1.5,,
+143,Lass die Ampere fliessen ... – Place Bellecour loop from Place Jean Jaurès,Intermediate,02:51,11.1,3.86,45.72,45.72,text still to be made,5.89,,0.32,0.71,,0.48,8.66,4.01,0.95,0.1,0.74,0.32,0.1
+144,Botanischer Garten loop from Flachet - Alain Gilles,Easy,01:57,7.66,3.86,22.86,22.86,text still to be made,7.0,,0.38,0.31,,,4.73,,1.51,,1.09,0.27,
+145,Confluence loop from Lyon-Perrache,Easy,00:48,3.12,3.86,7.62,7.62,text still to be made,2.06,,0.1,0.1,,,2.83,0.87,0.2,,0.1,0.14,
+146,Kleine Blumentöpfe loop from Jean Macé,Easy,00:55,3.62,4.02,7.62,7.62,text still to be made,1.75,,1.19,1.17,,0.1,1.69,0.6,0.28,0.21,0.27,,
+147,Notre Dame de Fourviere – Traboule loop from République - Villeurbanne,Intermediate,03:25,12.39,3.7,190.5,190.5,text still to be made,6.24,,0.89,0.64,,,10.11,4.94,0.39,0.1,1.22,0.24,0.1
+148,Porte des Enfants – Fresque des Lyonnais loop from République - Villeurbanne,Intermediate,03:25,12.84,3.7,129.54,129.54,text still to be made,7.58,,0.95,0.76,,,8.56,4.28,1.22,0.13,2.17,0.1,
+149,Hiking loop from Cuire,Intermediate,02:09,7.9,3.7,114.3,114.3,text still to be made,5.94,,0.11,0.5,,0.47,4.49,1.32,1.79,0.1,1.05,0.1,
+150,Place Bellecour – Cathédrale Saint-Jean loop from Bellecour,Easy,01:07,3.86,3.38,91.44,91.44,text still to be made,1.85,0.1,0.15,0.32,,0.11,3.25,1.5,0.13,0.1,0.14,0.17,0.1
+151,Parc Chambovet loop from Grange Blanche,Easy,01:03,3.99,3.86,30.48,30.48,text still to be made,3.09,,0.1,0.51,,0.51,2.19,0.25,,,1.29,0.1,
+152,Hiking loop from Valmy,Easy,01:14,4.1,3.38,129.54,129.54,text still to be made,2.4,,0.16,0.53,,0.1,1.98,0.64,0.92,0.1,0.6,0.51,0.36
+153,Ausblick auf zwei Brücken loop from Debourg,Easy,01:34,6.18,3.86,15.24,15.24,text still to be made,3.67,,0.61,0.64,,0.63,4.17,1.0,0.29,,1.08,0.26,0.1
+154,Fresque des Lyonnais – Porte des Enfants loop from Croix-Rousse,Intermediate,02:11,8.03,3.7,114.3,114.3,text still to be made,3.14,,0.36,0.36,,,6.31,4.52,0.29,0.11,0.95,0.1,
+155,Hiking loop from La Guillotière,Easy,00:37,2.37,3.86,7.62,7.62,text still to be made,0.74,,0.6,0.53,,,1.56,1.05,,,0.28,,
+156,Vue de la basilique – Notre Dame de Fourviere loop from Fourvière,Easy,01:01,3.36,3.38,106.68,114.3,text still to be made,1.35,,0.4,0.5,,0.11,1.54,0.6,0.42,,0.89,0.79,0.11
+157,Parc tête d'or – Porte des Enfants loop from Cuire,Easy,01:53,6.95,3.7,99.06,99.06,text still to be made,3.09,0.64,1.72,1.38,,0.32,3.4,1.5,0.64,,0.85,0.1,0.22
+158,Lass die Ampere fliessen ... – Place Bellecour loop from Perrache,Easy,01:05,4.17,3.86,22.86,22.86,text still to be made,1.61,,0.1,0.55,,0.48,3.35,1.9,0.16,,0.12,0.11,
+159,Fresque des Lyonnais – Cour des Voraces (traboule) loop from Jean Macé,Intermediate,04:09,15.67,3.7,152.4,152.4,text still to be made,6.86,,0.14,0.1,,,13.65,8.4,0.85,0.1,1.11,0.28,
+160,Botanischer Garten loop from Charpennes - Charles Hernu (Ligne A),Easy,01:20,5.2,3.86,22.86,22.86,text still to be made,4.22,,0.66,0.6,,,3.56,0.13,0.43,0.1,0.51,0.16,0.1
+161,Hiking loop from Sainte-Foy-lès-Lyon,Easy,01:29,5.26,3.54,99.06,106.68,text still to be made,4.02,,0.29,0.4,,0.27,1.48,0.1,2.25,,1.14,0.47,0.18
+162,Lass die Ampere fliessen ... – Place Bellecour loop from Cordeliers,Easy,00:53,3.41,3.86,15.24,15.24,text still to be made,2.43,0.11,0.1,0.1,,,2.53,0.9,0.2,,0.51,0.1,
+163,Place Bellecour – Cathédrale Saint-Jean loop from Vieux Lyon - Cathédrale Saint-Jean,Easy,01:20,5.09,3.86,38.1,38.1,text still to be made,1.96,0.39,0.22,0.22,,,3.99,2.85,0.1,,0.45,0.1,
+164,Notre Dame de Fourviere – Vue de la basilique loop from Bellecour,Intermediate,04:07,15.16,3.7,190.5,190.5,text still to be made,7.42,0.22,0.37,1.0,,0.69,13.34,6.08,0.26,0.1,0.33,0.48,0.11
+165,Porte des Enfants – Gare des Brotteaux loop from Lyon Part-Dieu,Intermediate,02:07,8.29,3.86,22.86,22.86,text still to be made,5.12,,0.11,0.11,,,5.78,3.01,1.19,0.2,1.01,0.1,
+166,Le Jardin des Roses anciennes – Traboule loop from Gare Part-Dieu - Vivier Merle,Intermediate,02:13,7.85,3.54,152.4,152.4,text still to be made,3.72,,0.12,0.11,,0.1,5.99,3.7,0.53,0.1,1.16,0.22,0.1
+167,Halles de Paul Bocuse – Gare des Brotteaux loop from Place Guichard - Bourse du Travail,Easy,01:18,5.07,3.86,15.24,15.24,text still to be made,3.96,,0.1,,,,3.73,1.06,0.72,0.1,0.6,,
+168,Confluence loop from Perrache,Easy,01:02,4.04,3.86,15.24,15.24,text still to be made,2.27,,0.1,0.1,,,3.43,1.11,0.28,,0.26,0.5,0.1
+169,Sich Liebende loop from Croix-Rousse,Easy,01:22,5.31,3.86,22.86,22.86,text still to be made,4.72,,0.28,0.28,,,2.16,0.28,0.5,,2.38,0.1,
+170,Lass die Ampere fliessen ... – Slize ... soooo schmal loop from Hôtel de Ville - Louis Pradel,Easy,01:23,5.38,3.86,30.48,22.86,text still to be made,3.67,,,,,,3.65,1.71,,,1.72,0.1,
+171,Porte des Enfants – Cour des Voraces (traboule) loop from Monplaisir - Lumière,Intermediate,04:34,17.38,3.86,129.54,129.54,text still to be made,13.26,0.22,2.11,1.66,,,9.87,1.92,0.8,0.1,4.86,0.14,
+172,Porte des Enfants loop from Lyon Part-Dieu,Intermediate,02:02,8.0,3.86,22.86,22.86,text still to be made,3.64,0.1,0.53,0.16,,,6.87,3.77,0.1,0.1,0.8,0.1,
+173,Notre Dame de Fourviere – Odéon de Lyon loop from Sainte-Foy-lès-Lyon,Intermediate,03:56,14.19,3.54,236.22,236.22,text still to be made,7.1,0.82,0.56,0.25,,0.1,8.08,5.04,3.56,0.29,1.19,1.27,0.21
+174,"Einmal tanken, bitte! – Ausblick auf Lyon loop from Debourg",Easy,01:58,7.72,3.86,22.86,22.86,text still to be made,2.67,,,0.51,,0.48,7.13,4.23,,0.1,0.1,0.31,0.1
+175,Musée des Confluences – Schillernde Hallen loop from Confluence,Easy,01:40,6.5,3.86,22.86,22.86,text still to be made,4.02,,0.27,0.11,,0.19,3.65,1.88,2.56,0.14,0.1,0.1,0.1
+176,Fresque des Lyonnais – Cour des Voraces (traboule) loop from Saint-Rambert,Intermediate,03:45,13.81,3.7,190.5,190.5,text still to be made,8.71,0.1,0.43,0.32,,0.29,7.26,4.23,2.75,0.89,2.51,0.14,
+177,Gare des Brotteaux loop from Monplaisir - Lumière,Intermediate,02:41,10.53,3.86,38.1,38.1,text still to be made,6.31,0.1,1.01,0.72,,,7.95,3.15,1.09,,0.71,0.1,0.1
+178,Fresque des Lyonnais – Cathédrale Saint-Jean loop from Vieux Lyon - Cathédrale Saint-Jean,Intermediate,02:34,9.45,3.7,129.54,129.54,text still to be made,5.34,0.53,,,,,6.39,3.91,1.66,0.61,0.24,0.18,
+179,Hiking loop from Hénon,Intermediate,04:36,16.42,3.54,320.04,320.04,text still to be made,7.13,3.54,2.51,1.11,,0.89,2.56,4.59,4.26,0.56,4.39,1.09,0.22
+180,Hiking loop from Croix-Rousse,Easy,01:08,4.39,3.86,15.24,15.24,text still to be made,3.72,,0.24,0.24,,,1.85,0.43,1.51,,0.8,0.1,
+181,Hiking loop from Hénon,Intermediate,02:14,8.14,3.7,129.54,129.54,text still to be made,4.2,1.69,0.56,0.63,,0.35,2.16,2.54,1.88,0.36,1.43,0.48,
+182,Fresque des Lyonnais – Odéon de Lyon loop from Hôtel de Ville - Louis Pradel,Easy,01:42,5.89,3.54,137.16,137.16,text still to be made,3.27,,0.33,0.34,,0.1,3.89,0.87,0.95,0.32,0.39,1.22,0.1
+183,Cité Internationale loop from République - Villeurbanne,Intermediate,02:07,8.32,3.86,22.86,22.86,text still to be made,4.09,,2.53,3.32,,0.69,3.4,0.53,0.43,0.74,0.43,0.32,0.17
+184,Notre Dame de Fourviere – Vue de la basilique loop from Debourg,Intermediate,04:13,15.42,3.7,236.22,228.6,text still to be made,6.87,0.64,0.77,1.26,,0.6,8.59,5.91,2.35,0.3,2.27,1.24,0.1
+185,Place Bellecour – Halles de Paul Bocuse loop from Garibaldi,Easy,01:35,6.12,3.86,30.48,30.48,text still to be made,3.54,,0.1,0.1,,,4.18,2.53,0.47,,1.42,0.1,
+186,Cathédrale Saint-Jean – Fresque des Lyonnais loop from Foch,Easy,01:47,6.86,3.86,45.72,45.72,text still to be made,3.64,0.14,0.15,0.14,,,5.33,3.04,0.2,0.13,0.92,0.1,
+187,Parc Jacob-Hugentobler loop from La Villette,Easy,01:22,5.29,3.86,22.86,22.86,text still to be made,5.02,,,,,,2.45,0.27,1.45,,1.4,,
+188,Place Bellecour – Cathédrale Saint-Jean loop from Gratte-Ciel,Intermediate,03:06,12.04,3.86,60.96,60.96,text still to be made,8.98,0.42,0.26,0.1,,,7.76,2.8,2.11,0.11,1.63,,
+189,Hiking loop from Les Chassagnes,Easy,01:53,6.68,3.54,129.54,129.54,text still to be made,4.28,,0.3,1.37,,0.95,1.82,0.23,1.37,,2.12,0.4,0.51
+190,Parc tête d'or – Porte des Enfants loop from Masséna,Intermediate,02:32,9.41,3.7,106.68,106.68,text still to be made,5.29,0.87,1.09,0.61,,,6.0,2.95,0.77,0.1,1.16,0.1,
+191,Lass die Ampere fliessen ... – Confluence loop from Ampère - Victor Hugo,Easy,01:16,4.91,3.86,22.86,22.86,text still to be made,3.32,,0.1,0.1,,,3.86,1.51,0.93,,0.1,,
+192,Ausblick auf Lyon – Confluence loop from Perrache,Easy,01:24,5.46,3.86,22.86,22.86,text still to be made,4.12,,0.18,0.15,,,5.05,0.85,0.17,,0.1,0.31,
+193,Musée des Confluences – Ausblick auf Lyon loop from Lyon Part-Dieu,Intermediate,03:47,14.82,3.86,45.72,45.72,text still to be made,6.26,,0.4,0.89,,0.42,12.73,6.95,0.39,,0.8,0.4,0.39
+194,Der lange Eugen loop from Garibaldi,Easy,01:07,4.33,3.86,15.24,15.24,text still to be made,2.7,,,0.27,,,3.06,1.34,0.79,0.1,0.19,0.29,
+195,Place Bellecour – Einkaufzentrum loop from Jean Macé,Easy,01:32,5.92,3.86,30.48,30.48,text still to be made,2.88,,0.1,0.37,,0.31,4.97,2.66,0.55,0.1,0.1,0.1,
+196,Neu und alt zusammen – Halles de Paul Bocuse loop from Garibaldi,Easy,01:29,5.81,3.86,15.24,15.24,text still to be made,2.93,,0.6,0.6,,,4.54,2.29,0.58,,0.1,,
+197,Einkaufzentrum – Place Bellecour loop from Sans Souci,Intermediate,02:03,7.97,3.86,38.1,38.1,text still to be made,5.73,,0.1,0.1,,,5.34,2.17,0.84,0.58,1.14,0.1,
+198,Cathédrale Saint-Jean loop from Ainay,Easy,01:40,6.44,3.86,38.1,38.1,text still to be made,3.01,0.23,0.1,0.4,,0.4,4.6,2.51,0.16,0.1,1.01,0.11,0.39
+199,Hiking loop from Sainte-Foy-lès-Lyon,Easy,01:21,4.72,3.54,106.68,106.68,text still to be made,3.22,,0.38,0.5,,0.19,1.16,0.1,1.5,,1.56,0.66,0.23
+200,Cathédrale Saint-Jean loop from Ainay,Easy,01:09,4.41,3.86,30.48,30.48,text still to be made,1.63,0.1,0.1,,,,3.69,2.38,0.13,0.1,0.53,0.1,0.37
+201,Parc Jacob-Hugentobler loop from Ferrandière,Easy,01:10,4.6,3.86,15.24,15.24,text still to be made,3.51,,0.1,0.25,,,3.28,0.8,0.26,,0.82,0.1,0.23
+202,Place Bellecour – Lass die Ampere fliessen ... loop from Lyon 2e Arrondissement,Easy,01:13,4.7,3.86,30.48,30.48,text still to be made,1.83,,0.1,0.47,,0.4,4.07,1.66,0.14,,0.1,0.36,0.37
+203,Place Bellecour – Einkaufzentrum loop from Vieux Lyon - Cathédrale Saint-Jean,Easy,01:42,6.55,3.86,38.1,45.72,text still to be made,3.75,0.18,0.1,0.19,,0.18,5.05,2.61,0.58,0.1,0.47,,
+204,Botanischer Garten loop from Charpennes - Charles Hernu (Ligne B),Easy,01:04,4.18,3.86,15.24,15.24,text still to be made,2.78,,1.11,0.98,,,1.38,0.26,0.33,0.74,0.76,0.1,
+205,Halles de Paul Bocuse loop from Les Brotteaux,Easy,01:19,5.18,3.86,15.24,15.24,text still to be made,2.22,,0.35,0.35,,,4.52,2.59,0.21,,0.11,0.1,
+206,Halles de Paul Bocuse – Neu und alt zusammen loop from Le Grand Trou,Intermediate,02:09,8.43,3.86,22.86,22.86,text still to be made,6.66,,0.21,0.1,,,4.35,1.42,1.42,0.42,2.17,0.13,
+207,Botanischer Garten loop from Croix-Luizet,Easy,01:19,5.13,3.86,15.24,15.24,text still to be made,3.77,,0.8,0.72,,,3.2,0.34,0.4,0.18,0.64,0.23,
+208,Parc tête d'or – Porte des Enfants loop from République - Villeurbanne,Intermediate,02:30,9.77,3.86,38.1,38.1,text still to be made,6.79,0.1,0.77,0.77,,,6.66,1.83,0.28,,2.01,0.35,0.1
+209,Musée des Confluences loop from Perrache,Intermediate,02:17,8.56,3.7,91.44,91.44,text still to be made,5.47,,0.28,0.12,,,5.07,2.06,3.22,0.1,0.13,0.68,0.1
+210,Musée des Confluences – Lass die Ampere fliessen ... loop from Grange Blanche,Intermediate,04:40,18.19,3.86,76.2,76.2,text still to be made,9.8,,0.37,0.31,,,15.59,7.1,0.92,,1.35,0.76,0.16
+211,Einkaufzentrum – Halles de Paul Bocuse loop from Grandclément,Intermediate,02:36,10.07,3.86,45.72,45.72,text still to be made,6.6,,0.1,0.1,,,7.66,3.46,1.06,,1.34,,
+212,Porte des Enfants – Traboule loop from Hénon,Easy,01:37,5.86,3.7,99.06,99.06,text still to be made,2.86,0.1,0.63,0.63,,,3.19,2.35,0.5,,1.48,,
+213,Place Bellecour – Lass die Ampere fliessen ... loop from Ampère - Victor Hugo,Easy,00:56,3.57,3.86,22.86,22.86,text still to be made,1.95,,0.1,0.58,,0.48,2.8,1.05,0.16,,0.1,0.1,
+214,Cathédrale Saint-Jean – Einkaufzentrum loop from Lyon 2e Arrondissement,Easy,01:25,5.39,3.86,38.1,38.1,text still to be made,1.95,0.23,,0.55,,0.55,4.2,2.86,0.1,0.1,0.22,0.1,
+215,Die grüne Tram loop from Monplaisir - Lumière,Easy,01:07,4.39,3.86,15.24,7.62,text still to be made,2.46,,,,,,3.12,1.42,0.79,,0.48,0.51,
+216,Traboule – Slize ... soooo schmal loop from Place Guichard - Bourse du Travail,Easy,01:21,5.17,3.86,38.1,38.1,text still to be made,2.85,,0.33,0.16,,,3.91,1.96,0.33,,0.77,0.1,
+217,Porte des Enfants – Fresque des Lyonnais loop from Charpennes - Charles Hernu (Ligne B),Intermediate,02:36,9.91,3.86,83.82,83.82,text still to be made,5.55,,0.9,0.6,,,7.61,3.33,0.97,0.1,0.64,0.1,0.1
+218,Einkaufzentrum – Halles de Paul Bocuse loop from Masséna,Intermediate,02:10,8.45,3.86,38.1,38.1,text still to be made,5.33,0.27,0.1,0.48,,0.48,6.16,2.61,0.95,,0.58,0.1,
+219,Cathédrale Saint-Jean loop from Lyon,Easy,01:05,4.17,3.86,22.86,22.86,text still to be made,1.51,0.23,,0.18,,0.18,2.96,2.48,0.27,0.1,0.51,,
+220,Place Bellecour – Cathédrale Saint-Jean loop from Jean Macé,Intermediate,02:10,8.34,3.86,53.34,53.34,text still to be made,4.47,0.32,0.1,0.1,,,6.28,3.86,0.58,0.22,0.93,,
+221,Ausblick auf Lyon – Confluence loop from Le Grand Trou,Intermediate,02:35,10.09,3.86,30.48,30.48,text still to be made,6.23,,,,,,7.5,3.49,2.32,,0.28,0.3,0.1
+222,Neu und alt zusammen – Halles de Paul Bocuse loop from Garibaldi,Intermediate,02:21,9.21,3.86,30.48,30.48,text still to be made,4.78,,0.1,0.55,,0.3,7.11,4.12,0.31,0.19,1.05,,
+223,Notre Dame de Fourviere – Odéon de Lyon loop from Hôtel de Ville - Louis Pradel,Intermediate,02:28,8.67,3.54,190.5,190.5,text still to be made,4.89,,0.63,0.64,,0.1,5.1,2.35,0.4,0.2,2.35,0.71,0.1
+224,Einkaufzentrum – Slize ... soooo schmal loop from Gratte-Ciel,Intermediate,03:21,13.08,3.86,45.72,45.72,text still to be made,9.24,,0.1,0.12,,,9.27,3.81,1.42,0.1,2.25,0.1,
+225,Halles de Paul Bocuse – Einkaufzentrum loop from Charpennes - Charles Hernu (Ligne A),Intermediate,02:09,8.34,3.86,45.72,45.72,text still to be made,4.76,,0.1,0.1,,,6.29,3.46,0.93,,1.03,0.1,
+226,Porte des Enfants – parc tête d'or loop from Lyon Part-Dieu,Intermediate,02:29,9.67,3.86,45.72,45.72,text still to be made,4.47,0.1,1.66,0.74,,,6.73,3.38,0.87,,1.3,0.16,
+227,Cathédrale Saint-Jean – Odéon de Lyon loop from Hénon,Intermediate,03:00,10.69,3.54,220.98,220.98,text still to be made,7.15,0.1,0.14,0.1,0.1,0.1,6.05,2.22,3.01,0.1,1.42,1.05,0.1
+228,Parc du Vallon loop from L'Industrie,Easy,01:46,6.45,3.7,106.68,106.68,text still to be made,4.17,,,0.1,,,3.01,1.82,2.67,0.15,0.56,0.38,0.1
+229,Cour des Voraces (traboule) – Fresque des Lyonnais loop from L'Industrie,Intermediate,02:46,10.2,3.7,137.16,137.16,text still to be made,5.31,0.11,0.1,0.31,,0.31,5.36,4.52,3.04,0.1,1.34,0.1,
+230,Die grüne Tram loop from Monplaisir,Easy,00:43,2.83,3.86,7.62,7.62,text still to be made,1.85,,0.45,0.42,,0.1,1.61,0.5,0.1,0.1,0.71,,
+231,Kleine Blumentöpfe loop from Jean Macé,Easy,01:18,5.05,3.86,15.24,15.24,text still to be made,2.74,,0.43,0.61,,0.18,3.41,1.71,0.47,,0.56,0.1,
+232,Traboule – Fresque des Lyonnais loop from Lyon-Saint-Paul,Easy,01:20,4.78,3.54,91.44,91.44,text still to be made,3.41,,,,,,2.62,1.37,0.48,0.1,1.63,0.1,
+233,Die grüne Tram – Sans Souci - Drachenschwanz loop from Monplaisir - Lumière,Easy,01:46,6.89,3.86,22.86,22.86,text still to be made,3.77,,0.68,0.5,,0.1,5.26,1.82,0.63,0.19,0.3,0.53,
+234,Parc du Vallon – Boulevard de la BD à Vaise loop from Valmy,Intermediate,03:06,11.41,3.7,152.4,152.4,text still to be made,9.0,,,0.1,,0.1,3.75,1.26,2.67,3.25,1.66,0.98,0.1
+235,180 Grad Blick – Lass die Ampere fliessen ... loop from Lyon 2e Arrondissement,Easy,00:41,2.59,3.86,15.24,15.24,text still to be made,1.64,,,,,,2.25,0.95,,,0.34,,
+236,Lass die Ampere fliessen ... – Place Bellecour loop from Sans Souci,Intermediate,02:44,10.61,3.86,45.72,45.72,text still to be made,6.0,,0.1,0.1,,,8.71,4.47,0.33,,1.48,0.1,
+237,Vue de la basilique – Notre Dame de Fourviere loop from Saint-Just,Easy,01:52,6.31,3.38,167.64,167.64,text still to be made,3.27,,0.15,0.15,,0.1,4.1,1.58,0.79,0.47,0.8,1.21,0.1
+238,Parc Chambovet loop from Grandclément,Easy,01:20,5.13,3.86,30.48,30.48,text still to be made,4.04,,0.1,0.63,,0.51,2.09,0.47,0.26,,2.16,0.1,
+239,Porte des Enfants – parc tête d'or loop from Grange Blanche,Intermediate,03:42,14.45,3.86,53.34,53.34,text still to be made,7.95,,1.46,1.34,,0.1,9.8,4.44,0.45,,2.86,0.58,
+240,Vue de la basilique – Notre Dame de Fourviere loop from Fourvière,Easy,01:25,5.17,3.7,76.2,76.2,text still to be made,2.75,,0.58,0.56,,0.1,2.77,0.53,0.68,0.15,1.03,1.24,0.1
+241,Lass die Ampere fliessen ... – Place Bellecour loop from Bellecour,Easy,00:50,3.22,3.86,22.86,22.86,text still to be made,1.8,,0.1,0.1,,,2.66,1.37,,,0.5,,
+242,Cité Internationale – Baumallee loop from Cité Internationale,Easy,01:00,3.88,3.86,15.24,22.86,text still to be made,0.56,0.24,0.98,1.11,,0.19,2.11,1.93,0.4,,,0.1,0.17
+243,Place Bellecour loop from Cordeliers,Easy,00:40,2.62,3.86,15.24,15.24,text still to be made,1.32,0.18,,,,,1.98,1.26,0.1,,0.43,0.1,
+244,Odéon de Lyon – Notre Dame de Fourviere loop from Vieux Lyon - Cathédrale Saint-Jean,Easy,01:28,4.97,3.38,137.16,137.16,text still to be made,2.3,0.48,0.1,0.1,,0.1,3.38,2.56,0.31,0.1,0.77,0.1,0.1
+245,Lass die Ampere fliessen ... – Place Bellecour loop from Perrache,Easy,01:06,4.25,3.86,22.86,22.86,text still to be made,2.25,,0.1,0.14,,0.14,3.33,1.77,0.23,,0.55,0.1,
+246,Parc tête d'or – Porte des Enfants loop from Les Brotteaux,Easy,00:37,2.37,3.86,15.24,7.62,text still to be made,1.32,,0.89,0.85,,,1.17,0.16,0.15,0.1,0.18,,
+247,Porte des Enfants – parc tête d'or loop from Cité Internationale,Intermediate,02:20,9.06,3.86,45.72,45.72,text still to be made,4.83,0.24,1.96,1.88,,0.1,6.2,2.03,0.4,,0.32,0.1,0.17
+248,Tour Métallique – Passerelle des quatre temps loop from Fourvière,Easy,00:43,2.37,3.38,76.2,76.2,text still to be made,0.68,,0.82,1.05,,,0.58,0.37,,,0.74,0.17,0.33
+249,Notre Dame de Fourviere – Vue de la basilique loop from Caluire-et-Cuire,Intermediate,04:14,14.87,3.54,312.42,312.42,text still to be made,7.97,0.36,1.5,2.03,0.1,1.27,6.04,3.38,3.19,0.1,3.17,0.55,0.19
+250,Musée des Confluences – Ausblick auf Lyon loop from Place Jean Jaurès,Intermediate,02:53,10.53,3.7,160.02,160.02,text still to be made,7.76,0.36,0.53,0.53,,,4.6,1.46,3.73,0.33,0.97,0.77,
+251,Parc Chambovet loop from Grandclément,Easy,01:11,4.57,3.86,30.48,30.48,text still to be made,2.64,,0.1,0.69,,0.25,2.12,0.98,0.15,,1.63,0.1,0.64
+252,Fresque des Lyonnais loop from Cordeliers,Easy,01:05,4.09,3.86,38.1,38.1,text still to be made,2.82,,0.1,0.1,,,3.2,1.13,0.29,,0.5,0.1,0.1
+253,Porte des Enfants – Cour des Voraces (traboule) loop from Charpennes - Charles Hernu (Ligne B),Intermediate,04:24,16.09,3.7,243.84,243.84,text still to be made,6.63,1.11,2.56,2.46,,0.15,9.16,6.5,0.71,0.22,2.46,0.1,0.24
+254,Lass die Ampere fliessen ... – Place Bellecour loop from Garibaldi,Intermediate,03:34,13.94,3.86,53.34,53.34,text still to be made,8.4,,0.63,0.24,,,10.83,4.6,1.8,0.1,1.05,0.21,0.1
+255,Fresque des Lyonnais – Porte des Enfants loop from Gare Part-Dieu - Vivier Merle,Intermediate,02:44,10.33,3.7,99.06,99.06,text still to be made,4.96,,1.4,1.0,,,7.42,3.69,0.55,0.34,1.01,0.15,0.13
+256,Sich Liebende loop from Croix-Rousse,Easy,01:38,5.99,3.7,91.44,91.44,text still to be made,3.75,,0.47,0.43,0.1,0.1,2.64,1.29,2.0,0.1,0.74,0.4,
+257,Cathédrale Saint-Jean – Notre Dame de Fourviere loop from Écully-la-Demi-Lune,Intermediate,03:29,12.79,3.7,175.26,175.26,text still to be made,7.02,0.1,0.72,0.71,,0.1,7.44,3.99,0.48,3.4,0.77,0.87,0.11
+258,Porte des Enfants – parc tête d'or loop from Cité Internationale,Intermediate,02:13,8.58,3.86,38.1,45.72,text still to be made,5.36,0.24,1.26,1.0,,,4.67,1.38,1.85,0.82,0.1,0.4,0.17
+259,Parc tête d'or – Porte des Enfants loop from La Croix-Rousse,Easy,01:29,5.41,3.7,83.82,83.82,text still to be made,2.75,0.1,0.77,0.79,,,2.88,1.48,0.38,0.1,1.19,0.18,0.22
+260,Cour des Voraces (traboule) – Halles de Paul Bocuse loop from Jean Macé,Intermediate,02:57,11.28,3.86,91.44,91.44,text still to be made,7.35,,0.11,0.11,,,9.29,3.8,0.63,,1.26,0.1,
+261,"Porte des Enfants – Herrje, die Alpen! loop from Croix-Rousse",Easy,01:43,6.2,3.54,106.68,106.68,text still to be made,3.6,,1.01,0.27,,,5.33,1.59,0.35,0.1,0.25,,
+262,Halles de Paul Bocuse – Neu und alt zusammen loop from Lyon Part-Dieu,Intermediate,03:10,12.46,3.86,38.1,30.48,text still to be made,7.47,,1.32,1.0,,0.1,7.9,2.75,1.38,0.1,2.16,0.87,
+263,Porte des Enfants – Cour des Voraces (traboule) loop from République - Villeurbanne,Intermediate,03:13,12.07,3.7,121.92,121.92,text still to be made,7.4,,1.14,1.03,,,7.37,3.01,0.56,,3.11,0.53,
+264,Fresque des Lyonnais – Cathédrale Saint-Jean loop from Vieux Lyon - Cathédrale Saint-Jean,Easy,00:51,3.2,3.7,38.1,30.48,text still to be made,1.69,0.1,,,,,2.74,1.51,0.13,0.13,0.21,0.1,
+265,Botanischer Garten loop from Les Brotteaux,Easy,00:40,2.56,3.86,15.24,15.24,text still to be made,1.08,,1.46,1.32,,,1.19,0.1,0.1,0.1,,,
+266,Porte des Enfants – parc tête d'or loop from Gratte-Ciel,Intermediate,02:42,10.57,3.86,38.1,38.1,text still to be made,7.82,,1.61,0.82,,0.1,6.44,0.74,1.37,0.1,1.87,0.28,0.1
+267,Confluence – Musée des Confluences loop from Sans Souci,Intermediate,03:28,13.57,3.86,45.72,45.72,text still to be made,9.17,,0.31,0.36,,0.1,10.53,3.46,0.92,0.12,1.64,0.56,
+268,Halles de Paul Bocuse – Neu und alt zusammen loop from Place Guichard - Bourse du Travail,Easy,01:12,4.7,3.86,22.86,22.86,text still to be made,4.36,,,,,,3.25,0.34,0.6,0.15,0.71,,
+269,Porte des Enfants – Cour des Voraces (traboule) loop from Croix-Paquet,Intermediate,02:21,8.74,3.7,114.3,106.68,text still to be made,5.23,0.1,1.54,1.26,,,5.91,1.87,0.74,,0.82,0.1,0.1
+270,Cour des Voraces (traboule) – Nombril du monde loop from Clos-Jouve,Easy,01:32,5.38,3.54,114.3,121.92,text still to be made,4.02,,0.1,0.1,,,3.89,1.27,0.3,,1.11,0.1,
+271,Confluence – Musée des Confluences loop from Place Jean Jaurès,Easy,01:53,7.35,3.86,22.86,22.86,text still to be made,3.93,,0.39,,,,6.04,2.74,0.68,0.28,0.37,0.3,
+272,Lass die Ampere fliessen ... – Place Bellecour loop from Ampère - Victor Hugo,Easy,01:29,5.76,3.86,30.48,30.48,text still to be made,2.95,,0.87,0.87,,,4.23,1.93,,,0.66,0.1,
+273,Sans Souci - Drachenschwanz loop from Sans Souci,Easy,01:34,6.1,3.86,22.86,22.86,text still to be made,4.83,,,0.1,,,3.83,1.14,1.14,0.1,1.08,0.12,
+274,Tour Métallique – Notre Dame de Fourviere loop from Valmy,Intermediate,02:32,8.75,3.38,228.6,228.6,text still to be made,4.18,,0.74,0.68,0.1,0.11,5.75,3.09,1.13,0.35,0.79,0.56,0.1
