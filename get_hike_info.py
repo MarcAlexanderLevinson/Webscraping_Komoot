@@ -86,8 +86,8 @@ def get_way_type_and_surfaces(drive):
     return types_and_distances
 
 
-def get_hike_info(drive):
-    drive
+def get_hike_info(url):
+    drive = driver.get(url)
     basic_hike_info = get_basic_hike_info(drive)
     way_type_and_surfaces = get_way_type_and_surfaces(drive)
     description = get_descriptions(driver)
@@ -96,8 +96,8 @@ def get_hike_info(drive):
 
 
 if __name__ == "__main__":
-    drive = driver_get_url(url)
-    get_hike_info(drive)
+  #  drive = driver_get_url(url)
+    print(get_hike_info(url))
 
 end = time.time() - start
 print(end)

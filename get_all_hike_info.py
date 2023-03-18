@@ -11,9 +11,10 @@ list_of_hiking_urls = GU.get_all_hiking_urls(base_url)
 hike_ID = 1
 list_of_hikes = []
 
-for url in tqdm(list_of_hiking_urls): #check if iterator is well set, for testing put [:2]
+
+for hike_url in tqdm(list_of_hiking_urls): #check if iterator is well set, for testing put [:2]
     hike = {}
-    drive = HI.driver_get_url(url)
+    drive = HI.driver_get_url(hike_url)
     hike["1.ID"] = hike_ID
     hike.update(HI.get_hike_info(drive))
     hike_ID += 1
