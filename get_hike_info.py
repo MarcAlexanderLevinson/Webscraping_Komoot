@@ -18,7 +18,7 @@ chrome_service = Service(chrome_path)
 driver = Chrome(options=options, service=chrome_service)
 driver.implicitly_wait(5)
 
-# url = "https://www.komoot.com/smarttour/e926612355/mont-colombier-massif-des-bauges-boucle?tour_origin=smart_tour_search"
+url = "https://www.komoot.com/smarttour/e926612355/mont-colombier-massif-des-bauges-boucle?tour_origin=smart_tour_search"
 #url = "https://www.komoot.com/smarttour/e925015085/le-chemin-des-papetiers-boucle-au-depart-de-valeyre-parc-naturel-regional-livradois-forez?tour_origin=smart_tour_search"
 # url = "https://www.komoot.com/smarttour/e991077160/le-tour-du-malorum-boucle-au-depart-de-bas-en-basset?tour_origin=smart_tour_search"
 # url = "https://www.komoot.com/smarttour/e991085326/mont-miaune-boucle-au-depart-de-retournac?tour_origin=smart_tour_search"
@@ -26,12 +26,12 @@ driver.implicitly_wait(5)
 
 def driver_get_url(url):
     drive = driver.get(url)
+    time.sleep(1)
     return drive
 
 
 def get_basic_hike_info(drive):
     drive
-    time.sleep(2)
     title = driver.find_element(By.CSS_SELECTOR, "span[class*='tw-mr-1 tw-font-bold']").text
     difficulty = driver.find_element(By.CSS_SELECTOR, "div[class*='tw-flex tw-items-center']").text
     duration = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='t_duration_value']").text
@@ -55,7 +55,6 @@ def get_basic_hike_info(drive):
 
 def get_descriptions(drive):
     drive
-    time.sleep(2)
     descriptions_niv1 = driver.find_element(By.XPATH,"//div[@class='css-fxq50d']/div/span[@class='tw-text-secondary']").text
     try:
         descriptions_niv2 = driver.find_element(By.XPATH,"//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text
@@ -70,7 +69,6 @@ def get_descriptions(drive):
 
 def get_way_type_and_surfaces(drive):
     drive
-    time.sleep(2)
     way_type = driver.find_element(By.XPATH, "//div[@class='tw-p-4 sm:tw-p-6 ']/div[@class='tw-mb-6']").text
     listed_text = way_type.split("\n")
     types_and_distances = {}
@@ -80,7 +78,7 @@ def get_way_type_and_surfaces(drive):
         if len(type_and_distance.split(":")[1].split()) == 2:
             unit = type_and_distance.split(":")[1].split()[1]
             distance = float(type_and_distance.split(":")[1].split()[0]) * distances_in_km[unit]
-        if len(type_and_distance.split(":")[1].split()) == 3: ###ASSUMPTION: if the distance shows > 109m the "less than" is neglected
+        elif len(type_and_distance.split(":")[1].split()) == 3: ###ASSUMPTION: if the distance shows > 109m the "less than" is neglected
             unit = type_and_distance.split(":")[1].split()[2]
             distance = float(type_and_distance.split(":")[1].split()[1]) * distances_in_km[unit]
         value = round(distance, 2)
@@ -100,3 +98,6 @@ def get_hike_info(drive):
 if __name__ == "__main__":
     drive = driver_get_url(url)
     get_hike_info(drive)
+
+end = time.time() - start
+print(end)
