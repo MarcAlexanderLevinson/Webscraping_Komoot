@@ -6,7 +6,8 @@ import csv
 
 def main():
     base_url = "https://www.komoot.com/discover/Lyon/@45.7575926%2C4.8323239/tours?max_distance=5000&sport=hike&map=true&pageNumber="  # Url for 5km Lyon
-    list_of_hiking_urls = GU.get_all_hiking_urls(base_url)
+    amount_of_pages_to_be_scraped = 23
+    list_of_hiking_urls = GU.get_all_hiking_urls(base_url, amount_of_pages_to_be_scraped)
 
     hike_ID = 1
     list_of_hikes = []

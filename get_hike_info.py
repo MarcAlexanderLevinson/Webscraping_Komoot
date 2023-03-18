@@ -22,10 +22,11 @@ driver.implicitly_wait(5)
 
 
 # url = "https://www.komoot.com/smarttour/e925015085/le-chemin-des-papetiers-boucle-au-depart-de-valeyre-parc-naturel-regional-livradois-forez?tour_origin=smart_tour_search"
-#url = "https://www.komoot.com/smarttour/e925015085/le-chemin-des-papetiers-boucle-au-depart-de-valeyre-parc-naturel-regional-livradois-forez?tour_origin=smart_tour_search"
+# url = "https://www.komoot.com/smarttour/e925015085/le-chemin-des-papetiers-boucle-au-depart-de-valeyre-parc-naturel-regional-livradois-forez?tour_origin=smart_tour_search"
 # url = "https://www.komoot.com/smarttour/e991077160/le-tour-du-malorum-boucle-au-depart-de-bas-en-basset?tour_origin=smart_tour_search"
 # url = "https://www.komoot.com/smarttour/e991085326/mont-miaune-boucle-au-depart-de-retournac?tour_origin=smart_tour_search"
 url = "https://www.komoot.com/smarttour/e1026309330/autour-du-vieux-lyon?tour_origin=smart_tour_search"
+
 
 def driver_get_url(url):
     """
@@ -64,7 +65,7 @@ def get_basic_hike_info(drive):
     downhill = round(float(downhill_text.split()[0]) * conversions_to_km[downhill_text.split()[1]] * 1000,
                      2)  # put this one in m
     return {"2.Title": title, "3.Difficulty": difficulty, "4.Duration (hr)": duration, "5.Distance (km)": distance,
-            "6.Average_speed (km/hr)": average_speed, "7.Uphill (m)": uphill, "8.Downhill (m)": downhill }
+            "6.Average_speed (km/hr)": average_speed, "7.Uphill (m)": uphill, "8.Downhill (m)": downhill}
 
 
 def get_descriptions(drive):
