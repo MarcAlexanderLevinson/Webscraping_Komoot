@@ -39,6 +39,7 @@ def driver_get_url(url):
     :param url of the hike page to scrap
     :return: a drive object that is gonna be used for all the get_hike_info functions below
     """
+
     try:
         drive = driver.get(url)
         # time.sleep(1)
@@ -46,6 +47,7 @@ def driver_get_url(url):
         return drive
     except:
         logging.warning(f'The drive of this url {url} was not obtained')
+
 
 
 def get_basic_hike_info(drive):

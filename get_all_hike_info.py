@@ -13,8 +13,18 @@ logging.basicConfig( format='%(asctime)s ---- %(levelname)s:%(message)s - row %(
 
 def main():
     base_url = "https://www.komoot.com/discover/Lyon/@45.7575926%2C4.8323239/tours?max_distance=200000&sport=hike&map=true&pageNumber="  # Url for 5km Lyon
-    amount_of_pages_to_be_scraped = 2
-    list_of_hiking_urls = GU.get_all_hiking_urls(base_url, amount_of_pages_to_be_scraped)
+    amount_of_pages_to_be_scraped = 3
+    use_csv = input("""Would you like to use the links stored in the list_of_hiking_urls.csv file, then type "Y".
+     If you would like to determine the list of urls by running the code then type "N".
+     Answer: """)
+    if use_csv == "N":
+        list_of_hiking_urls = GU.get_all_hiking_urls(base_url, amount_of_pages_to_be_scraped)
+        GU.write_urls_to_csv(list_of_hiking_urls)
+    elif use_csv == "Y":
+        with open("list_of_hiking_urls.csv", "r") as hike_urls_csv:
+            list_of_hiking_urls = hike_urls_csv.read().splitlines()
+    else:
+        print("Please run code again and give correct input this time")
     print("list of hiking urls done")
     hike_ID = 1
     list_of_hikes = []
