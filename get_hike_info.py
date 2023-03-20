@@ -5,6 +5,7 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
+import logging
 
 start = time.time()
 # start by defining the options
@@ -25,7 +26,7 @@ driver.implicitly_wait(5)
 # url = "https://www.komoot.com/smarttour/e925015085/le-chemin-des-papetiers-boucle-au-depart-de-valeyre-parc-naturel-regional-livradois-forez?tour_origin=smart_tour_search"
 # url = "https://www.komoot.com/smarttour/e991077160/le-tour-du-malorum-boucle-au-depart-de-bas-en-basset?tour_origin=smart_tour_search"
 # url = "https://www.komoot.com/smarttour/e991085326/mont-miaune-boucle-au-depart-de-retournac?tour_origin=smart_tour_search"
-url = "https://www.komoot.com/smarttour/e1026309330/autour-du-vieux-lyon?tour_origin=smart_tour_search"
+url = "https://www.komoot.com/smarttour/341100?tour_origin=smart_tour_search"
 
 
 def driver_get_url(url):
