@@ -34,7 +34,7 @@ def driver_get_url(url):
     :return: a drive object that is gonna be used for all the get_hike_info functions below
     """
     drive = driver.get(url)
-    time.sleep(1)
+    time.sleep(3)
     return drive
 
 
