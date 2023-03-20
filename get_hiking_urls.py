@@ -14,6 +14,7 @@ chrome_service = Service(chrome_path)
 driver = Chrome(options=options, service=chrome_service)
 driver.implicitly_wait(5)
 
+
 def get_all_hiking_urls(base_url, amount_of_pages_to_be_scraped):
     """
     :param  - url of the website containing the urls to the hikes that are to be scraped
@@ -35,7 +36,3 @@ def get_all_hiking_urls(base_url, amount_of_pages_to_be_scraped):
             urls_of_hikes.append(content.find_element(By.TAG_NAME, "a").get_attribute("href"))
 
     return urls_of_hikes
-
-
-
-

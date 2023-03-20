@@ -12,7 +12,8 @@ def main():
     hike_ID = 1
     list_of_hikes = []
 
-    for url in tqdm(list_of_hiking_urls):
+    for url in tqdm(list_of_hiking_urls):  # check if iterator is well set, for testing put [:2]
+        print(url)
         hike = {}
         drive = HI.driver_get_url(url)
         hike["1.ID"] = hike_ID
