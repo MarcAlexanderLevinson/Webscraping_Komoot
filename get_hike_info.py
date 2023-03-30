@@ -19,6 +19,7 @@ chrome_path = ChromeDriverManager().install()
 chrome_service = Service(chrome_path)
 # pass the defined options and service objects to initialize the web driver
 driver = Chrome(options=options, service=chrome_service)
+driver.set_window_size(2700,2000)
 driver.implicitly_wait(5)
 
 url = "https://www.komoot.com/smarttour/e926612355/mont-colombier-massif-des-bauges-boucle?tour_origin=smart_tour_search"
@@ -39,7 +40,6 @@ def driver_get_url(url):
     :param url of the hike page to scrap
     :return: a drive object that is gonna be used for all the get_hike_info functions below
     """
-
     try:
         drive = driver.get(url)
         # time.sleep(1)
@@ -205,5 +205,7 @@ if __name__ == "__main__":
         # print(get_localisation(drive))
         end = time.time() - start
         print(end)
+
+
     except:
         print('next hike')
