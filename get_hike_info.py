@@ -118,7 +118,8 @@ def get_downhill():
 
 def get_description():
     """
-    :return: Collect the descriptions (description and tip) of the hike. On some pages, the description is split in 2 classes. Some page don't have tips
+    :return: Collect the descriptions (description and tip) of the hike. On some pages, the description is split in 2
+     classes. Some page don't have tips
     """
     url = driver.current_url
     try:
@@ -131,7 +132,7 @@ def get_description():
 
     try:  # Try/except to handle cases without the 2nd part of the description
         descriptions_niv2 = driver.find_element(By.XPATH,
-                                                "//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text
+                                        "//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text
     except:
         descriptions_niv2 = ''
     description = descriptions_niv1 + ' ' + descriptions_niv2
@@ -153,7 +154,7 @@ def way_type_converter(raw_way_type_info):
     """
     :param raw_way_type_info: This is a string containing information about a specific way type e.g. "Path: 0.66 mi",
     or "Path: < 0.1 mi".
-    :return: a dictionary with waytype as key and distance as value, if the input distance is not in km the function
+    :return: a dictionary with way type as key and distance as value, if the input distance is not in km the function
     converts it into km, e.g. {"Path": 1.06}
     """
     way_type = raw_way_type_info.split(":")[
@@ -161,7 +162,8 @@ def way_type_converter(raw_way_type_info):
     distance_string = raw_way_type_info.split(":")[1]
     if "<" in distance_string:
         distance_string = distance_string.replace("<",
-                                                  "")  # From the second example given in the docstring, if the distance includes the > sign, this sign will be removed
+                                                  "")  # From the second example given in the docstring, if the distance
+        # includes the > sign, this sign will be removed
     distance = round(distance_converter(distance_string), 2)
     return {way_type: distance}
 
@@ -188,7 +190,8 @@ def get_way_types_and_surfaces():
 def get_location():
     """
     :return: Collect the 3 levels of localisation following 'Hiking trails & Routes'
-    Note1: the localisation are sometimes duplicated. The way to optimize the collection of unique values is to take the 3 first level after 'Hiking trails & Routes'
+    Note1: the localisation are sometimes duplicated. The way to optimize the collection of unique values is to take
+    the 3 first level after 'Hiking trails & Routes'
     Note2: There is no consistency between the collected levels and the official administrative geographical levels.
     """
     url = driver.current_url
@@ -196,7 +199,8 @@ def get_location():
     try:
         geography = driver.find_elements(By.XPATH, "//div[@class='css-1jg13ty']/*[@href]")
         all_loc = [geo.text for geo in
-                   geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking Trail", but also contains duplicates
+                   geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking
+                               # Trail", but also contains duplicates
         all_loc = list(filter(lambda x: x != 'Discover' and x != 'Hiking trails & Routes',
                               all_loc))  # This removes the generic terms
         all_loc = list(dict.fromkeys(all_loc))  # This removes all duplicates
