@@ -4,6 +4,7 @@ from tqdm.auto import tqdm
 import csv
 import json
 import logging
+import argparse
 
 logging.basicConfig(format='%(asctime)s ---- %(levelname)s:%(message)s - row %(lineno)d',
                     level=logging.INFO)
@@ -13,6 +14,19 @@ with open("komoot_config.json", 'r') as f:
 NUMBER_OF_PAGES_TO_SCRAP = config["NUMBER_OF_PAGES_TO_SCRAP"]
 BASE_URL = config["URL"]
 HIKING_DATA_CSV = config["HIKES_INFO_CSV"]
+
+
+parser = argparse.ArgumentParser(description="""Welcome to the Komoot webscraper, here you can get all the information
+you need about hikes around Lyon. Just choose the data types you want to retrieve, this set to all datatypes by 
+default!!!!""")
+
+parser.add_argument("datatypes_to_be_scraped",
+                    choices=["title", "difficulty", "duration", "distance", "average_speed", "uphill", "downhill",
+                             "description", "tip", "way_types_and_surfaces", "location"],
+                    nargs='*', help='which operation would you like to run')
+args = parser.parse_args()
+list_of_datatypes = args.datatypes_to_be_scraped
+
 
 
 def ask_user_choice():
@@ -39,8 +53,9 @@ def list_of_keys(hikes_infos):
     """
     This function takes a list of dictionaries, and return the keys across all dictionaries
     This will be used to create the column of our csv
-    In our code, each dictionary stores the info of one hike, and so the list of dictionaries store the info of all the hikes
-    This step is necessary because all the hikes do not have the same info on the website, and therefore we do not have the same keys for each dictionary
+    In our code, each dictionary stores the info of one hike, and so the list of dictionaries store the info of all the
+    hikes.  This step is necessary because all the hikes do not have the same info on the website, and therefore we do
+    not have the same keys for each dictionary
     """
     set_of_all_keys = set()
     for hike in hikes_infos:
@@ -69,7 +84,7 @@ def main():
     # For each hike url, we call get_hike_info(). Once we collected the info (and stored it in a dictionary),
     # we store it in the list 'hikes_infos'
     for hike_id, hike_url in enumerate(tqdm(hiking_urls)):
-        hikes_infos.append(hi.get_hike_info(hike_id, hike_url))
+        hikes_infos.append(hi.get_hike_info(hike_id, hike_url,list_of_datatypes))
 
     # We create a csv from the list of hikes infos
     write_csv(hikes_infos)
