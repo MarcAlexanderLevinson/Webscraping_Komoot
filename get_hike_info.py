@@ -1,13 +1,10 @@
 import time
-# from selenium import common
 from selenium import webdriver
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 import logging
-
-# import traceback
 
 start = time.time()
 # start by defining the options
@@ -47,7 +44,6 @@ def driver_get_url(url):
         return drive
     except:
         logging.warning(f'The drive of this url {url} was not obtained')
-
 
 
 def get_basic_hike_info(drive):
@@ -184,24 +180,27 @@ def get_localisation(drive):
         return {}
 
 
-def get_hike_info(drive):
+def get_hike_info(index, url):
     """
     :param driver
     :return: Activate the get_info functions and return a dictionary with all the infos
     """
-    url = {"url": driver.current_url}
-    basic_hike_info = get_basic_hike_info(drive)
-    way_type_and_surfaces = get_way_type_and_surfaces(drive)
-    description = get_descriptions(driver)
-    localisation = get_localisation(driver)
-    information = {**basic_hike_info, **description, **localisation, **way_type_and_surfaces, **url}
-    return (information)
+    print(url)
+    try:
+        drive = driver_get_url(url)
+        basic_hike_info = get_basic_hike_info(drive)
+        way_type_and_surfaces = get_way_type_and_surfaces(drive)
+        description = get_descriptions(driver)
+        localisation = get_localisation(driver)
+        return {"1.ID": index, **basic_hike_info, **description, **localisation, **way_type_and_surfaces, "url": url}
+    except:
+        logging.warning(f'The hike of the {url} url was not recorded')
 
 
 if __name__ == "__main__":
+    index = 1
     try:
-        drive = driver_get_url(url)
-        print(get_hike_info(drive))
+        print(get_hike_info(index, url))
         # print(get_localisation(drive))
         end = time.time() - start
         print(end)
