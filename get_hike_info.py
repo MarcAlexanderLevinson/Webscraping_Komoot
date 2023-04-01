@@ -192,7 +192,7 @@ def get_location():
         logging.warning(f'The localisation of this url ({url}) was not found')
         return {}
 
-def get_hike_info_new_function_for_argparse(index, url, list_of_datatypes = "all"):
+def get_hike_info(index, url, list_of_datatypes ="all"):
     """
     :param index: the id of the hike for the database, url: url of the link to the hike, list_of_datatypes: list of
     datatypes that the user wants to retrieve from the url. This can be set at "all" or as a list of strings, such as
@@ -219,7 +219,7 @@ def get_hike_info_new_function_for_argparse(index, url, list_of_datatypes = "all
 
 if __name__ == "__main__":
     try:
-        print(get_hike_info_new_function_for_argparse(1, url))
+        print(get_hike_info(1, url))
         end = time.time() - start
         print(end)
     except:
