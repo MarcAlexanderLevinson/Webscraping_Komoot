@@ -22,8 +22,10 @@ default!!!!""")
 
 parser.add_argument("datatypes_to_be_scraped",
                     choices=["title", "difficulty", "duration", "distance", "average_speed", "uphill", "downhill",
-                             "description", "tip", "way_types_and_surfaces", "location"],
-                    nargs='*', help='which operation would you like to run')
+                             "description", "tip", "way_types_and_surfaces", "location", "all"],
+                    nargs='*',
+                    default="all",
+                    help='which datatypes would you like to scrape')
 args = parser.parse_args()
 list_of_datatypes = args.datatypes_to_be_scraped
 

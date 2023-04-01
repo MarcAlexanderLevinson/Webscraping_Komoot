@@ -212,7 +212,7 @@ def get_location():
         return {}
 
 
-def get_hike_info(index, url, list_of_datatypes="all"):
+def get_hike_info(index, url, list_of_datatypes = ["all"]):
     """
     :param index: the id of the hike for the database, url: url of the link to the hike, list_of_datatypes: list of
     datatypes that the user wants to retrieve from the url. This can be set at "all" or as a list of strings, such as
@@ -226,7 +226,7 @@ def get_hike_info(index, url, list_of_datatypes="all"):
                                         "downhill": get_downhill, "description": get_description, "tip": get_tip,
                                         "way_types_and_surfaces": get_way_types_and_surfaces, "location": get_location}
 
-    if list_of_datatypes == "all":
+    if list_of_datatypes == ["all"]:
         list_of_datatypes = list(dictionary_of_datatype_functions)
     try:
         hike_info = {"1.ID": index}
