@@ -1,5 +1,6 @@
 import get_hiking_urls as gu
 import get_hike_info as hi
+import create_database as cd
 from tqdm.auto import tqdm
 import csv
 import json
@@ -73,6 +74,13 @@ def main():
 
     # We create a csv from the list of hikes infos
     write_csv(hikes_infos)
+
+    # Writing all data into the database
+    cd.create_database_tables()
+    cd.populate_country(hikes_infos)
+    cd.populate_region(hikes_infos)
+    cd.populate_difficulty(hikes_infos)
+    cd.populate_hikes_tables(hikes_infos)
 
 
 if __name__ == "__main__":

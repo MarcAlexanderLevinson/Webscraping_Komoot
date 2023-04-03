@@ -237,7 +237,6 @@ def populate_hikes_tables(hikes_infos):
             country = row["Country"]
             region = row["Region"]
             mycursor.execute(sql_treks, [title, description, url, country, region])
-
             trek_id = mycursor.lastrowid
 
             sql_main_infos = """INSERT INTO main_info (
@@ -261,7 +260,50 @@ def populate_hikes_tables(hikes_infos):
             mycursor.execute(sql_main_infos, [trek_id, difficulty, duration, distance, average_speed, uphill, downhill, tips])
 
 
-            sql_surfaces = """INSERT INTO main_info (
+            sql_surfaces = """INSERT INTO surfaces (
+                                           trek_id
+                                         , asphalt
+                                         , gravel
+                                         , natural_terrain
+                                         , paved
+                                         , unknown
+                                         , unpaved
+                                         , alpine)
+                                        VALUES(%s,%s,%s,%s,%s,%s,%s, %s);
+                                        """
+            if 'Asphalt (km)' in row:
+                asphalt = row['Asphalt (km)']
+            else:
+                asphalt = 0
+            if 'Gravel (km)' in row:
+                gravel = row['Gravel (km)']
+            else:
+                gravel = 0
+            if 'Natural (km)' in row:
+                natural_terrain = row['Natural (km)']
+            else:
+                natural_terrain = 0
+            if 'Paved (km)' in row:
+                paved = row['Paved (km)']
+            else:
+                paved = 0
+            if 'Unknown (km)' in row:
+                unknown = row['Unknown (km)']
+            else:
+                unknown = 0
+            if 'Unpaved (km)' in row:
+                unpaved = row['Unpaved (km)']
+            else:
+                unpaved = 0
+            if 'Alpine (km)' in row:
+                alpine = row['Alpine (km)']
+            else:
+                alpine = 0
+            mycursor.execute(sql_surfaces,
+                             [trek_id, asphalt, gravel, natural_terrain, paved, unknown, unpaved, alpine])
+
+
+            sql_way_types = """INSERT INTO way_types (
                                trek_id
                              , alpine_hiking_path
                              , ferry
@@ -272,48 +314,45 @@ def populate_hikes_tables(hikes_infos):
                              , road
                              , state_road
                              , street)
-                            VALUES(%s,(SELECT id FROM difficulty WHERE difficulty = %s),%s,%s,%s,%s,%s,%s);
+                            VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
                             """
-            difficulty = row["3.difficulty"]
-            duration = row["4.duration"]
-            distance = row["5.distance"]
-            average_speed = row["6.average_speed"]
-            uphill = row["7.uphill"]
-            downhill = row["8.downhill"]
-            tips = row["91.tips"]  # TODO le numero a probablement change
-            mycursor.execute(sql_way_types, [trek_id, difficulty, duration, distance, average_speed, uphill, downhill, tips])
-
-
-
-
-
-
-
-
-
-
-
-            sql_way_types = """INSERT INTO main_info (
-                               trek_id
-                             , alpine_hiking_path
-                             , ferry
-                             , footpath
-                             , hiking_path
-                             , mountain_hiking_path
-                             , path
-                             , road
-                             , state_road
-                             , street)
-                            VALUES(%s,(SELECT id FROM difficulty WHERE difficulty = %s),%s,%s,%s,%s,%s,%s);
-                            """
-            difficulty = row["3.difficulty"]
-            duration = row["4.duration"]
-            distance = row["5.distance"]
-            average_speed = row["6.average_speed"]
-            uphill = row["7.uphill"]
-            downhill = row["8.downhill"]
-            tips = row["91.tips"]  # TODO le numero a probablement change
-            mycursor.execute(sql_way_types, [trek_id, difficulty, duration, distance, average_speed, uphill, downhill, tips])
+            if "Alpine Hiking Path (km)" in row:
+                alpine_hiking_path = row["Alpine Hiking Path (km)"]
+            else:
+                alpine_hiking_path = 0
+            if "Ferry (km)" in row:
+                ferry = row["Ferry (km)"]
+            else:
+                ferry = 0
+            if "Footpath (km)" in row:
+                footpath = row["Footpath (km)"]
+            else:
+                footpath = 0
+            if "Hiking Path (km)" in row:
+                hiking_path = row["Hiking Path (km)"]
+            else:
+                hiking_path = 0
+            if "Mountain Hiking Path (km)" in row:
+                mountain_hiking_path = row["Mountain Hiking Path (km)"]
+            else:
+                mountain_hiking_path = 0
+            if "Path (km)" in row:
+                path = row["Path (km)"]
+            else:
+                path = 0
+            if "Road (km)" in row:
+                road = row["Road (km)"]
+            else:
+                road = 0
+            if "State Road (km)" in row:
+                state_road = row["State Road (km)"]
+            else:
+                state_road = 0
+            if "Street (km)" in row:
+                street = row["Street (km)"]
+            else:
+                street = 0
+            mycursor.execute(sql_way_types, [trek_id, alpine_hiking_path, ferry, footpath, hiking_path, mountain_hiking_path, path, road, state_road, street])
     mydb.commit()
 
 
@@ -442,8 +481,8 @@ test_list3 = [{'1.ID': 0, '2.title': 'Pointe de Nantaux (2170m)', '3.difficulty'
                'all levels': ['France', 'Auvergne Rhône Alpes', 'Thonon-Les-Bains', 'Montriond'],
                'url': 'https://www.komoot.com/smarttour/e808650908/pointe-de-nantaux-2170m?tour_origin=smart_tour_search'}]
 
-
-populate_country(test_list2)
-populate_region(test_list2)
-populate_difficulty(test_list2)
-populate_hikes_tables(test_list2)
+if __name__ == "__main__":
+    populate_country(test_list2)
+    populate_region(test_list2)
+    populate_difficulty(test_list2)
+    populate_hikes_tables(test_list2)
