@@ -19,8 +19,7 @@ driver = Chrome(options=options, service=chrome_service)
 driver.set_window_size(2700, 2000)
 driver.implicitly_wait(5)
 
-url = """https://www.komoot.com/smarttour/e926612355/
-         mont-colombier-massif-des-bauges-boucle?tour_origin=smart_tour_search"""
+url = """https://www.komoot.com/smarttour/e926612355/mont-colombier-massif-des-bauges-boucle?tour_origin=smart_tour_search"""
 
 
 def distance_converter(distance_with_unit):
@@ -131,8 +130,8 @@ def get_description():
         return {f"9.description": ""}
 
     try:  # Try/except to handle cases without the 2nd part of the description
-        descriptions_niv2 = driver.find_element(By.XPATH,
-                                        "//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text
+        descriptions_niv2 = driver.find_element(By.XPATH,"//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text #"//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text
+
     except:
         descriptions_niv2 = ''
     description = descriptions_niv1 + ' ' + descriptions_niv2
@@ -161,9 +160,7 @@ def way_type_converter(raw_way_type_info):
                    0] + " (km)"  # The way type will be the key to the dictionary we will create: e.g. "Path (km)"
     distance_string = raw_way_type_info.split(":")[1]
     if "<" in distance_string:
-        distance_string = distance_string.replace("<",
-                                                  "")  # From the second example given in the docstring, if the distance
-        # includes the > sign, this sign will be removed
+        distance_string = distance_string.replace("<", "")  # From the second example given in the docstring, if the distance
     distance = round(distance_converter(distance_string), 2)
     return {way_type: distance}
 
@@ -198,8 +195,7 @@ def get_location():
     location = dict()
     try:
         geography = driver.find_elements(By.XPATH, "//div[@class='css-1jg13ty']/*[@href]")
-        all_loc = [geo.text for geo in
-                   geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking
+        all_loc = [geo.text for geo in geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking
                                # Trail", but also contains duplicates
         all_loc = list(filter(lambda x: x != 'Discover' and x != 'Hiking trails & Routes',
                               all_loc))  # This removes the generic terms
@@ -210,18 +206,20 @@ def get_location():
         location["Most accurate location"] = all_loc[-1]
         logging.info(f'Success: The location of this url ({url}) was found')
         return location
+
     except:
         logging.warning(f'The location of this url ({url}) was not found')
         return {}
 
 
-def get_hike_info(index, url, list_of_datatypes = ["all"]):
+def get_hike_info(index, url, list_of_datatypes = "all"):
     """
     :param index: the id of the hike for the database, url: url of the link to the hike, list_of_datatypes: list of
     datatypes that the user wants to retrieve from the url. This can be set at "all" or as a list of strings, such as
     ["title", "description", "location"]
     :return: a dictionary of the requested hiking datatypes
     """
+
     driver_get_url(url)
     dictionary_of_datatype_functions = {"title": get_hike_title, "difficulty": get_difficulty, "duration": get_duration,
                                         "distance": get_distance, "average_speed": get_average_speed,
@@ -242,8 +240,9 @@ def get_hike_info(index, url, list_of_datatypes = ["all"]):
 
 
 if __name__ == "__main__":
+    index = 1
     try:
-        print(get_hike_info(1, url, ["all"]))
+        print(get_hike_info(1, url, "all"))
         end = time.time() - start
         print(end)
     except:
