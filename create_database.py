@@ -21,20 +21,46 @@ def create_database_tables():
     lst = mycursor.fetchall()
     if ('komoot',) in lst:
         print('The database already exists')
+        # mycursor.execute("drop DATABASE komoot")
     else:
         mycursor.execute("CREATE DATABASE komoot")
         mycursor.execute("USE komoot")
+
+        sql = """CREATE TABLE region (
+                  id int AUTO_INCREMENT primary key
+                  , region varchar(252)
+                )"""
+        mycursor.execute(sql)
+
+        sql = """
+                      CREATE TABLE country (
+                       id int AUTO_INCREMENT primary key
+                       , country varchar(252)
+                      )"""
+        mycursor.execute(sql)
+
+        sql = """
+                      CREATE TABLE difficulty (
+                       id int AUTO_INCREMENT primary key
+                       , difficulty varchar(252)
+                      )"""
+        mycursor.execute(sql)
+
         sql = """CREATE TABLE treks (
-            id int AUTO_INCREMENT primary key 
+            id int AUTO_INCREMENT primary key
             , title varchar(252)
             , description varchar(252)
-            , url varchar(252) unique 
+            , url varchar(252) unique
+            , region_id int
+            , country_id int
+            , FOREIGN KEY (region_id) REFERENCES region(id)
+            , FOREIGN KEY (country_id) REFERENCES country(id)
             )"""
         mycursor.execute(sql)
 
         sql = """ CREATE TABLE main_info (
                trek_id int UNIQUE
-             , difficulty varchar(252)
+             , difficulty_id int
              , duration TIME
              , distance float
              , average_speed float
@@ -42,6 +68,8 @@ def create_database_tables():
              , downhill int
              , tips varchar(252)
              , FOREIGN KEY (trek_id) REFERENCES treks(id)
+             , FOREIGN KEY (difficulty_id) REFERENCES difficulty(id)
+
             )"""
         mycursor.execute(sql)
 
@@ -74,20 +102,13 @@ def create_database_tables():
             )"""
         mycursor.execute(sql)
 
-        sql = """
-              CREATE TABLE localisation (
-               trek_id int UNIQUE
-               , localisation varchar(252)
-               , FOREIGN KEY (trek_id) REFERENCES treks(id)
-              )"""
-        mycursor.execute(sql)
         mydb.commit()
 
         mycursor.close()
         mydb.close()
 
 
-def populate_database(hikes_infos):
+def populate_country(hikes_infos):
     # Connect to mysql
     mydb = pymysql.connect(
         host="localhost",
@@ -95,48 +116,144 @@ def populate_database(hikes_infos):
         password="89Root92",  # TODO how not to put it here?
         database="komoot"
     )
-    # Create table country and difficulty
-
     mycursor = mydb.cursor()
-    for row in tqdm(hikes_infos, total=len(hikes_infos)):
-        sql_treks = """INSERT INTO treks (title,description,url)
-                     VALUES(%s,%s,%s);
-                    """
-        trek_batch = list()
-        title = row["2.title"]
-        description = row["9.description"]
-        url = row["url"]
-        trek_batch.append([title, description, url])
-        mycursor.executemany(sql_treks, trek_batch)
-        trek_id = mycursor.lastrowid
 
-        sql_main_infos = """INSERT INTO main_info (
-                           trek_id
-                         , difficulty
-                         , duration
-                         , distance
-                         , average_speed
-                         , uphill
-                         , downhill
-                         , tips)
-                        VALUES(%s,%s,%s,%s,%s,%s,%s,(select url from treks limit 1));
-                        """
-        difficulty = row["3.difficulty"]
-        duration = row["4.duration"]
-        distance = row["5.distance"]
-        average_speed = row["6.average_speed"]
-        uphill = row["7.uphill"]
-        downhill = row["8.downhill"]
-        tips = row["91.tips"] #TODO le numero a probablement change
-        mycursor.execute(sql_main_infos, [trek_id,difficulty,duration,distance,average_speed,uphill,downhill])
+    countries = set()
+    for hike in hikes_infos:
+        countries.add(hike["Country"])
+    countries = list(countries)
+
+    for country in countries:
+        sql = "SELECT distinct country FROM country"
+        mycursor.execute(sql)
+        result = mycursor.fetchall()
+        # We're testing if the url already exists in the database. If yes, we don't add it again
+        if (country,) in result:
+            print('pass country')
+            pass
+        else:
+            sql = """INSERT INTO country (country)
+                     VALUES(%s)
+                    """
+            mycursor.execute(sql, country)
     mydb.commit()
 
-    sql = " select distinct url from treks"
-    mycursor.execute(sql)
-    result = mycursor.fetchall()
-    print(result)
-    test = 'https://www.komoot.com/smarttour/e808650908/pointe-de-nantaux-2170m?tour_origin=smart_tour_search'
-    print((test,) in result)
+
+def populate_region(hikes_infos):
+    # Connect to mysql
+    mydb = pymysql.connect(
+        host="localhost",
+        user="root",
+        password="89Root92",  # TODO how not to put it here?
+        database="komoot"
+    )
+    mycursor = mydb.cursor()
+
+    regions = set()
+    for hike in hikes_infos:
+        regions.add(hike["Country"])
+    regions = list(regions)
+
+    for region in regions:
+        sql = "SELECT distinct region FROM region"
+        mycursor.execute(sql)
+        result = mycursor.fetchall()
+        # We're testing if the url already exists in the database. If yes, we don't add it again
+        if (region,) in result:
+            print('pass country')
+            pass
+        else:
+            sql = """INSERT INTO region (region)
+                     VALUES(%s)
+                    """
+            mycursor.execute(sql, region)
+    mydb.commit()
+
+
+def populate_difficulty(hikes_infos):
+    # Connect to mysql
+    mydb = pymysql.connect(
+        host="localhost",
+        user="root",
+        password="89Root92",  # TODO how not to put it here?
+        database="komoot"
+    )
+    mycursor = mydb.cursor()
+
+    difficulties = set()
+    for hike in hikes_infos:
+        difficulties.add(hike["Country"])
+    difficulties = list(difficulties)
+
+    for difficulty in difficulties:
+        sql = "SELECT distinct difficulty FROM difficulty"
+        mycursor.execute(sql)
+        result = mycursor.fetchall()
+        # We're testing if the url already exists in the database. If yes, we don't add it again
+        if (difficulty,) in result:
+            pass
+        else:
+            sql = """INSERT INTO difficulty (difficulty)
+                     VALUES(%s)
+                    """
+            mycursor.execute(sql, difficulty)
+    mydb.commit()
+
+
+def populate_hikes_tables(hikes_infos):
+    # Connect to mysql
+    mydb = pymysql.connect(
+        host="localhost",
+        user="root",
+        password="89Root92",  # TODO how not to put it here?
+        database="komoot"
+    )
+
+    mycursor = mydb.cursor()
+
+    for row in tqdm(hikes_infos, total=len(hikes_infos)):
+        sql = " SELECT distinct url FROM treks"
+        mycursor.execute(sql)
+        result = mycursor.fetchall()
+        # We're testing if the url already exists in the database. If yes, we don't add it again
+        if (row["url"],) in result:
+            print('here')
+            pass
+        else:
+            print('ici')
+            sql_treks = """INSERT INTO treks (
+                      title
+                    , description
+                    , url
+                    )
+                     VALUES(%s,%s,%s);
+                        """ # TODO: rajouter les colonnes manquantes
+            title = row["2.title"]
+            description = row["9.description"]
+            url = row["url"]
+            mycursor.execute(sql_treks, [title, description, url])
+            trek_id = mycursor.lastrowid
+
+            sql_main_infos = """INSERT INTO main_info (
+                               trek_id
+                             , difficulty_id
+                             , duration
+                             , distance
+                             , average_speed
+                             , uphill
+                             , downhill
+                             , tips)
+                            VALUES(%s,%s,%s,%s,%s,%s,%s,(select url from treks limit 1));
+                            """
+            difficulty = row["3.difficulty"]
+            duration = row["4.duration"]
+            distance = row["5.distance"]
+            average_speed = row["6.average_speed"]
+            uphill = row["7.uphill"]
+            downhill = row["8.downhill"]
+            tips = row["91.tips"]  # TODO le numero a probablement change
+            mycursor.execute(sql_main_infos, [trek_id, difficulty, duration, distance, average_speed, uphill, downhill])
+    mydb.commit()
 
 
 create_database_tables()
@@ -243,11 +360,13 @@ test_list2 = [{'1.ID': 0, '2.title': 'Pointe de Nantaux (2170m)', '3.difficulty'
                'Street (km)': 0.58, 'Road (km)': 2.01, 'State Road (km)': 0.12, 'Natural (km)': 0.9,
                'Unpaved (km)': 8.01, 'Gravel (km)': 2.05, 'Paved (km)': 1.78, 'Asphalt (km)': 0.89, 'Unknown (km)': 0.1,
                'all levels': ['France', 'Auvergne Rhône Alpes', 'Thonon-Les-Bains', 'Montriond'],
+               'Country': 'England',
                'url': 'https://www.komoot.com/smarttour/e808650908/pointe-de-nantaux-2170m?tour_origin=smart_tour_search'},
               {'1.ID': 0, '2.title': 'Pointe de Nantaux (2170m)', '3.difficulty': 'Expert', '4.duration': '06:06',
                '5.distance': 13.7, '6.average_speed': 2, '7.uphill': 1260.0, '8.downhill': 1250.0,
                '9.description': 'Expert Hiking Tour. Very good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.',
                '91.tips': '', 'Mountain Hiking Path (km)': 0.63, 'Hiking Path (km)': 8.33, 'Path (km)': 1.99,
+               'Country': 'France',
                'Street (km)': 0.58, 'Road (km)': 2.01, 'State Road (km)': 0.12, 'Natural (km)': 0.9,
                'Unpaved (km)': 8.01, 'Gravel (km)': 2.05, 'Paved (km)': 1.78, 'Asphalt (km)': 0.89, 'Unknown (km)': 0.1,
                'all levels': ['France', 'Auvergne Rhône Alpes', 'Thonon-Les-Bains', 'Montriond'],
@@ -258,7 +377,8 @@ test_list3 = [{'1.ID': 0, '2.title': 'Pointe de Nantaux (2170m)', '3.difficulty'
                '91.tips': '', 'Mountain Hiking Path (km)': 0.63, 'Hiking Path (km)': 8.33, 'Path (km)': 1.99,
                'Street (km)': 0.58, 'Road (km)': 2.01, 'State Road (km)': 0.12, 'Natural (km)': 0.9,
                'Unpaved (km)': 8.01, 'Gravel (km)': 2.05, 'Paved (km)': 1.78, 'Asphalt (km)': 0.89, 'Unknown (km)': 0.1,
+               'Country': 'France',
                'all levels': ['France', 'Auvergne Rhône Alpes', 'Thonon-Les-Bains', 'Montriond'],
                'url': 'https://www.komoot.com/smarttour/e808650908/pointe-de-nantaux-2170m?tour_origin=smart_tour_search'}]
-populate_database(test_list2)
-
+# populate_database(test_list2)
+populate_country(test_list2)
