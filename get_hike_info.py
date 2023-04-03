@@ -148,13 +148,7 @@ def get_description():
         return {f"9.description": ""}
 
     try:  # Try/except to handle cases without the 2nd part of the description
-<<<<<<< HEAD
-        descriptions_niv2 = driver.find_element(By.XPATH,
-                                        "//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text
-=======
-        descriptions_niv2 = driver.find_element(By.XPATH,"//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text #"//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text
-
->>>>>>> 3bc200140784520d11149650e9bdbd3a0e6cba58
+        descriptions_niv2 = driver.find_element(By.XPATH, "//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text
     except:
         descriptions_niv2 = ''
     description = descriptions_niv1 + ' ' + descriptions_niv2
@@ -186,13 +180,8 @@ def way_type_converter(raw_way_type_info):
                    0] + " (km)"  # The way type will be the key to the dictionary we will create: e.g. "Path (km)"
     distance_string = raw_way_type_info.split(":")[1]
     if "<" in distance_string:
-<<<<<<< HEAD
-        distance_string = distance_string.replace("<",
-                                                  "")  # From the second example given in the docstring, if the distance
+        distance_string = distance_string.replace("<","")  # From the second example given in the docstring, if the distance
         # includes the > sign, this sign will be removed
-=======
-        distance_string = distance_string.replace("<", "")  # From the second example given in the docstring, if the distance
->>>>>>> 3bc200140784520d11149650e9bdbd3a0e6cba58
     distance = round(distance_converter(distance_string), 2)
     return {way_type: distance}
 
@@ -227,13 +216,7 @@ def get_location():
     location = dict()
     try:
         geography = driver.find_elements(By.XPATH, "//div[@class='css-1jg13ty']/*[@href]")
-<<<<<<< HEAD
-        all_loc = [geo.text for geo in
-                   geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking
-=======
-        all_loc = [geo.text for geo in geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking
->>>>>>> 3bc200140784520d11149650e9bdbd3a0e6cba58
-                               # Trail", but also contains duplicates
+        all_loc = [geo.text for geo in geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking Trail", but also contains duplicates
         all_loc = list(filter(lambda x: x != 'Discover' and x != 'Hiking trails & Routes',
                               all_loc))  # This removes the generic terms
         all_loc = list(dict.fromkeys(all_loc))  # This removes all duplicates
