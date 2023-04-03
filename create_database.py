@@ -11,7 +11,7 @@ def create_database_tables():
     mydb = pymysql.connect(
         host="localhost",
         user="root",
-        password="89Root92"
+        password="root"
         # TODO how not to put it here?
     )
     mycursor = mydb.cursor()
@@ -21,7 +21,7 @@ def create_database_tables():
     lst = mycursor.fetchall()
     if ('komoot',) in lst:
         print('The database already exists')
-        # mycursor.execute("drop DATABASE komoot")
+        mycursor.execute("drop DATABASE komoot")
     else:
         mycursor.execute("CREATE DATABASE komoot")
         mycursor.execute("USE komoot")
@@ -113,7 +113,7 @@ def populate_country(hikes_infos):
     mydb = pymysql.connect(
         host="localhost",
         user="root",
-        password="89Root92",  # TODO how not to put it here?
+        password="root",  # TODO how not to put it here?
         database="komoot"
     )
     mycursor = mydb.cursor()
@@ -144,14 +144,15 @@ def populate_region(hikes_infos):
     mydb = pymysql.connect(
         host="localhost",
         user="root",
-        password="89Root92",  # TODO how not to put it here?
+        password="root",  # TODO how not to put it here?
         database="komoot"
     )
     mycursor = mydb.cursor()
 
     regions = set()
     for hike in hikes_infos:
-        regions.add(hike["Country"])
+        print(hike)
+        regions.add(hike["Region"])
     regions = list(regions)
 
     for region in regions:
@@ -160,7 +161,7 @@ def populate_region(hikes_infos):
         result = mycursor.fetchall()
         # We're testing if the url already exists in the database. If yes, we don't add it again
         if (region,) in result:
-            print('pass country')
+            print('pass region')
             pass
         else:
             sql = """INSERT INTO region (region)
@@ -175,14 +176,14 @@ def populate_difficulty(hikes_infos):
     mydb = pymysql.connect(
         host="localhost",
         user="root",
-        password="89Root92",  # TODO how not to put it here?
+        password="root",  # TODO how not to put it here?
         database="komoot"
     )
     mycursor = mydb.cursor()
 
     difficulties = set()
     for hike in hikes_infos:
-        difficulties.add(hike["Country"])
+        difficulties.add(hike["3.difficulty"])
     difficulties = list(difficulties)
 
     for difficulty in difficulties:
@@ -205,7 +206,7 @@ def populate_hikes_tables(hikes_infos):
     mydb = pymysql.connect(
         host="localhost",
         user="root",
-        password="89Root92",  # TODO how not to put it here?
+        password="root",  # TODO how not to put it here?
         database="komoot"
     )
 
@@ -225,13 +226,18 @@ def populate_hikes_tables(hikes_infos):
                       title
                     , description
                     , url
-                    )
-                     VALUES(%s,%s,%s);
+                    , country_id
+                    , region_id
+                    ) 
+                     VALUES(%s,%s,%s, (SELECT id FROM country WHERE country = %s), (SELECT id FROM region WHERE region = %s));
                         """ # TODO: rajouter les colonnes manquantes
             title = row["2.title"]
             description = row["9.description"]
             url = row["url"]
-            mycursor.execute(sql_treks, [title, description, url])
+            country = row["Country"]
+            region = row["Region"]
+            mycursor.execute(sql_treks, [title, description, url, country, region])
+
             trek_id = mycursor.lastrowid
 
             sql_main_infos = """INSERT INTO main_info (
@@ -243,7 +249,7 @@ def populate_hikes_tables(hikes_infos):
                              , uphill
                              , downhill
                              , tips)
-                            VALUES(%s,%s,%s,%s,%s,%s,%s,(select url from treks limit 1));
+                            VALUES(%s,(SELECT id FROM difficulty WHERE difficulty = %s),%s,%s,%s,%s,%s,%s);
                             """
             difficulty = row["3.difficulty"]
             duration = row["4.duration"]
@@ -252,7 +258,62 @@ def populate_hikes_tables(hikes_infos):
             uphill = row["7.uphill"]
             downhill = row["8.downhill"]
             tips = row["91.tips"]  # TODO le numero a probablement change
-            mycursor.execute(sql_main_infos, [trek_id, difficulty, duration, distance, average_speed, uphill, downhill])
+            mycursor.execute(sql_main_infos, [trek_id, difficulty, duration, distance, average_speed, uphill, downhill, tips])
+
+
+            sql_surfaces = """INSERT INTO main_info (
+                               trek_id
+                             , alpine_hiking_path
+                             , ferry
+                             , footpath
+                             , hiking_path
+                             , mountain_hiking_path
+                             , path
+                             , road
+                             , state_road
+                             , street)
+                            VALUES(%s,(SELECT id FROM difficulty WHERE difficulty = %s),%s,%s,%s,%s,%s,%s);
+                            """
+            difficulty = row["3.difficulty"]
+            duration = row["4.duration"]
+            distance = row["5.distance"]
+            average_speed = row["6.average_speed"]
+            uphill = row["7.uphill"]
+            downhill = row["8.downhill"]
+            tips = row["91.tips"]  # TODO le numero a probablement change
+            mycursor.execute(sql_way_types, [trek_id, difficulty, duration, distance, average_speed, uphill, downhill, tips])
+
+
+
+
+
+
+
+
+
+
+
+            sql_way_types = """INSERT INTO main_info (
+                               trek_id
+                             , alpine_hiking_path
+                             , ferry
+                             , footpath
+                             , hiking_path
+                             , mountain_hiking_path
+                             , path
+                             , road
+                             , state_road
+                             , street)
+                            VALUES(%s,(SELECT id FROM difficulty WHERE difficulty = %s),%s,%s,%s,%s,%s,%s);
+                            """
+            difficulty = row["3.difficulty"]
+            duration = row["4.duration"]
+            distance = row["5.distance"]
+            average_speed = row["6.average_speed"]
+            uphill = row["7.uphill"]
+            downhill = row["8.downhill"]
+            tips = row["91.tips"]  # TODO le numero a probablement change
+            mycursor.execute(sql_way_types, [trek_id, difficulty, duration, distance, average_speed, uphill, downhill, tips])
     mydb.commit()
 
 
@@ -360,17 +421,17 @@ test_list2 = [{'1.ID': 0, '2.title': 'Pointe de Nantaux (2170m)', '3.difficulty'
                'Street (km)': 0.58, 'Road (km)': 2.01, 'State Road (km)': 0.12, 'Natural (km)': 0.9,
                'Unpaved (km)': 8.01, 'Gravel (km)': 2.05, 'Paved (km)': 1.78, 'Asphalt (km)': 0.89, 'Unknown (km)': 0.1,
                'all levels': ['France', 'Auvergne Rhône Alpes', 'Thonon-Les-Bains', 'Montriond'],
-               'Country': 'England',
+               'Country': 'England', "Region": "Foking London mate",
                'url': 'https://www.komoot.com/smarttour/e808650908/pointe-de-nantaux-2170m?tour_origin=smart_tour_search'},
-              {'1.ID': 0, '2.title': 'Pointe de Nantaux (2170m)', '3.difficulty': 'Expert', '4.duration': '06:06',
-               '5.distance': 13.7, '6.average_speed': 2, '7.uphill': 1260.0, '8.downhill': 1250.0,
-               '9.description': 'Expert Hiking Tour. Very good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.',
-               '91.tips': '', 'Mountain Hiking Path (km)': 0.63, 'Hiking Path (km)': 8.33, 'Path (km)': 1.99,
-               'Country': 'France',
-               'Street (km)': 0.58, 'Road (km)': 2.01, 'State Road (km)': 0.12, 'Natural (km)': 0.9,
-               'Unpaved (km)': 8.01, 'Gravel (km)': 2.05, 'Paved (km)': 1.78, 'Asphalt (km)': 0.89, 'Unknown (km)': 0.1,
-               'all levels': ['France', 'Auvergne Rhône Alpes', 'Thonon-Les-Bains', 'Montriond'],
-               'url': 'https://www.komoot.com/smarttour/e808650908/pointe-de-nantaux-2170m?tour_origin=smart_tour_searchokkk'}]
+              {'1.ID': 1, '2.title': 'Pointe de Ressachaux (2173m)', '3.difficulty': 'Expert', '4.duration': '05:00',
+               '5.distance': 12.1, '6.average_speed': 2, '7.uphill': 1150.0, '8.downhill': 1150.0,
+               '9.description': 'Expert Hiking Tour. Very good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is accessible with public transport.',
+               '91.tips': '', 'Mountain Hiking Path (km)': 6.15, 'Hiking Path (km)': 1.69, 'Path (km)': 1.91,
+               'Street (km)': 0.75, 'Road (km)': 1.61, 'Alpine (km)': 6.15, 'Unpaved (km)': 3.22, 'Gravel (km)': 0.1,
+               'Paved (km)': 1.27, 'Asphalt (km)': 1.09, 'Unknown (km)': 0.36,
+               'all levels': ['France', 'Auvergne Rhône Alpes', 'Thonon-Les-Bains', 'Morzine'],
+                'Country': 'France', "Region": "Petite chatte",
+               'url': 'https://www.komoot.com/smarttour/e810584590/pointe-de-ressachaux-2173m?tour_origin=smart_tour_search'}]
 test_list3 = [{'1.ID': 0, '2.title': 'Pointe de Nantaux (2170m)', '3.difficulty': 'Expert', '4.duration': '06:06',
                '5.distance': 13.7, '6.average_speed': 2, '7.uphill': 1260.0, '8.downhill': 1250.0,
                '9.description': 'Expert Hiking Tour. Very good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.',
@@ -380,5 +441,9 @@ test_list3 = [{'1.ID': 0, '2.title': 'Pointe de Nantaux (2170m)', '3.difficulty'
                'Country': 'France',
                'all levels': ['France', 'Auvergne Rhône Alpes', 'Thonon-Les-Bains', 'Montriond'],
                'url': 'https://www.komoot.com/smarttour/e808650908/pointe-de-nantaux-2170m?tour_origin=smart_tour_search'}]
-# populate_database(test_list2)
+
+
 populate_country(test_list2)
+populate_region(test_list2)
+populate_difficulty(test_list2)
+populate_hikes_tables(test_list2)
