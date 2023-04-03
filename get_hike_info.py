@@ -195,7 +195,7 @@ def get_location():
     Note2: There is no consistency between the collected levels and the official administrative geographical levels.
     """
     url = driver.current_url
-    localisation = dict()
+    location = dict()
     try:
         geography = driver.find_elements(By.XPATH, "//div[@class='css-1jg13ty']/*[@href]")
         all_loc = [geo.text for geo in
@@ -204,11 +204,14 @@ def get_location():
         all_loc = list(filter(lambda x: x != 'Discover' and x != 'Hiking trails & Routes',
                               all_loc))  # This removes the generic terms
         all_loc = list(dict.fromkeys(all_loc))  # This removes all duplicates
-        localisation["all levels"] = all_loc
-        logging.info(f'Success: The localisation of this url ({url}) was found')
-        return localisation
+
+        location["Country"] = all_loc[0]
+        location["Region"] = all_loc[1]
+        location["Most accurate location"] = all_loc[-1]
+        logging.info(f'Success: The location of this url ({url}) was found')
+        return location
     except:
-        logging.warning(f'The localisation of this url ({url}) was not found')
+        logging.warning(f'The location of this url ({url}) was not found')
         return {}
 
 
@@ -226,7 +229,7 @@ def get_hike_info(index, url, list_of_datatypes = ["all"]):
                                         "downhill": get_downhill, "description": get_description, "tip": get_tip,
                                         "way_types_and_surfaces": get_way_types_and_surfaces, "location": get_location}
 
-    if list_of_datatypes == ["all"]:
+    if list_of_datatypes == "all":
         list_of_datatypes = list(dictionary_of_datatype_functions)
     try:
         hike_info = {"1.ID": index}
@@ -240,7 +243,7 @@ def get_hike_info(index, url, list_of_datatypes = ["all"]):
 
 if __name__ == "__main__":
     try:
-        print(get_hike_info(1, url))
+        print(get_hike_info(1, url, ["all"]))
         end = time.time() - start
         print(end)
     except:
