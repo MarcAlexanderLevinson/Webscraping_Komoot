@@ -17,6 +17,7 @@ chrome_service = Service(chrome_path)
 driver = Chrome(options=options, service=chrome_service)
 driver.implicitly_wait(5)
 
+url = "https://www.komoot.com/discover/Lyon/@45.7575926%2C4.8323239/tours?max_distance=200000&sport=hike&map=true&pageNumber="
 
 def get_all_catalogues_urls(base_url, number_of_page_to_scrap):
     """
@@ -34,7 +35,7 @@ def get_html_blocks(catalogue_url):
     On one catalogue page, get the 12 html blocks that contains the 12 hikes url
     """
     driver.get(catalogue_url)
-    time.sleep(10)
+    time.sleep(5)
     try:
         return driver.find_elements(By.CSS_SELECTOR, "div[class*='css-1dzdr7g']")  # this is a "block"
     except common.exceptions.WebDriverException as err:
@@ -79,7 +80,6 @@ def get_all_hikes_urls(base_url, number_of_pages_to_scrap):
                              catalogue_url)
             number_of_hikes_found_on_this_page = result[0]
             number_of_hikes_found = result[1]
-
     return urls_of_hikes
 
 

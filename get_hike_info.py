@@ -19,8 +19,7 @@ driver = Chrome(options=options, service=chrome_service)
 driver.set_window_size(2700, 2000)
 driver.implicitly_wait(5)
 
-url = """https://www.komoot.com/smarttour/e926612355/
-         mont-colombier-massif-des-bauges-boucle?tour_origin=smart_tour_search"""
+url = """https://www.komoot.com/smarttour/e926612355/mont-colombier-massif-des-bauges-boucle?tour_origin=smart_tour_search"""
 
 
 def distance_converter(distance_with_unit):
@@ -131,8 +130,13 @@ def get_description():
         return {f"9.description": ""}
 
     try:  # Try/except to handle cases without the 2nd part of the description
+<<<<<<< HEAD
         descriptions_niv2 = driver.find_element(By.XPATH,
                                         "//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text
+=======
+        descriptions_niv2 = driver.find_element(By.XPATH,"//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text #"//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text
+
+>>>>>>> 3bc200140784520d11149650e9bdbd3a0e6cba58
     except:
         descriptions_niv2 = ''
     description = descriptions_niv1 + ' ' + descriptions_niv2
@@ -161,9 +165,13 @@ def way_type_converter(raw_way_type_info):
                    0] + " (km)"  # The way type will be the key to the dictionary we will create: e.g. "Path (km)"
     distance_string = raw_way_type_info.split(":")[1]
     if "<" in distance_string:
+<<<<<<< HEAD
         distance_string = distance_string.replace("<",
                                                   "")  # From the second example given in the docstring, if the distance
         # includes the > sign, this sign will be removed
+=======
+        distance_string = distance_string.replace("<", "")  # From the second example given in the docstring, if the distance
+>>>>>>> 3bc200140784520d11149650e9bdbd3a0e6cba58
     distance = round(distance_converter(distance_string), 2)
     return {way_type: distance}
 
@@ -195,24 +203,32 @@ def get_location():
     Note2: There is no consistency between the collected levels and the official administrative geographical levels.
     """
     url = driver.current_url
-    localisation = dict()
+    location = dict()
     try:
         geography = driver.find_elements(By.XPATH, "//div[@class='css-1jg13ty']/*[@href]")
+<<<<<<< HEAD
         all_loc = [geo.text for geo in
                    geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking
+=======
+        all_loc = [geo.text for geo in geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking
+>>>>>>> 3bc200140784520d11149650e9bdbd3a0e6cba58
                                # Trail", but also contains duplicates
         all_loc = list(filter(lambda x: x != 'Discover' and x != 'Hiking trails & Routes',
                               all_loc))  # This removes the generic terms
         all_loc = list(dict.fromkeys(all_loc))  # This removes all duplicates
-        localisation["all levels"] = all_loc
-        logging.info(f'Success: The localisation of this url ({url}) was found')
-        return localisation
+
+        location["Country"] = all_loc[0]
+        location["Region"] = all_loc[1]
+        location["Most accurate location"] = all_loc[-1]
+        logging.info(f'Success: The location of this url ({url}) was found')
+        return location
+
     except:
-        logging.warning(f'The localisation of this url ({url}) was not found')
+        logging.warning(f'The location of this url ({url}) was not found')
         return {}
 
 
-def get_hike_info(index, url, list_of_datatypes="all"):
+def get_hike_info(index, url, list_of_datatypes = "all"):
     """
     :param index: the id of the hike for the database, url: url of the link to the hike, list_of_datatypes: list of
     datatypes that the user wants to retrieve from the url. This can be set at "all" or as a list of strings, such as
@@ -242,7 +258,7 @@ def get_hike_info(index, url, list_of_datatypes="all"):
 if __name__ == "__main__":
     index = 1
     try:
-        print(get_hike_info(1, url))
+        print(get_hike_info(1, url, "all"))
         end = time.time() - start
         print(end)
     except:
