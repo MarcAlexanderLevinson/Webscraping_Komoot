@@ -52,6 +52,9 @@ def get_hike_title():
 
 
 def get_difficulty():
+    """
+    :return the difficulty of the hike
+    """
     try:
         difficulty = driver.find_element(By.CSS_SELECTOR, "div[class*='tw-flex tw-items-center']").text
         return {f"3.difficulty": difficulty}
@@ -61,6 +64,9 @@ def get_difficulty():
 
 
 def get_duration():
+    """
+    :return the duration of the hike
+    """
     try:
         duration = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='t_duration_value']").text
         return {f"4.duration": duration}
@@ -70,6 +76,9 @@ def get_duration():
 
 
 def get_distance():
+    """
+    :return the distance of the hike
+    """
     url = driver.current_url
     try:
         distance_text = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='t_distance_value']").text
@@ -81,6 +90,9 @@ def get_distance():
 
 
 def get_average_speed():
+    """
+    :return the average speed of the hike
+    """
     url = driver.current_url
     try:
         average_speed_text = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='t_speed_value']").text
@@ -92,6 +104,9 @@ def get_average_speed():
 
 
 def get_uphill():
+    """
+    :return the total uphill of the hike
+    """
     url = driver.current_url
     try:
         uphill_text = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='t_elevation_up_value']").text
@@ -104,6 +119,9 @@ def get_uphill():
 
 
 def get_downhill():
+    """
+    :return the total downhill of the hike
+    """
     url = driver.current_url
     try:
         downhill_text = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='t_elevation_down_value']").text
@@ -130,8 +148,12 @@ def get_description():
         return {f"9.description": ""}
 
     try:  # Try/except to handle cases without the 2nd part of the description
+<<<<<<< HEAD
         descriptions_niv2 = driver.find_element(By.XPATH,"//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text #"//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text
 
+=======
+        descriptions_niv2 = driver.find_element(By.XPATH, "//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text
+>>>>>>> 0e634e735ea2e1f94931ee034cd9b7fbf1ee131f
     except:
         descriptions_niv2 = ''
     description = descriptions_niv1 + ' ' + descriptions_niv2
@@ -139,6 +161,9 @@ def get_description():
 
 
 def get_tip():
+    """
+    :return the tips of the hike
+    """
     url = driver.current_url
     try:
         tips = driver.find_element(By.CSS_SELECTOR, "div[class='css-1xrtte3']").text
@@ -160,8 +185,13 @@ def way_type_converter(raw_way_type_info):
                    0] + " (km)"  # The way type will be the key to the dictionary we will create: e.g. "Path (km)"
     distance_string = raw_way_type_info.split(":")[1]
     if "<" in distance_string:
+<<<<<<< HEAD
 
         distance_string = distance_string.replace("<", "")  # From the second example given in the docstring, if the distance
+=======
+        distance_string = distance_string.replace("<","")  # From the second example given in the docstring, if the distance
+        # includes the > sign, this sign will be removed
+>>>>>>> 0e634e735ea2e1f94931ee034cd9b7fbf1ee131f
     distance = round(distance_converter(distance_string), 2)
     return {way_type: distance}
 
@@ -196,8 +226,12 @@ def get_location():
     location = dict()
     try:
         geography = driver.find_elements(By.XPATH, "//div[@class='css-1jg13ty']/*[@href]")
+<<<<<<< HEAD
         all_loc = [geo.text for geo in geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking
                                # Trail", but also contains duplicates
+=======
+        all_loc = [geo.text for geo in geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking Trail", but also contains duplicates
+>>>>>>> 0e634e735ea2e1f94931ee034cd9b7fbf1ee131f
         all_loc = list(filter(lambda x: x != 'Discover' and x != 'Hiking trails & Routes',
                               all_loc))  # This removes the generic terms
         all_loc = list(dict.fromkeys(all_loc))  # This removes all duplicates

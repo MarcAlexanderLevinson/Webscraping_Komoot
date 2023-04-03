@@ -70,6 +70,9 @@ The code will ask you a series of question:
 
 ### Tables
 
+<img width="1018" alt="Capture d’écran 2023-04-03 à 23 56 54" src="https://user-images.githubusercontent.com/127126176/229629441-5cc8dbfc-b51e-4b05-bc8c-c3c851988c7e.png">
+
+
 The database is made of 7 tables:
 - treks: lists each treks 
 - main_info: lists the main information about the treks
