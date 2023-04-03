@@ -50,8 +50,15 @@ list_of_datatypes = args.datatypes_to_be_scraped
 
 def ask_user_choice(list_of_datatypes):
     """
-    Ask the user whether he wants to re-use the previous list of hike urls (choice Y) or re-run the whole code,
-    including the collection of hike urls (choice N)
+    :param list of datatypes that are to be retrieved according to the parser
+    This function asks the user for several inputs, namely:\n
+    If the user wants to use a potential existing csv that holds a list of urls for the hikes to be scraped\n
+    How the user wants to store the scraped data, in a CSV, in an SQL database or both. Note, if the user told does not
+    retrieve the full dataset by only selected a few datatypes the data will automatically be stored in a CSV.\n
+    If the user selects all data to be scraped and want to store it in an SQL databse, the user will be asked for
+    the host, username and password in order to connect to SQL on it's own computer.
+    :return a list of the hiking urls to be scraped, how the data will be stores, hostname, username and password for
+    accessing SQL.
     """
     use_csv = input("""\n\nWould you like to use the links stored in the list_of_hiking_urls.csv file, then type "Y".
          \n\nIf you would like to determine the list of urls by running the code then type "N".

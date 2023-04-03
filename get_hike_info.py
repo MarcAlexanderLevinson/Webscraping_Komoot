@@ -52,6 +52,9 @@ def get_hike_title():
 
 
 def get_difficulty():
+    """
+    :return the difficulty of the hike
+    """
     try:
         difficulty = driver.find_element(By.CSS_SELECTOR, "div[class*='tw-flex tw-items-center']").text
         return {f"3.difficulty": difficulty}
@@ -61,6 +64,9 @@ def get_difficulty():
 
 
 def get_duration():
+    """
+    :return the duration of the hike
+    """
     try:
         duration = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='t_duration_value']").text
         return {f"4.duration": duration}
@@ -70,6 +76,9 @@ def get_duration():
 
 
 def get_distance():
+    """
+    :return the distance of the hike
+    """
     url = driver.current_url
     try:
         distance_text = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='t_distance_value']").text
@@ -81,6 +90,9 @@ def get_distance():
 
 
 def get_average_speed():
+    """
+    :return the average speed of the hike
+    """
     url = driver.current_url
     try:
         average_speed_text = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='t_speed_value']").text
@@ -92,6 +104,9 @@ def get_average_speed():
 
 
 def get_uphill():
+    """
+    :return the total uphill of the hike
+    """
     url = driver.current_url
     try:
         uphill_text = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='t_elevation_up_value']").text
@@ -104,6 +119,9 @@ def get_uphill():
 
 
 def get_downhill():
+    """
+    :return the total downhill of the hike
+    """
     url = driver.current_url
     try:
         downhill_text = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='t_elevation_down_value']").text
@@ -139,6 +157,9 @@ def get_description():
 
 
 def get_tip():
+    """
+    :return the tips of the hike
+    """
     url = driver.current_url
     try:
         tips = driver.find_element(By.CSS_SELECTOR, "div[class='css-1xrtte3']").text

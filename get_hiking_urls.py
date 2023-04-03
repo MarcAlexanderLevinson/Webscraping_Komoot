@@ -44,7 +44,6 @@ def get_html_blocks(catalogue_url):
 
 def get_one_hike_url(block, urls_of_hikes, number_of_hikes_found_on_this_page, number_of_hikes_found, catalogue_url):
     """
-
     :param block:
     :param urls_of_hikes:
     :param number_of_hikes_found_on_this_page:
