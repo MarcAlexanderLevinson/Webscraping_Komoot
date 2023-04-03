@@ -1,5 +1,4 @@
 {
   "URL": "https://www.komoot.com/discover/Lyon/@45.7575926%2C4.8323239/tours?max_distance=200000&sport=hike&map=true&pageNumber=",
-  "NUMBER_OF_PAGES_TO_SCRAP" : 1,
   "HIKES_INFO_CSV": "Hiking_data.csv"
 }
