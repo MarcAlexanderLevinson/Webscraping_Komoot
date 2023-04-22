@@ -33,7 +33,7 @@ parser.add_argument('number_of_hiking_pages_to_scrape',
                     help="""each hiking page contains 12 hikes, to the input given is multiplied by 12 for the total of
                          hikes that will be scraped. E.g. if the input is 5, a total of 60 hikes will be scraped""")
 
-    parser.add_argument("datatypes_to_be_scraped",
+parser.add_argument("datatypes_to_be_scraped",
                     choices=["title", "difficulty", "duration", "distance", "average_speed", "uphill", "downhill",
                              "description", "tip", "way_types_and_surfaces", "location", "all"],
                     nargs='*',
@@ -130,7 +130,14 @@ def main():
 
     # Writing all data into the database
     if data_storage == "SQL" or data_storage == "BOTH":
-        cd.create_database_tables(host, user, password)
+        cd.create_database(host, user, password)
+        cd.create_table_region(host, user, password)
+        cd.create_table_country(host, user, password)
+        cd.create_table_difficulty(host, user, password)
+        cd.create_table_treks(host, user, password)
+        cd.create_table_main_info(host, user, password)
+        cd.create_table_way_types(host, user, password)
+        cd.create_table_surfaces(host, user, password)
         cd.populate_country(hikes_infos, host, user, password)
         cd.populate_region(hikes_infos, host, user, password)
         cd.populate_difficulty(hikes_infos, host, user, password)
