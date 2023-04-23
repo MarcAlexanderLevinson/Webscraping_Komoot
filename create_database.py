@@ -105,6 +105,7 @@ def create_table_treks(host, user, password):
     connect_and_execute(sql, host, user, password)
     logging.info(f'Success: treks table created')
 
+
 def create_table_main_info(host, user, password):
     sql = """ CREATE TABLE IF NOT EXISTS main_info (
                   trek_id int UNIQUE
@@ -120,6 +121,7 @@ def create_table_main_info(host, user, password):
                )"""
     connect_and_execute(sql, host, user, password)
     logging.info(f'Success: main_info table created')
+
 
 def create_table_way_types(host, user, password):
     sql = """
@@ -139,6 +141,7 @@ def create_table_way_types(host, user, password):
     connect_and_execute(sql, host, user, password)
     logging.info(f'Success: way_types table created')
 
+
 def create_table_surfaces(host, user, password):
     sql = """CREATE TABLE IF NOT EXISTS surfaces (
          trek_id int UNIQUE
@@ -153,6 +156,7 @@ def create_table_surfaces(host, user, password):
         )"""
     connect_and_execute(sql, host, user, password)
     logging.info(f'Success: surfaces table created')
+
 
 def populate_country(hikes_infos, host, user, password):
     """
@@ -184,6 +188,7 @@ def populate_country(hikes_infos, host, user, password):
     mydb.close()
     logging.info(f'Success: country table populated')
 
+
 def populate_city(hikes_infos, host, user, password):
     """
         Takes all the citys of the newly scrapped hikes and write them in SQL (if not already in there)
@@ -193,10 +198,10 @@ def populate_city(hikes_infos, host, user, password):
     for hike in hikes_infos:
         print(hike)
         if "City" in hike:
-            cities.add((hike["City"],hike["Country"]))
-    citys = list(cities)
+            cities.add((hike["City"], hike["Country"]))
+    cities = list(cities)
 
-    for city,country in cities:
+    for city, country in cities:
         if city == '':
             pass
         else:
@@ -214,7 +219,7 @@ def populate_city(hikes_infos, host, user, password):
                 sql = """INSERT INTO city (city, country_id)
                          VALUES(%s,%s)
                         """
-                mycursor.execute(sql, [city,country_id])
+                mycursor.execute(sql, [city, country_id])
     mydb.commit()
 
 
@@ -368,6 +373,7 @@ def populate_hikes_tables(hikes_infos, host, user, password):
         populate_one_hike_into_surfaces(hike, mycursor, trek_id)
         populate_one_hike_into_way_types(hike, mycursor, trek_id)
     mydb.commit()
+
 
 def write_database(hikes_infos, host, user, password):
     create_database(host, user, password)

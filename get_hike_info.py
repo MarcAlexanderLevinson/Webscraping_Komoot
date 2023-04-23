@@ -35,7 +35,7 @@ def driver_get_url(url):
     :param url of the hike page to scrap
     """
     driver.get(url)
-    driver.implicitly_wait(5)
+    driver.implicitly_wait(10)
     logging.info(f'Success: The drive of this url {url} was obtained')
 
 
@@ -181,7 +181,6 @@ def way_type_converter(raw_way_type_info):
         way_type = 'natural_terrain'
     distance_string = raw_way_type_info.split(":")[1]
     if "<" in distance_string:
-
         distance_string = distance_string.replace("<","")  # From the second example given in the docstring, if the distance
         # includes the > sign, this sign will be removed
     distance = round(distance_converter(distance_string), 2)
@@ -214,6 +213,7 @@ def get_location():
     the 3 first level after 'Hiking trails & Routes'
     Note2: There is no consistency between the collected levels and the official administrative geographical levels.
     """
+    driver.implicitly_wait(5)
     url = driver.current_url
     location = dict()
     try:
@@ -266,8 +266,11 @@ def get_hike_info(index, url, list_of_datatypes = "all"):
 if __name__ == "__main__":
     index = 1
     try:
-        print(get_hike_info(1, url, "all"))
+        # print(get_hike_info(1, url, "all"))
+        print(get_hike_info(1, url, ["title", "difficulty", "duration", "distance", "average_speed", "uphill", "downhill",
+                             "way_types_and_surfaces", "location"]))
         end = time.time() - start
+
         print(end)
     except:
         print('next hike')
