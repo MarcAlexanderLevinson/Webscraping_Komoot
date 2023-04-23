@@ -5,28 +5,47 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 import logging
+import json
+
+with open("komoot_config.json", 'r') as f:
+    config = json.load(f)
+WINDOW_SIZE_WIDTH = config["set_window_size_width"]
+WINDOW_SIZE_HEIGHT = config["set_window_size_height"]
+IMPLICIT_WAIT_1 = config["implicit_wait_1"]
+IMPLICIT_WAIT_2 = config["implicit_wait_2"]
 
 start = time.time()
 # start by defining the options
 options = webdriver.ChromeOptions()
 options.add_argument("--headless=new")  # it's more scalable to work in headless mode
-options.page_load_strategy = 'none'
+options.page_load_strategy = config["page_load_strategy"]
 # this returns the path web driver downloaded
 chrome_path = ChromeDriverManager().install()
 chrome_service = Service(chrome_path)
 # pass the defined options and service objects to initialize the web driver
 driver = Chrome(options=options, service=chrome_service)
-driver.set_window_size(2700, 2000)
-driver.implicitly_wait(5)
+driver.set_window_size(WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT)
+driver.implicitly_wait(IMPLICIT_WAIT_1)
+CONVERSIONS_TO_KM = config["conversions_to_km"]
+TITLE_HTML = config["title_html"]
+DIFFICULTY_HTML = config["difficulty_html"]
+DURATION_HTML = config["duration_html"]
+DISTANCE_HTML = config["distance_html"]
+SPEED_HTML = config["speed_html"]
+UPHILL_HTML = config["uphill_html"]
+DOWNHILL_HTML = config["downhill_html"]
+DESCRIPTION_1_HTML = config["description_1_html"]
+DESCRIPTION_2_HTML = config["description_2_html"]
+TIP_HTML = config["tip_html"]
+WAY_TYPES_SURFACES_HTML = config["way_types_surfaces_html"]
+LOCATION_HTML = config["location_html"]
 
 url = """https://www.komoot.com/smarttour/e930384063/puy-pariou-boucle-depuis-le-parking-des-[…]regional-des-volcans-d-auvergne?tour_origin=smart_tour_search"""
 
 
 def distance_converter(distance_with_unit):
     """ Takes a string as an argument with a distance e.g. "10.20 mi" and converts this a float in km's, e.g. 16.41 """
-    conversions_to_km = {"km": 1.0, "km/h": 1.0, "mi": 1.60934, "yd": 0.0009144, "m": 0.001, "m/h": 0.001,
-                         "ft": 0.0003048, "mph": 1.60934}
-    distance_in_km = float(distance_with_unit.split()[0]) * conversions_to_km[distance_with_unit.split()[1]]
+    distance_in_km = float(distance_with_unit.split()[0]) * CONVERSIONS_TO_KM[distance_with_unit.split()[1]]
     return distance_in_km
 
 
@@ -35,7 +54,7 @@ def driver_get_url(url):
     :param url of the hike page to scrap
     """
     driver.get(url)
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(IMPLICIT_WAIT_2)
     logging.info(f'Success: The drive of this url {url} was obtained')
 
 
@@ -44,7 +63,7 @@ def get_hike_title():
     :return the title of the hike
     """
     try:
-        title = driver.find_element(By.CSS_SELECTOR, "span[class*='tw-mr-1 tw-font-bold']").text
+        title = driver.find_element(By.CSS_SELECTOR, TITLE_HTML).text
         return {f"2.title": title}
     except:
         logging.warning(f'The hike title of this url ({url}) was not found')
@@ -56,7 +75,7 @@ def get_difficulty():
     :return the difficulty of the hike
     """
     try:
-        difficulty = driver.find_element(By.CSS_SELECTOR, "div[class*='tw-flex tw-items-center']").text
+        difficulty = driver.find_element(By.CSS_SELECTOR, DIFFICULTY_HTML).text
         return {f"3.difficulty": difficulty}
     except:
         logging.warning(f'The hike difficulty of this url ({url}) was not found')
@@ -68,7 +87,7 @@ def get_duration():
     :return the duration of the hike
     """
     try:
-        duration = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='t_duration_value']").text
+        duration = driver.find_element(By.CSS_SELECTOR, DURATION_HTML).text
         return {f"4.duration": duration}
     except:
         logging.warning(f'The hike duration of this url ({url}) was not found')
@@ -81,7 +100,7 @@ def get_distance():
     """
     url = driver.current_url
     try:
-        distance_text = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='t_distance_value']").text
+        distance_text = driver.find_element(By.CSS_SELECTOR, DISTANCE_HTML).text
         distance = round(distance_converter(distance_text), 2)
         return {f"5.distance": distance}
     except:
@@ -95,7 +114,7 @@ def get_average_speed():
     """
     url = driver.current_url
     try:
-        average_speed_text = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='t_speed_value']").text
+        average_speed_text = driver.find_element(By.CSS_SELECTOR, SPEED_HTML).text
         average_speed = round(distance_converter(average_speed_text))
         return {f"6.average_speed": average_speed}
     except:
@@ -109,7 +128,7 @@ def get_uphill():
     """
     url = driver.current_url
     try:
-        uphill_text = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='t_elevation_up_value']").text
+        uphill_text = driver.find_element(By.CSS_SELECTOR, UPHILL_HTML).text
         uphill_text = uphill_text.replace(",", "")
         uphill = round(distance_converter(uphill_text) * 1000, 2)  # This one is put in m instead of km's
         return {f"7.uphill": uphill}
@@ -124,7 +143,7 @@ def get_downhill():
     """
     url = driver.current_url
     try:
-        downhill_text = driver.find_element(By.CSS_SELECTOR, "span[data-test-id='t_elevation_down_value']").text
+        downhill_text = driver.find_element(By.CSS_SELECTOR, DOWNHILL_HTML).text
         downhill_text = downhill_text.replace(",", "")
         downhill = round(distance_converter(downhill_text) * 1000, 2)  # This one is put in m instead of km's
         return {f"8.downhill": downhill}
@@ -141,14 +160,15 @@ def get_description():
     url = driver.current_url
     try:
         descriptions_niv1 = driver.find_element(By.XPATH,
-                                                "//div[@class='css-fxq50d']/div/span[@class='tw-text-secondary']").text
+                                                DESCRIPTION_1_HTML).text
         logging.info(f'Success: The description level 1 of this url ({url}) was found')
     except:
         logging.warning(f'The description level 1 of this url ({url}) was not found')
         return {f"9.description": ""}
 
     try:  # Try/except to handle cases without the 2nd part of the description
-        descriptions_niv2 = driver.find_element(By.XPATH, "//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text
+        descriptions_niv2 = driver.find_element(By.XPATH,
+                                                DESCRIPTION_2_HTML).text
     except:
         descriptions_niv2 = ''
     description = descriptions_niv1 + ' ' + descriptions_niv2
@@ -161,7 +181,7 @@ def get_tip():
     """
     url = driver.current_url
     try:
-        tips = driver.find_element(By.CSS_SELECTOR, "div[class='css-1xrtte3']").text
+        tips = driver.find_element(By.CSS_SELECTOR, TIP_HTML).text
         logging.info(f'Success: The hike tip this url ({url}) was found')
         return {f"91.tips": tips}
     except:
@@ -177,11 +197,12 @@ def way_type_converter(raw_way_type_info):
     converts it into km, e.g. {"Path": 1.06}
     """
     way_type = raw_way_type_info.split(":")[0].lower()
-    if way_type == 'natural': # we change the name of this column because 'natural' is a word in SQL
+    if way_type == 'natural':  # we change the name of this column because 'natural' is a word in SQL
         way_type = 'natural_terrain'
     distance_string = raw_way_type_info.split(":")[1]
     if "<" in distance_string:
-        distance_string = distance_string.replace("<","")  # From the second example given in the docstring, if the distance
+        distance_string = distance_string.replace("<",
+                                                  "")  # From the second example given in the docstring, if the distance
         # includes the > sign, this sign will be removed
     distance = round(distance_converter(distance_string), 2)
     return {way_type: distance}
@@ -193,7 +214,7 @@ def get_way_types_and_surfaces():
     """
     url = driver.current_url
     try:
-        way_type_info = driver.find_element(By.XPATH, "//div[@class='tw-p-4 sm:tw-p-6 ']/div[@class='tw-mb-6']").text
+        way_type_info = driver.find_element(By.XPATH, WAY_TYPES_SURFACES_HTML).text
         listed_text = way_type_info.split(
             "\n")  # This creates a list looking like: ['WAYTYPES', 'Path: 0.66 mi', 'Street: 0.45 mi', etc...]
         types_and_distances = {}
@@ -217,9 +238,10 @@ def get_location():
     url = driver.current_url
     location = dict()
     try:
-        geography = driver.find_elements(By.XPATH, "//div[@class='css-1jg13ty']/*[@href]")
-        all_loc = [geo.text for geo in geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking
-                               # Trail", but also contains duplicates
+        geography = driver.find_elements(By.XPATH, LOCATION_HTML)
+        all_loc = [geo.text for geo in
+                   geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking
+        # Trail", but also contains duplicates
 
         all_loc = list(filter(lambda x: x != 'Discover' and x != 'Hiking trails & Routes',
                               all_loc))  # This removes the generic terms
@@ -236,7 +258,7 @@ def get_location():
         return {}
 
 
-def get_hike_info(index, url, list_of_datatypes = "all"):
+def get_hike_info(index, url, list_of_datatypes="all"):
     """
     :param index: the id of the hike for the database, url: url of the link to the hike, list_of_datatypes: list of
     datatypes that the user wants to retrieve from the url. This can be set at "all" or as a list of strings, such as
@@ -262,15 +284,17 @@ def get_hike_info(index, url, list_of_datatypes = "all"):
     except:
         logging.warning(f'The hike of the {url} url was not recorded')
 
-
-if __name__ == "__main__":
-    index = 1
-    try:
-        # print(get_hike_info(1, url, "all"))
-        print(get_hike_info(1, url, ["title", "difficulty", "duration", "distance", "average_speed", "uphill", "downhill",
-                             "way_types_and_surfaces", "location"]))
-        end = time.time() - start
-
-        print(end)
-    except:
-        print('next hike')
+# TODO: to delete the comments below
+#
+# if __name__ == "__main__":
+#     index = 1
+#     try:
+#         # print(get_hike_info(1, url, "all"))
+#         print(
+#             get_hike_info(1, url, ["title", "difficulty", "duration", "distance", "average_speed", "uphill", "downhill",
+#                                    "way_types_and_surfaces", "location"]))
+#         end = time.time() - start
+#
+#         print(end)
+#     except:
+#         print('next hike')

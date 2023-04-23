@@ -26,8 +26,9 @@ def parser():
                         action='store',
                         type=int,
                         default="1",
-                        help="""each catalogue page contains 12 hikes, so the input given multiplied by 12 gives the total number of
-                             hikes that will be scraped. E.g. if the input is 5, a total of 60 hikes will be scraped""")
+                        help="""each catalogue page contains 12 hikes, so the input given multiplied by 12 gives the 
+                            total number of hikes that will be scraped. E.g. if the input is 5, a total of 60 hikes will 
+                            be scraped""")
 
     parser.add_argument('-d', '--datatypes_to_be_scraped',
                         choices=["title", "difficulty", "duration", "distance", "average_speed", "uphill", "downhill",
@@ -43,13 +44,15 @@ def parser():
     parser.add_argument('-c', '--old_catalogue',
                         choices=["Y", "N"],
                         default="N",
-                        help="""with Y the scrapping won't re-scrap the catalogue page, but will re-use the last scrapped catalogue page results (stored in the list_of_hiking_urls.csv file).
+                        help="""with Y the scrapping won't re-scrap the catalogue page, but will re-use the last scrapped 
+                        catalogue page results (stored in the list_of_hiking_urls.csv file).
                         With N, the list of hikes will be determined again, by scrapping first the catalogue page""")
 
     parser.add_argument('-s', '--storage',
                         choices=["SQL", "CSV", "BOTH"],
                         default="CSV",
-                        help="""indicates where the result of the scrapping is stored: in the SQL database, in a csv, or in both""")
+                        help="""indicates where the result of the scrapping is stored: in the SQL database, in a csv, 
+                        or in both""")
 
     parser.add_argument('-l', '--localhost', action='store', help="""required in case SQL is chosen for storage""")
     parser.add_argument('-u', '--user', action='store', help="""required in case SQL is chosen for storage""")

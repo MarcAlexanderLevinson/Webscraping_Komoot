@@ -1,17 +1,14 @@
 import pymysql.cursors
 from tqdm import tqdm
 import logging
+import json
 
-SURFACES = ['asphalt', 'gravel', 'natural_terrain', 'paved', 'unknown', 'unpaved', 'alpine']
-WAY_TYPES = ['alpine_hiking_path', 'ferry', 'footpath', 'hiking_path', 'mountain_hiking_path', 'path', 'road',
-             'state_road', 'street']
-
-
-def ask_for_user_credentials():
-    host = input("\n\nPlease give me your hostname/host: ")
-    user = input("\n\nPlease give me your username/user: ")
-    password = input("\n\nPlease give me your password: ")
-    return host, user, password
+with open("komoot_config.json", 'r') as f:
+    config = json.load(f)
+SURFACES = config["surfaces"]
+WAY_TYPES = config["way_types"]
+KOMOOT = config["KOMOOT"]
+CREATE_DATABASE = config["CREATE_DATABASE"]
 
 
 def create_database(host, user, password):
@@ -26,7 +23,7 @@ def create_database(host, user, password):
         password=password
     )
     mycursor = mydb.cursor()
-    mycursor.execute("CREATE DATABASE IF NOT EXISTS komoot")
+    mycursor.execute(CREATE_DATABASE)
     mydb.commit()
     mycursor.close()
     mydb.close()
@@ -42,7 +39,7 @@ def connect_to_komoot(host, user, password):
         host=host,
         user=user,
         password=password,
-        database="komoot"
+        database=KOMOOT
     )
     mycursor = mydb.cursor()
     return mydb, mycursor
