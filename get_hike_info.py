@@ -19,7 +19,8 @@ driver = Chrome(options=options, service=chrome_service)
 driver.set_window_size(2700, 2000)
 driver.implicitly_wait(5)
 
-url = """https://www.komoot.com/smarttour/e926612355/mont-colombier-massif-des-bauges-boucle?tour_origin=smart_tour_search"""
+url = """https://www.komoot.com/smarttour/e934061622/de-la-flegere-au-col-des-montets-via-le-lac-blanc-chamonix-mont-blanc-boucle?tour_origin=smart_tour_search"""
+
 
 
 def distance_converter(distance_with_unit):
@@ -35,7 +36,7 @@ def driver_get_url(url):
     :param url of the hike page to scrap
     """
     driver.get(url)
-    driver.implicitly_wait(5)
+    driver.implicitly_wait(10)
     logging.info(f'Success: The drive of this url {url} was obtained')
 
 
@@ -212,19 +213,29 @@ def get_location():
     the 3 first level after 'Hiking trails & Routes'
     Note2: There is no consistency between the collected levels and the official administrative geographical levels.
     """
+    driver.implicitly_wait(5)
     url = driver.current_url
     location = dict()
     try:
         geography = driver.find_elements(By.XPATH, "//div[@class='css-1jg13ty']/*[@href]")
         all_loc = [geo.text for geo in geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking Trail", but also contains duplicates
-        all_loc = list(filter(lambda x: x != 'Discover' and x != 'Hiking trails & Routes',
-                              all_loc))  # This removes the generic terms
-        all_loc = list(dict.fromkeys(all_loc))  # This removes all duplicates
+        all_loc = list(filter(lambda x: x != 'Discover' and x != 'Hiking trails & Routes' and x != '', all_loc))  # This removes the generic terms
+        # all_loc = list(dict.fromkeys(all_loc))  # This removes all duplicates
 
-        location["Country"] = all_loc[0]
-        location["Region"] = all_loc[1]
-        location["Most accurate location"] = all_loc[-1]
+        unique_loc = []
+        for index, place in enumerate(all_loc):
+            if place not in all_loc[index + 1:]:
+                unique_loc.append(place)
+
+        location["Country"] = unique_loc[0]
+        location["Region"] = unique_loc[1]
+        location["Most accurate location"] = unique_loc[-1]
         logging.info(f'Success: The location of this url ({url}) was found')
+        print()
+        print(all_loc)
+        print()
+        print(location)
+        print()
         return location
 
     except:
@@ -262,8 +273,11 @@ def get_hike_info(index, url, list_of_datatypes = "all"):
 if __name__ == "__main__":
     index = 1
     try:
-        print(get_hike_info(1, url, "all"))
+        # print(get_hike_info(1, url, "all"))
+        print(get_hike_info(1, url, ["title", "difficulty", "duration", "distance", "average_speed", "uphill", "downhill",
+                             "way_types_and_surfaces", "location"]))
         end = time.time() - start
+
         print(end)
     except:
         print('next hike')
