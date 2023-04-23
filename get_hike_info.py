@@ -231,11 +231,6 @@ def get_location():
         location["Region"] = unique_loc[1]
         location["Most accurate location"] = unique_loc[-1]
         logging.info(f'Success: The location of this url ({url}) was found')
-        print()
-        print(all_loc)
-        print()
-        print(location)
-        print()
         return location
 
     except:

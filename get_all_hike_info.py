@@ -123,6 +123,10 @@ def main():
     # we store it in the list 'hikes_infos'
     for hike_id, hike_url in enumerate(tqdm(hiking_urls)):
         hikes_infos.append(hi.get_hike_info(hike_id, hike_url, list_of_datatypes))
+        # print(list_of_datatypes)
+        # print(f"Country: {hi.get_hike_info(hike_id, hike_url, list_of_datatypes)['Country']}")
+        # print(f"Region: {hi.get_hike_info(hike_id, hike_url, list_of_datatypes)['Region']}")
+        # print(f"City: {hi.get_hike_info(hike_id, hike_url, list_of_datatypes)['Most accurate location']}")
 
     # We create a csv from the list of hikes infos
     if data_storage == "CSV" or data_storage == "BOTH":
