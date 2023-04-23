@@ -1,11 +1,12 @@
 import get_hiking_urls as gu
 import get_hike_info as hi
 import create_database as cd
+import pymysql.cursors
 from tqdm.auto import tqdm
 import csv
 import json
 import logging
-import argparse
+import parser as pa
 
 logging.basicConfig(format='%(asctime)s ---- %(levelname)s:%(message)s - row %(lineno)d',
                     level=logging.INFO)
@@ -16,75 +17,23 @@ BASE_URL = config["URL"]
 HIKING_DATA_CSV = config["HIKES_INFO_CSV"]
 
 
-parser = argparse.ArgumentParser(description="""
-Welcome to the Komoot webscraper, here you can get all the information
-you need about hikes around Lyon. Just choose the amount of hiking pages you want to scrape and the data types you want 
-to retrieve, the datatypes are set to all datatypes by default, the amount of hikes need specification and is multiplied 
-by 12, since this is how many hikes are present per hiking page!!!!
-Example for scraping all data from 24 hikes:
-python get_all_hike_info.py 2
-Example for scraping title, location and difficulty from 120 hikes:
-python get_all_hike_info.py 10 title location difficulty
-""")
-
-parser.add_argument('number_of_hiking_pages_to_scrape',
-                    type=int,
-                    default="1",
-                    help="""each hiking page contains 12 hikes, to the input given is multiplied by 12 for the total of
-                         hikes that will be scraped. E.g. if the input is 5, a total of 60 hikes will be scraped""")
-
-parser.add_argument("datatypes_to_be_scraped",
-                    choices=["title", "difficulty", "duration", "distance", "average_speed", "uphill", "downhill",
-                             "description", "tip", "way_types_and_surfaces", "location", "all"],
-                    nargs='*',
-                    default="all",
-                    help="""which datatypes would you like to scrape, please choose any of the following options: title, 
-                    difficulty, duration, distance, average_speed, uphill, downhill, description, tip,
-                    way_types_and_surfaces, location or all. The later selects all of the elements. BEWARE!!!! You 
-                    can only add the scraped data to an SQL database if you scrape all datatypes. If that is what you
-                    want the default input is good, so just skipp this part""")
-
-args = parser.parse_args()
-number_of_pages_to_scrape = args.number_of_hiking_pages_to_scrape
-list_of_datatypes = args.datatypes_to_be_scraped
-
-def ask_user_choice(list_of_datatypes):
-    """
-    :param list of datatypes that are to be retrieved according to the parser
-    This function asks the user for several inputs, namely:\n
-    If the user wants to use a potential existing csv that holds a list of urls for the hikes to be scraped\n
-    How the user wants to store the scraped data, in a CSV, in an SQL database or both. Note, if the user told does not
-    retrieve the full dataset by only selected a few datatypes the data will automatically be stored in a CSV.\n
-    If the user selects all data to be scraped and want to store it in an SQL databse, the user will be asked for
-    the host, username and password in order to connect to SQL on it's own computer.
-    :return a list of the hiking urls to be scraped, how the data will be stores, hostname, username and password for
-    accessing SQL.
-    """
-    use_csv = input("""\n\nWould you like to use the links stored in the list_of_hiking_urls.csv file, then type "Y".
-         \n\nIf you would like to determine the list of urls by running the code then type "N".
-         \n\nAnswer: """)
-    if list_of_datatypes == "all":
-        data_storage = input("""\n\nDo you want the data to be stored in a csv, then type "CSV".\n If you want it stored in 
-                                    an SQL database then type "SQL".\n If you want it stored in both then type "BOTH"\n\nAnswer: 
-                                    """)
+def check_sql_info(storage, localhost, user, password, datatypes_to_be_scraped):
+    if ("BOTH" in storage or "SQL" in storage) and (localhost is None or user is None or password is None):
+        raise Exception(
+            "Sorry, if you want to store the data in SQL, you need to provide the localhost, user and password info")
     else:
-        data_storage = "CSV"
+        try:
+            mydb = pymysql.connect(
+                host=localhost,
+                user=user,
+                password=password
+            )
+        except:
+            raise Exception("There was an error in the SQL information provided (localhost, user or password)")
 
-    if data_storage == "SQL" or data_storage == "BOTH":
-        host, user, password = cd.ask_for_user_credentials()
-    else:
-        host, user, password = "", "", ""
-
-    if use_csv == "N":
-        hiking_urls = gu.get_all_hikes_urls(BASE_URL, number_of_pages_to_scrape)
-        gu.write_urls_to_csv(hiking_urls)
-    elif use_csv == "Y":
-        with open("list_of_hiking_urls.csv", "r") as hike_urls_csv:
-            hiking_urls = hike_urls_csv.read().splitlines()
-    else:
-        print("Please run code again and give correct input this time")
-
-    return hiking_urls, data_storage, host, user, password
+    if datatypes_to_be_scraped != 'all' and ("BOTH" in storage or "SQL" in storage):
+        raise Exception("You want to store the data in SQL but have only selected a subset of datatypes to scrap."
+                        " This is not possible. If you want to store in SQL, you need to select 'all' datatypes")
 
 
 def list_of_keys(hikes_infos):
@@ -114,8 +63,26 @@ def write_csv(hikes_infos):
 
 
 def main():
-    # Ask the choice of the user: re-use the last saved list of hike urls, or collect them again from a catalogue page
-    hiking_urls, data_storage, host, user, password = ask_user_choice(list_of_datatypes)
+    user_inputs = pa.parser()
+
+    old_catalogue = user_inputs.old_catalogue
+    data_storage = user_inputs.storage
+    host = user_inputs.localhost
+    user = user_inputs.user
+    password = user_inputs.password
+    list_of_datatypes = user_inputs.datatypes_to_be_scraped
+
+    # Stop the program if there is a mismatch in the user inputs
+    check_sql_info(data_storage, host, user, password, list_of_datatypes)
+
+    # Get the list of hiking urls to scrap: either re-use the previous list of hiking_urls (Y) or re-scrap from scratch (N)
+    if old_catalogue == "N":
+        hiking_urls = gu.get_all_hikes_urls(BASE_URL, user_inputs.number_of_catalogue_pages_to_scrape)
+        gu.write_urls_to_csv(hiking_urls)
+    elif old_catalogue == "Y":
+        with open("list_of_hiking_urls.csv", "r") as hike_urls_csv:
+            hiking_urls = hike_urls_csv.read().splitlines()
+
     # Create the list that will store all the hikes infos (the infos of one hike are stored in a dictionary)
     hikes_infos = []
 
@@ -130,18 +97,7 @@ def main():
 
     # Writing all data into the database
     if data_storage == "SQL" or data_storage == "BOTH":
-        cd.create_database(host, user, password)
-        cd.create_table_region(host, user, password)
-        cd.create_table_country(host, user, password)
-        cd.create_table_difficulty(host, user, password)
-        cd.create_table_treks(host, user, password)
-        cd.create_table_main_info(host, user, password)
-        cd.create_table_way_types(host, user, password)
-        cd.create_table_surfaces(host, user, password)
-        cd.populate_country(hikes_infos, host, user, password)
-        cd.populate_region(hikes_infos, host, user, password)
-        cd.populate_difficulty(hikes_infos, host, user, password)
-        cd.populate_hikes_tables(hikes_infos, host, user, password)
+        cd.write_database(hikes_infos, host, user, password)
 
 
 if __name__ == "__main__":

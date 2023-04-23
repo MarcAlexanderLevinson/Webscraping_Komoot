@@ -22,7 +22,7 @@ url = "https://www.komoot.com/discover/Lyon/@45.7575926%2C4.8323239/tours?max_di
 def get_all_catalogues_urls(base_url, number_of_page_to_scrap):
     """
     The hikes are displayed by set of 12. Each set of 12 hikes is on a different "catalogue page".
-    This function collect all the catalogue urls from the base page.
+    This function collects as many catalogue urls as the input "number_of_page_to_scrap" says.
     """
     catalogues_urls = list()
     for page_num in range(1, number_of_page_to_scrap + 1):

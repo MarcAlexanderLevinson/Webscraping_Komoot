@@ -19,7 +19,7 @@ driver = Chrome(options=options, service=chrome_service)
 driver.set_window_size(2700, 2000)
 driver.implicitly_wait(5)
 
-url = """https://www.komoot.com/smarttour/e926612355/mont-colombier-massif-des-bauges-boucle?tour_origin=smart_tour_search"""
+url = """https://www.komoot.com/smarttour/e930384063/puy-pariou-boucle-depuis-le-parking-des-[…]regional-des-volcans-d-auvergne?tour_origin=smart_tour_search"""
 
 
 def distance_converter(distance_with_unit):
@@ -227,7 +227,7 @@ def get_location():
 
         location["Country"] = all_loc[0]
         location["Region"] = all_loc[1]
-        location["Most accurate location"] = all_loc[-1]
+        location["City"] = all_loc[-1]
         logging.info(f'Success: The location of this url ({url}) was found')
         return location
 

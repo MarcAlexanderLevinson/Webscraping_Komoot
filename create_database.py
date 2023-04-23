@@ -1,5 +1,6 @@
 import pymysql.cursors
 from tqdm import tqdm
+import logging
 
 SURFACES = ['asphalt', 'gravel', 'natural_terrain', 'paved', 'unknown', 'unpaved', 'alpine']
 WAY_TYPES = ['alpine_hiking_path', 'ferry', 'footpath', 'hiking_path', 'mountain_hiking_path', 'path', 'road',
@@ -29,6 +30,7 @@ def create_database(host, user, password):
     mydb.commit()
     mycursor.close()
     mydb.close()
+    logging.info(f'Success: database created')
 
 
 def connect_to_komoot(host, user, password):
@@ -58,14 +60,6 @@ def connect_and_execute(sql, host, user, password):
     mydb.close()
 
 
-def create_table_region(host, user, password):
-    sql = """CREATE TABLE IF NOT EXISTS region (
-                      id int AUTO_INCREMENT primary key
-                      , region varchar(252)
-                    )"""
-    connect_and_execute(sql, host, user, password)
-
-
 def create_table_country(host, user, password):
     sql = """
                           CREATE TABLE IF NOT EXISTS country (
@@ -73,6 +67,18 @@ def create_table_country(host, user, password):
                            , country varchar(252)
                           )"""
     connect_and_execute(sql, host, user, password)
+    logging.info(f'Success: country table created')
+
+
+def create_table_city(host, user, password):
+    sql = """CREATE TABLE IF NOT EXISTS city (
+                      id int AUTO_INCREMENT primary key
+                      , city varchar(252)
+                      , country_id int
+                      , FOREIGN KEY (country_id) REFERENCES country(id)
+                    )"""
+    connect_and_execute(sql, host, user, password)
+    logging.info(f'Success: city table created')
 
 
 def create_table_difficulty(host, user, password):
@@ -82,6 +88,7 @@ def create_table_difficulty(host, user, password):
                           , difficulty varchar(252)
                          )"""
     connect_and_execute(sql, host, user, password)
+    logging.info(f'Success: difficulty table created')
 
 
 def create_table_treks(host, user, password):
@@ -90,13 +97,13 @@ def create_table_treks(host, user, password):
                 , title varchar(252)
                 , description varchar(252)
                 , url varchar(252) unique
-                , region_id int
+                , city_id int
                 , country_id int
-                , FOREIGN KEY (region_id) REFERENCES region(id)
+                , FOREIGN KEY (city_id) REFERENCES city(id)
                 , FOREIGN KEY (country_id) REFERENCES country(id)
                 )"""
     connect_and_execute(sql, host, user, password)
-
+    logging.info(f'Success: treks table created')
 
 def create_table_main_info(host, user, password):
     sql = """ CREATE TABLE IF NOT EXISTS main_info (
@@ -112,7 +119,7 @@ def create_table_main_info(host, user, password):
                 , FOREIGN KEY (difficulty_id) REFERENCES difficulty(id)
                )"""
     connect_and_execute(sql, host, user, password)
-
+    logging.info(f'Success: main_info table created')
 
 def create_table_way_types(host, user, password):
     sql = """
@@ -130,7 +137,7 @@ def create_table_way_types(host, user, password):
                  , FOREIGN KEY (trek_id) REFERENCES treks(id)
                 )"""
     connect_and_execute(sql, host, user, password)
-
+    logging.info(f'Success: way_types table created')
 
 def create_table_surfaces(host, user, password):
     sql = """CREATE TABLE IF NOT EXISTS surfaces (
@@ -145,7 +152,7 @@ def create_table_surfaces(host, user, password):
          , FOREIGN KEY (trek_id) REFERENCES treks(id)
         )"""
     connect_and_execute(sql, host, user, password)
-
+    logging.info(f'Success: surfaces table created')
 
 def populate_country(hikes_infos, host, user, password):
     """
@@ -175,33 +182,39 @@ def populate_country(hikes_infos, host, user, password):
     mydb.commit()
     mycursor.close()
     mydb.close()
+    logging.info(f'Success: country table populated')
 
-
-def populate_region(hikes_infos, host, user, password):
+def populate_city(hikes_infos, host, user, password):
     """
-        Takes all the regions of the newly scrapped hikes and write them in SQL (if not already in there)
+        Takes all the citys of the newly scrapped hikes and write them in SQL (if not already in there)
     """
     mydb, mycursor = connect_to_komoot(host, user, password)
-    regions = set()
+    cities = set()
     for hike in hikes_infos:
         print(hike)
-        if "Region" in hike:
-            regions.add(hike["Region"])
-    regions = list(regions)
+        if "City" in hike:
+            cities.add((hike["City"],hike["Country"]))
+    citys = list(cities)
 
-    for region in regions:
-        sql = "SELECT distinct region FROM region"
-        mycursor.execute(sql)
-        result = mycursor.fetchall()
-        # We're testing if the region already exists in the database. If yes, we don't add it again
-        if (region,) in result:
-            print('pass region')
+    for city,country in cities:
+        if city == '':
             pass
         else:
-            sql = """INSERT INTO region (region)
-                     VALUES(%s)
-                    """
-            mycursor.execute(sql, region)
+            sql = "SELECT distinct city FROM city"
+            mycursor.execute(sql)
+            result = mycursor.fetchall()
+            # We're testing if the city already exists in the database. If yes, we don't add it again
+            if (city,) in result:
+                print('pass city')
+                pass
+            else:
+                sql = f"SELECT id FROM country WHERE country like '{country}'"
+                mycursor.execute(sql)
+                country_id = mycursor.fetchall()
+                sql = """INSERT INTO city (city, country_id)
+                         VALUES(%s,%s)
+                        """
+                mycursor.execute(sql, [city,country_id])
     mydb.commit()
 
 
@@ -244,9 +257,9 @@ def populate_one_hike_into_treks(hike, mycursor):
                         , description
                         , url
                         , country_id
-                        , region_id
+                        , city_id
                         ) 
-                         VALUES(%s,%s,%s, (SELECT id FROM country WHERE country = %s), (SELECT id FROM region WHERE region = %s));
+                         VALUES(%s,%s,%s, (SELECT id FROM country WHERE country = %s), (SELECT id FROM city WHERE city = %s));
                             """
         title = hike["2.title"]
         description = hike["9.description"]
@@ -255,11 +268,11 @@ def populate_one_hike_into_treks(hike, mycursor):
             country = hike["Country"]
         else:
             country = ""
-        if "Region" in hike:
-            region = hike["Region"]
+        if "City" in hike:
+            city = hike["City"]
         else:
-            region = ""
-        mycursor.execute(sql_treks, [title, description, url, country, region])
+            city = ""
+        mycursor.execute(sql_treks, [title, description, url, country, city])
         trek_id = mycursor.lastrowid
         return trek_id
 
@@ -355,3 +368,17 @@ def populate_hikes_tables(hikes_infos, host, user, password):
         populate_one_hike_into_surfaces(hike, mycursor, trek_id)
         populate_one_hike_into_way_types(hike, mycursor, trek_id)
     mydb.commit()
+
+def write_database(hikes_infos, host, user, password):
+    create_database(host, user, password)
+    create_table_country(host, user, password)
+    create_table_city(host, user, password)
+    create_table_difficulty(host, user, password)
+    create_table_treks(host, user, password)
+    create_table_main_info(host, user, password)
+    create_table_way_types(host, user, password)
+    create_table_surfaces(host, user, password)
+    populate_country(hikes_infos, host, user, password)
+    populate_city(hikes_infos, host, user, password)
+    populate_difficulty(hikes_infos, host, user, password)
+    populate_hikes_tables(hikes_infos, host, user, password)
