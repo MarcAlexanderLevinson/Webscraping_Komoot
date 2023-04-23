@@ -149,7 +149,7 @@ def get_description():
         return {f"9.description": ""}
 
     try:  # Try/except to handle cases without the 2nd part of the description
-        descriptions_niv2 = driver.find_element(By.XPATH, "//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text
+        descriptions_niv2 = driver.find_element(By.XPATH,"//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text #"//div[@class='css-fxq50d']/div/span/span[@class='tw-text-secondary']").text
     except:
         descriptions_niv2 = ''
     description = descriptions_niv1 + ' ' + descriptions_niv2
@@ -220,7 +220,6 @@ def get_location():
         geography = driver.find_elements(By.XPATH, "//div[@class='css-1jg13ty']/*[@href]")
         all_loc = [geo.text for geo in geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking Trail", but also contains duplicates
         all_loc = list(filter(lambda x: x != 'Discover' and x != 'Hiking trails & Routes' and x != '', all_loc))  # This removes the generic terms
-        # all_loc = list(dict.fromkeys(all_loc))  # This removes all duplicates
 
         unique_loc = []
         for index, place in enumerate(all_loc):
