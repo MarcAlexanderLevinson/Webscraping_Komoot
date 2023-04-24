@@ -6,7 +6,7 @@ from tqdm.auto import tqdm
 import csv
 import json
 import logging
-import parser as pa
+import parser_file as pa
 
 logging.basicConfig(format='%(asctime)s ---- %(levelname)s:%(message)s - row %(lineno)d',
                     level=logging.INFO)
