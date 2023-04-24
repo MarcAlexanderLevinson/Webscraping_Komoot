@@ -286,17 +286,3 @@ def get_hike_info(index, url, list_of_datatypes="all"):
     except:
         logging.warning(f'The hike of the {url} url was not recorded')
 
-# TODO: to delete the comments below
-#
-# if __name__ == "__main__":
-#     index = 1
-#     try:
-#         # print(get_hike_info(1, url, "all"))
-#         print(
-#             get_hike_info(1, url, ["title", "difficulty", "duration", "distance", "average_speed", "uphill", "downhill",
-#                                    "way_types_and_surfaces", "location"]))
-#         end = time.time() - start
-#
-#         print(end)
-#     except:
-#         print('next hike')
