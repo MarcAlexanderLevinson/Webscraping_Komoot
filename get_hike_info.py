@@ -234,7 +234,7 @@ def get_location():
     the 3 first level after 'Hiking trails & Routes'
     Note2: There is no consistency between the collected levels and the official administrative geographical levels.
     """
-    driver.implicitly_wait(5)
+    driver.implicitly_wait(IMPLICIT_WAIT_1)
     url = driver.current_url
     location = dict()
     try:
