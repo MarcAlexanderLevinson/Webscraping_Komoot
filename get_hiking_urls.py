@@ -19,10 +19,11 @@ driver.implicitly_wait(5)
 
 url = "https://www.komoot.com/discover/Lyon/@45.7575926%2C4.8323239/tours?max_distance=200000&sport=hike&map=true&pageNumber="
 
+
 def get_all_catalogues_urls(base_url, number_of_page_to_scrap):
     """
     The hikes are displayed by set of 12. Each set of 12 hikes is on a different "catalogue page".
-    This function collect all the catalogue urls from the base page.
+    This function collects as many catalogue urls as the input "number_of_page_to_scrap" says.
     """
     catalogues_urls = list()
     for page_num in range(1, number_of_page_to_scrap + 1):
@@ -59,7 +60,8 @@ def get_one_hike_url(block, urls_of_hikes, number_of_hikes_found_on_this_page, n
             f'{number_of_hikes_found_on_this_page} hikes url found on this page, {number_of_hikes_found} in total')
     except common.exceptions.WebDriverException as err:
         logging.warning(f'The url of one hike on page ({catalogue_url}) was not found: {err}')
-    return (number_of_hikes_found_on_this_page, number_of_hikes_found)
+    return number_of_hikes_found_on_this_page, number_of_hikes_found
+
 
 def get_all_hikes_urls(base_url, number_of_pages_to_scrap):
     """
@@ -76,7 +78,7 @@ def get_all_hikes_urls(base_url, number_of_pages_to_scrap):
         number_of_hikes_found_on_this_page = 0
         for block in blocks:
             result = get_one_hike_url(block, urls_of_hikes, number_of_hikes_found_on_this_page, number_of_hikes_found,
-                             catalogue_url)
+                                      catalogue_url)
             number_of_hikes_found_on_this_page = result[0]
             number_of_hikes_found = result[1]
     return urls_of_hikes

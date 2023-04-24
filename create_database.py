@@ -1,17 +1,19 @@
 import pymysql.cursors
 from tqdm import tqdm
+import logging
+import json
+
+with open("komoot_config.json", 'r') as f:
+    config = json.load(f)
+SURFACES = config["surfaces"]
+WAY_TYPES = config["way_types"]
+KOMOOT = config["KOMOOT"]
+CREATE_DATABASE = config["CREATE_DATABASE"]
 
 
-def ask_for_user_credentials():
-    host = input("\n\nPlease give me your hostname/host: ")
-    user = input("\n\nPlease give me your username/user: ")
-    password = input("\n\nPlease give me your password: ")
-    return host, user, password
-
-
-def create_database_tables(host, user, password):
+def create_database(host, user, password):
     """
-    TODO
+    Create the komoot database (or do nothing if already exists)
     :return:
     """
     # Connect to mysql
@@ -19,112 +21,146 @@ def create_database_tables(host, user, password):
         host=host,
         user=user,
         password=password
-        # TODO how not to put it here?
     )
     mycursor = mydb.cursor()
-
-    # Check if the database already exists. Create it if not. We assume that if the database exists, it already has the right tables
-    mycursor.execute("show databases")
-    lst = mycursor.fetchall()
-    if ('komoot',) in lst:
-        print('The database already exists')
-        mycursor.execute("drop DATABASE komoot")
-    else:
-        mycursor.execute("CREATE DATABASE komoot")
-        mycursor.execute("USE komoot")
-
-        sql = """CREATE TABLE region (
-                  id int AUTO_INCREMENT primary key
-                  , region varchar(252)
-                )"""
-        mycursor.execute(sql)
-
-        sql = """
-                      CREATE TABLE country (
-                       id int AUTO_INCREMENT primary key
-                       , country varchar(252)
-                      )"""
-        mycursor.execute(sql)
-
-        sql = """
-                      CREATE TABLE difficulty (
-                       id int AUTO_INCREMENT primary key
-                       , difficulty varchar(252)
-                      )"""
-        mycursor.execute(sql)
-
-        sql = """CREATE TABLE treks (
-            id int AUTO_INCREMENT primary key
-            , title varchar(252)
-            , description varchar(252)
-            , url varchar(252) unique
-            , region_id int
-            , country_id int
-            , FOREIGN KEY (region_id) REFERENCES region(id)
-            , FOREIGN KEY (country_id) REFERENCES country(id)
-            )"""
-        mycursor.execute(sql)
-
-        sql = """ CREATE TABLE main_info (
-               trek_id int UNIQUE
-             , difficulty_id int
-             , duration TIME
-             , distance float
-             , average_speed float
-             , uphill int
-             , downhill int
-             , tips varchar(252)
-             , FOREIGN KEY (trek_id) REFERENCES treks(id)
-             , FOREIGN KEY (difficulty_id) REFERENCES difficulty(id)
-
-            )"""
-        mycursor.execute(sql)
-
-        sql = """
-            CREATE TABLE way_types (
-             trek_id int UNIQUE
-            , alpine_hiking_path float
-            , ferry float
-            , footpath float
-            , hiking_path float
-            , mountain_hiking_path float
-            , path float
-            , road float
-            , state_road float
-            , street float
-             , FOREIGN KEY (trek_id) REFERENCES treks(id)
-            )"""
-        mycursor.execute(sql)
-
-        sql = """CREATE TABLE surfaces (
-             trek_id int UNIQUE
-             , asphalt float
-             , gravel float
-             , natural_terrain float
-             , paved float
-             , unknown float
-             , unpaved float
-             , alpine float
-             , FOREIGN KEY (trek_id) REFERENCES treks(id)
-            )"""
-        mycursor.execute(sql)
-
-        mydb.commit()
-
-        mycursor.close()
-        mydb.close()
+    mycursor.execute(CREATE_DATABASE)
+    mydb.commit()
+    mycursor.close()
+    mydb.close()
+    logging.info(f'Success: database created')
 
 
-def populate_country(hikes_infos, host, user, password):
-    # Connect to mysql
+def connect_to_komoot(host, user, password):
+    """
+    connect to komoot database
+    Returns a connection and a cursor
+    """
     mydb = pymysql.connect(
         host=host,
         user=user,
-        password=password,  # TODO how not to put it here?
-        database="komoot"
+        password=password,
+        database=KOMOOT
     )
     mycursor = mydb.cursor()
+    return mydb, mycursor
 
+
+def connect_and_execute(sql, host, user, password):
+    """
+    Connect to komoot database and run the sql script (input).
+    This function can be used when we don't expect SQL to returb anything (no fetching)
+    """
+    mydb, mycursor = connect_to_komoot(host, user, password)
+    mycursor.execute(sql)
+    mydb.commit()
+    mycursor.close()
+    mydb.close()
+
+
+def create_table_country(host, user, password):
+    sql = """
+                          CREATE TABLE IF NOT EXISTS country (
+                           id int AUTO_INCREMENT primary key
+                           , country varchar(252)
+                          )"""
+    connect_and_execute(sql, host, user, password)
+    logging.info(f'Success: country table created')
+
+
+def create_table_city(host, user, password):
+    sql = """CREATE TABLE IF NOT EXISTS city (
+                      id int AUTO_INCREMENT primary key
+                      , city varchar(252)
+                      , country_id int
+                      , FOREIGN KEY (country_id) REFERENCES country(id)
+                    )"""
+    connect_and_execute(sql, host, user, password)
+    logging.info(f'Success: city table created')
+
+
+def create_table_difficulty(host, user, password):
+    sql = """
+                         CREATE TABLE IF NOT EXISTS difficulty (
+                          id int AUTO_INCREMENT primary key
+                          , difficulty varchar(252)
+                         )"""
+    connect_and_execute(sql, host, user, password)
+    logging.info(f'Success: difficulty table created')
+
+
+def create_table_treks(host, user, password):
+    sql = """CREATE TABLE IF NOT EXISTS treks (
+                id int AUTO_INCREMENT primary key
+                , title varchar(252)
+                , description varchar(252)
+                , url varchar(252) unique
+                , city_id int
+                , country_id int
+                , FOREIGN KEY (city_id) REFERENCES city(id)
+                , FOREIGN KEY (country_id) REFERENCES country(id)
+                )"""
+    connect_and_execute(sql, host, user, password)
+    logging.info(f'Success: treks table created')
+
+
+def create_table_main_info(host, user, password):
+    sql = """ CREATE TABLE IF NOT EXISTS main_info (
+                  trek_id int UNIQUE
+                , difficulty_id int
+                , duration TIME
+                , distance float
+                , average_speed float
+                , uphill int
+                , downhill int
+                , tips varchar(252)
+                , FOREIGN KEY (trek_id) REFERENCES treks(id)
+                , FOREIGN KEY (difficulty_id) REFERENCES difficulty(id)
+               )"""
+    connect_and_execute(sql, host, user, password)
+    logging.info(f'Success: main_info table created')
+
+
+def create_table_way_types(host, user, password):
+    sql = """
+                CREATE TABLE IF NOT EXISTS way_types (
+                 trek_id int UNIQUE
+                , alpine_hiking_path float
+                , ferry float
+                , footpath float
+                , hiking_path float
+                , mountain_hiking_path float
+                , path float
+                , road float
+                , state_road float
+                , street float
+                 , FOREIGN KEY (trek_id) REFERENCES treks(id)
+                )"""
+    connect_and_execute(sql, host, user, password)
+    logging.info(f'Success: way_types table created')
+
+
+def create_table_surfaces(host, user, password):
+    sql = """CREATE TABLE IF NOT EXISTS surfaces (
+         trek_id int UNIQUE
+         , asphalt float
+         , gravel float
+         , natural_terrain float
+         , paved float
+         , unknown float
+         , unpaved float
+         , alpine float
+         , FOREIGN KEY (trek_id) REFERENCES treks(id)
+        )"""
+    connect_and_execute(sql, host, user, password)
+    logging.info(f'Success: surfaces table created')
+
+
+def populate_country(hikes_infos, host, user, password):
+    """
+    Takes all the countries of the newly scrapped hikes and write them in SQL (if not already in there)
+    """
+    # Connect to mysql
+    mydb, mycursor = connect_to_komoot(host, user, password)
     countries = set()
     for hike in hikes_infos:
         if "Country" in hike:
@@ -135,7 +171,7 @@ def populate_country(hikes_infos, host, user, password):
         sql = "SELECT distinct country FROM country"
         mycursor.execute(sql)
         result = mycursor.fetchall()
-        # We're testing if the url already exists in the database. If yes, we don't add it again
+        # We're testing if the country already exists in the database. If yes, we don't add it again
         if (country,) in result:
             print('pass country')
             pass
@@ -145,50 +181,50 @@ def populate_country(hikes_infos, host, user, password):
                     """
             mycursor.execute(sql, country)
     mydb.commit()
+    mycursor.close()
+    mydb.close()
+    logging.info(f'Success: country table populated')
 
 
-def populate_region(hikes_infos, host, user, password):
-    # Connect to mysql
-    mydb = pymysql.connect(
-        host=host,
-        user=user,
-        password=password,  # TODO how not to put it here?
-        database="komoot"
-    )
-    mycursor = mydb.cursor()
-
-    regions = set()
+def populate_city(hikes_infos, host, user, password):
+    """
+        Takes all the citys of the newly scrapped hikes and write them in SQL (if not already in there)
+    """
+    mydb, mycursor = connect_to_komoot(host, user, password)
+    cities = set()
     for hike in hikes_infos:
         print(hike)
-        if "Region" in hike:
-            regions.add(hike["Region"])
-    regions = list(regions)
+        if "City" in hike:
+            cities.add((hike["City"], hike["Country"]))
+    cities = list(cities)
 
-    for region in regions:
-        sql = "SELECT distinct region FROM region"
-        mycursor.execute(sql)
-        result = mycursor.fetchall()
-        # We're testing if the url already exists in the database. If yes, we don't add it again
-        if (region,) in result:
-            print('pass region')
+    for city, country in cities:
+        if city == '':
             pass
         else:
-            sql = """INSERT INTO region (region)
-                     VALUES(%s)
-                    """
-            mycursor.execute(sql, region)
+            sql = "SELECT distinct city FROM city"
+            mycursor.execute(sql)
+            result = mycursor.fetchall()
+            # We're testing if the city already exists in the database. If yes, we don't add it again
+            if (city,) in result:
+                print('pass city')
+                pass
+            else:
+                sql = f"SELECT id FROM country WHERE country like '{country}'"
+                mycursor.execute(sql)
+                country_id = mycursor.fetchall()
+                sql = """INSERT INTO city (city, country_id)
+                         VALUES(%s,%s)
+                        """
+                mycursor.execute(sql, [city, country_id])
     mydb.commit()
 
 
 def populate_difficulty(hikes_infos, host, user, password):
-    # Connect to mysql
-    mydb = pymysql.connect(
-        host=host,
-        user=user,
-        password=password,  # TODO how not to put it here?
-        database="komoot"
-    )
-    mycursor = mydb.cursor()
+    """
+        Takes all the difficulties of the newly scrapped hikes and write them in SQL (if not already in there)
+    """
+    mydb, mycursor = connect_to_komoot(host, user, password)
 
     difficulties = set()
     for hike in hikes_infos:
@@ -199,7 +235,7 @@ def populate_difficulty(hikes_infos, host, user, password):
         sql = "SELECT distinct difficulty FROM difficulty"
         mycursor.execute(sql)
         result = mycursor.fetchall()
-        # We're testing if the url already exists in the database. If yes, we don't add it again
+        # We're testing if the difficulty already exists in the database. If yes, we don't add it again
         if (difficulty,) in result:
             pass
         else:
@@ -210,295 +246,142 @@ def populate_difficulty(hikes_infos, host, user, password):
     mydb.commit()
 
 
-def populate_hikes_tables(hikes_infos, host, user, password):
-    # Connect to mysql
-    mydb = pymysql.connect(
-        host=host,
-        user=user,
-        password=password,  # TODO how not to put it here?
-        database="komoot"
-    )
-
-    mycursor = mydb.cursor()
-
-    for row in tqdm(hikes_infos, total=len(hikes_infos)):
-        sql = " SELECT distinct url FROM treks"
-        mycursor.execute(sql)
-        result = mycursor.fetchall()
-        # We're testing if the url already exists in the database. If yes, we don't add it again
-        if (row["url"],) in result:
-            print('here')
-            pass
+def populate_one_hike_into_treks(hike, mycursor):
+    sql = " SELECT distinct url FROM treks"
+    mycursor.execute(sql)
+    result = mycursor.fetchall()
+    # We're testing if the url already exists in the database. If yes, we don't add it again
+    if (hike["url"],) in result:
+        pass
+    else:
+        sql_treks = """INSERT INTO treks (
+                          title
+                        , description
+                        , url
+                        , country_id
+                        , city_id
+                        ) 
+                         VALUES(%s,%s,%s, (SELECT id FROM country WHERE country = %s), (SELECT id FROM city WHERE city = %s));
+                            """
+        title = hike["2.title"]
+        description = hike["9.description"]
+        url = hike["url"]
+        if "Country" in hike:
+            country = hike["Country"]
         else:
-            print('ici')
-            sql_treks = """INSERT INTO treks (
-                      title
-                    , description
-                    , url
-                    , country_id
-                    , region_id
-                    ) 
-                     VALUES(%s,%s,%s, (SELECT id FROM country WHERE country = %s), (SELECT id FROM region WHERE region = %s));
-                        """ # TODO: rajouter les colonnes manquantes
-            title = row["2.title"]
-            description = row["9.description"]
-            url = row["url"]
-            if "Country" in row:
-                country = row["Country"]
-            else:
-                country = ""
-            if "Region" in row:
-                region = row["Region"]
-            else:
-                region = ""
-            mycursor.execute(sql_treks, [title, description, url, country, region])
-            trek_id = mycursor.lastrowid
-
-            sql_main_infos = """INSERT INTO main_info (
-                               trek_id
-                             , difficulty_id
-                             , duration
-                             , distance
-                             , average_speed
-                             , uphill
-                             , downhill
-                             , tips)
-                            VALUES(%s,(SELECT id FROM difficulty WHERE difficulty = %s),%s,%s,%s,%s,%s,%s);
-                            """
-            difficulty = row["3.difficulty"]
-            duration = row["4.duration"]
-            distance = row["5.distance"]
-            average_speed = row["6.average_speed"]
-            uphill = row["7.uphill"]
-            downhill = row["8.downhill"]
-            tips = row["91.tips"]  # TODO le numero a probablement change
-            mycursor.execute(sql_main_infos, [trek_id, difficulty, duration, distance, average_speed, uphill, downhill, tips])
+            country = ""
+        if "City" in hike:
+            city = hike["City"]
+        else:
+            city = ""
+        mycursor.execute(sql_treks, [title, description, url, country, city])
+        trek_id = mycursor.lastrowid
+        return trek_id
 
 
-            sql_surfaces = """INSERT INTO surfaces (
-                                           trek_id
-                                         , asphalt
-                                         , gravel
-                                         , natural_terrain
-                                         , paved
-                                         , unknown
-                                         , unpaved
-                                         , alpine)
-                                        VALUES(%s,%s,%s,%s,%s,%s,%s, %s);
-                                        """
-            if 'Asphalt (km)' in row:
-                asphalt = row['Asphalt (km)']
-            else:
-                asphalt = 0
-            if 'Gravel (km)' in row:
-                gravel = row['Gravel (km)']
-            else:
-                gravel = 0
-            if 'Natural (km)' in row:
-                natural_terrain = row['Natural (km)']
-            else:
-                natural_terrain = 0
-            if 'Paved (km)' in row:
-                paved = row['Paved (km)']
-            else:
-                paved = 0
-            if 'Unknown (km)' in row:
-                unknown = row['Unknown (km)']
-            else:
-                unknown = 0
-            if 'Unpaved (km)' in row:
-                unpaved = row['Unpaved (km)']
-            else:
-                unpaved = 0
-            if 'Alpine (km)' in row:
-                alpine = row['Alpine (km)']
-            else:
-                alpine = 0
-            mycursor.execute(sql_surfaces,
-                             [trek_id, asphalt, gravel, natural_terrain, paved, unknown, unpaved, alpine])
+def populate_one_hike_into_main_info(hike, mycursor, trek_id):
+    sql_main_infos = """INSERT INTO main_info (
+                                   trek_id
+                                 , difficulty_id
+                                 , duration
+                                 , distance
+                                 , average_speed
+                                 , uphill
+                                 , downhill
+                                 , tips)
+                                VALUES(%s,(SELECT id FROM difficulty WHERE difficulty = %s),%s,%s,%s,%s,%s,%s);
+                                """
+    difficulty = hike["3.difficulty"]
+    duration = hike["4.duration"]
+    distance = hike["5.distance"]
+    average_speed = hike["6.average_speed"]
+    uphill = hike["7.uphill"]
+    downhill = hike["8.downhill"]
+    tips = hike["91.tips"]
+    mycursor.execute(sql_main_infos,
+                     [trek_id, difficulty, duration, distance, average_speed, uphill, downhill, tips])
 
 
-            sql_way_types = """INSERT INTO way_types (
-                               trek_id
-                             , alpine_hiking_path
-                             , ferry
-                             , footpath
-                             , hiking_path
-                             , mountain_hiking_path
-                             , path
-                             , road
-                             , state_road
-                             , street)
-                            VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
-                            """
-            if "Alpine Hiking Path (km)" in row:
-                alpine_hiking_path = row["Alpine Hiking Path (km)"]
-            else:
-                alpine_hiking_path = 0
-            if "Ferry (km)" in row:
-                ferry = row["Ferry (km)"]
-            else:
-                ferry = 0
-            if "Footpath (km)" in row:
-                footpath = row["Footpath (km)"]
-            else:
-                footpath = 0
-            if "Hiking Path (km)" in row:
-                hiking_path = row["Hiking Path (km)"]
-            else:
-                hiking_path = 0
-            if "Mountain Hiking Path (km)" in row:
-                mountain_hiking_path = row["Mountain Hiking Path (km)"]
-            else:
-                mountain_hiking_path = 0
-            if "Path (km)" in row:
-                path = row["Path (km)"]
-            else:
-                path = 0
-            if "Road (km)" in row:
-                road = row["Road (km)"]
-            else:
-                road = 0
-            if "State Road (km)" in row:
-                state_road = row["State Road (km)"]
-            else:
-                state_road = 0
-            if "Street (km)" in row:
-                street = row["Street (km)"]
-            else:
-                street = 0
-            mycursor.execute(sql_way_types, [trek_id, alpine_hiking_path, ferry, footpath, hiking_path, mountain_hiking_path, path, road, state_road, street])
+def populate_one_hike_into_surfaces(hike, mycursor, trek_id):
+    sql_surfaces = """INSERT INTO surfaces (
+                                               trek_id
+                                             , asphalt
+                                             , gravel
+                                             , natural_terrain
+                                             , paved
+                                             , unknown
+                                             , unpaved
+                                             , alpine)
+                                            VALUES(%s,%s,%s,%s,%s,%s,%s, %s);
+                                            """
+
+    surfaces_values = dict()
+    for surface in SURFACES:
+        if surface in hike:
+            surfaces_values.update({surface: hike[surface]})
+        else:
+            surfaces_values.update({surface: 0})
+
+    mycursor.execute(sql_surfaces,
+                     [trek_id, surfaces_values['asphalt'], surfaces_values['gravel'],
+                      surfaces_values['natural_terrain'], surfaces_values['paved'], surfaces_values['unknown'],
+                      surfaces_values['unpaved'], surfaces_values['alpine']])
+
+
+def populate_one_hike_into_way_types(hike, mycursor, trek_id):
+    sql_way_types = """INSERT INTO way_types (
+                                   trek_id
+                                 , alpine_hiking_path
+                                 , ferry
+                                 , footpath
+                                 , hiking_path
+                                 , mountain_hiking_path
+                                 , path
+                                 , road
+                                 , state_road
+                                 , street)
+                                VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
+                                """
+    way_types_values = dict()
+    for way_type in WAY_TYPES:
+        if way_type in hike:
+            way_types_values.update({way_type: hike[way_type]})
+        else:
+            way_types_values.update({way_type: 0})
+
+    mycursor.execute(sql_way_types,
+                     [trek_id, way_types_values['alpine_hiking_path'], way_types_values['ferry'],
+                      way_types_values['footpath'], way_types_values['hiking_path'],
+                      way_types_values['mountain_hiking_path'],
+                      way_types_values['path'], way_types_values['road'],
+                      way_types_values['state_road'], way_types_values['street']])
+
+
+def populate_hikes_tables(hikes_infos, host, user, password):
+    """
+    All the hikes tables (treks, main_info, way_types and surfaces) must be populated ina row
+    from the same hike, because we re-use the trek_id created in treks into the other tables
+    """
+    mydb, mycursor = connect_to_komoot(host, user, password)
+
+    for hike in tqdm(hikes_infos, total=len(hikes_infos)):
+        trek_id = populate_one_hike_into_treks(hike, mycursor)
+        populate_one_hike_into_main_info(hike, mycursor, trek_id)
+        populate_one_hike_into_surfaces(hike, mycursor, trek_id)
+        populate_one_hike_into_way_types(hike, mycursor, trek_id)
     mydb.commit()
 
 
-test_list = [{'1.ID': 0, '2.title': 'Pointe de Nantaux (2170m)', '3.difficulty': 'Expert', '4.duration': '06:06',
-              '5.distance': 13.7, '6.average_speed': 2, '7.uphill': 1260.0, '8.downhill': 1250.0,
-              '9.description': 'Expert Hiking Tour. Very good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.',
-              '91.tips': '', 'Mountain Hiking Path (km)': 0.63, 'Hiking Path (km)': 8.33, 'Path (km)': 1.99,
-              'Street (km)': 0.58, 'Road (km)': 2.01, 'State Road (km)': 0.12, 'Natural (km)': 0.9,
-              'Unpaved (km)': 8.01, 'Gravel (km)': 2.05, 'Paved (km)': 1.78, 'Asphalt (km)': 0.89, 'Unknown (km)': 0.1,
-              'all levels': ['France', 'Auvergne Rhône Alpes', 'Thonon-Les-Bains', 'Montriond'],
-              'url': 'https://www.komoot.com/smarttour/e808650908/pointe-de-nantaux-2170m?tour_origin=smart_tour_search'},
-             {'1.ID': 1, '2.title': 'Pointe de Ressachaux (2173m)', '3.difficulty': 'Expert', '4.duration': '05:00',
-              '5.distance': 12.1, '6.average_speed': 2, '7.uphill': 1150.0, '8.downhill': 1150.0,
-              '9.description': 'Expert Hiking Tour. Very good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is accessible with public transport.',
-              '91.tips': '', 'Mountain Hiking Path (km)': 6.15, 'Hiking Path (km)': 1.69, 'Path (km)': 1.91,
-              'Street (km)': 0.75, 'Road (km)': 1.61, 'Alpine (km)': 6.15, 'Unpaved (km)': 3.22, 'Gravel (km)': 0.1,
-              'Paved (km)': 1.27, 'Asphalt (km)': 1.09, 'Unknown (km)': 0.36,
-              'all levels': ['France', 'Auvergne Rhône Alpes', 'Thonon-Les-Bains', 'Morzine'],
-              'url': 'https://www.komoot.com/smarttour/e810584590/pointe-de-ressachaux-2173m?tour_origin=smart_tour_search'},
-             {'1.ID': 2, '2.title': 'Randonnée des Orgues', '3.difficulty': 'Intermediate', '4.duration': '02:59',
-              '5.distance': 9.04, '6.average_speed': 3, '7.uphill': 380.0, '8.downhill': 380.0,
-              '9.description': 'Intermediate Hiking Tour. Good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.',
-              '91.tips': '', 'Mountain Hiking Path (km)': 0.84, 'Hiking Path (km)': 5.15, 'Path (km)': 0.1,
-              'Street (km)': 1.4, 'Road (km)': 0.24, 'State Road (km)': 1.41, 'Alpine (km)': 0.84, 'Unpaved (km)': 5.15,
-              'Paved (km)': 1.4, 'Asphalt (km)': 1.64, 'Unknown (km)': 0.1, 'all levels': [],
-              'url': 'https://www.komoot.com/smarttour/e920140191/randonnee-des-orgues?tour_origin=smart_tour_search'},
-             {'1.ID': 3, '2.title': 'Randonnée du château de Val', '3.difficulty': 'Intermediate',
-              '4.duration': '04:06', '5.distance': 14.3, '6.average_speed': 4, '7.uphill': 320.0, '8.downhill': 310.0,
-              '9.description': 'Intermediate Hiking Tour. Good fitness required. Easily-accessible paths. Suitable for all skill levels. The starting point of the Tour is right next to a parking lot.',
-              '91.tips': '', 'Hiking Path (km)': 2.26, 'Path (km)': 7.35, 'Street (km)': 0.97, 'Road (km)': 0.52,
-              'State Road (km)': 3.25, 'Unpaved (km)': 6.51, 'Paved (km)': 1.56, 'Asphalt (km)': 3.34,
-              'Unknown (km)': 2.93, 'all levels': [],
-              'url': 'https://www.komoot.com/smarttour/e924670619/randonnee-du-chateau-de-val?tour_origin=smart_tour_search'},
-             {'1.ID': 4, '2.title': 'Le Mont Buet par Vallorcine - Chamonix-Mont-Blanc', '3.difficulty': 'Expert',
-              '4.duration': '08:07', '5.distance': 19.8, '6.average_speed': 2, '7.uphill': 1730.0, '8.downhill': 1730.0,
-              '9.description': 'Expert Hiking Tour. Very good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is accessible with public transport.',
-              '91.tips': '', 'Mountain Hiking Path (km)': 16.6, 'Hiking Path (km)': 2.47, 'Path (km)': 0.68,
-              'State Road (km)': 0.1, 'Alpine (km)': 1.01, 'Natural (km)': 18.3, 'Unpaved (km)': 0.26,
-              'Gravel (km)': 0.1, 'Paved (km)': 0.1, 'Asphalt (km)': 0.1,
-              'all levels': ['France', 'Auvergne Rhône Alpes', 'Bonneville', 'Vallorcine'],
-              'url': 'https://www.komoot.com/smarttour/e924134691/le-mont-buet-par-vallorcine-chamonix-mont-blanc?tour_origin=smart_tour_search'},
-             {'1.ID': 5, '2.title': 'L’Aiguille de la Grande Sassière - Alpes Grées', '3.difficulty': 'Expert',
-              '4.duration': '06:21', '5.distance': 11.9, '6.average_speed': 2, '7.uphill': 1360.0, '8.downhill': 1360.0,
-              '9.description': 'Expert Hiking Tour. Very good fitness required. Sure-footedness, sturdy shoes and alpine experience required. The starting point of the Tour is right next to a parking lot.',
-              '91.tips': 'Includes a segment that is highly dangerous\nA part of this route comprises highly technical, difficult, or hazardous terrain. Specialist equipment and prior experience is required.',
-              'Alpine Hiking Path (km)': 2.59, 'Mountain Hiking Path (km)': 9.19, 'Path (km)': 0.1, 'Road (km)': 0.1,
-              'Alpine (km)': 11.9, 'Paved (km)': 0.1,
-              'all levels': ['France', 'Auvergne Rhône Alpes', 'Albertville', 'Tignes', ''],
-              'url': 'https://www.komoot.com/smarttour/e924150080/laiguille-de-la-grande-sassiere-alpes-grees?tour_origin=smart_tour_search'},
-             {'1.ID': 6, '2.title': 'La Pointe des Fours par le Manchet - Parc National de la Vanoise',
-              '3.difficulty': 'Expert', '4.duration': '05:04', '5.distance': 12.9, '6.average_speed': 2,
-              '7.uphill': 1070.0, '8.downhill': 1070.0,
-              '9.description': 'Expert Hiking Tour. Very good fitness required. Sure-footedness, sturdy shoes and alpine experience required. The starting point of the Tour is right next to a parking lot.',
-              '91.tips': 'Includes a segment that may be dangerous\nA part of this route comprises technical, difficult, or hazardous terrain. Specialist equipment and prior experience may be required.',
-              'Alpine Hiking Path (km)': 0.96, 'Mountain Hiking Path (km)': 9.12, 'Path (km)': 2.74, 'Road (km)': 0.12,
-              'Alpine (km)': 9.87, 'Unpaved (km)': 2.94, 'Asphalt (km)': 0.12,
-              'all levels': ['France', 'Auvergne Rhône Alpes', 'Albertville', "Val-D'Isère", ''],
-              'url': 'https://www.komoot.com/smarttour/e925136370/la-pointe-des-fours-par-le-manchet-parc-national-de-la-vanoise?tour_origin=smart_tour_search'},
-             {'1.ID': 7, '2.title': 'La Pointe de l’Observatoire par Aussois - Parc National de la Vanoise - Boucle',
-              '3.difficulty': 'Expert', '4.duration': '06:01', '5.distance': 16.2, '6.average_speed': 3,
-              '7.uphill': 1120.0, '8.downhill': 1120.0,
-              '9.description': 'Expert Hiking Tour. Very good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.',
-              '91.tips': '', 'Mountain Hiking Path (km)': 13.9, 'Hiking Path (km)': 0.1, 'Path (km)': 2.02,
-              'Road (km)': 0.18, 'Alpine (km)': 13.7, 'Natural (km)': 0.48, 'Unpaved (km)': 1.83, 'Paved (km)': 0.22,
-              'Unknown (km)': 0.1,
-              'all levels': ['Auvergne Rhône Alpes', 'Saint-Jean-De-Maurienne', 'Aussois', 'France'],
-              'url': 'https://www.komoot.com/smarttour/e925750113/la-pointe-de-lobservatoire-par-aussois-parc-national-de-la-vanoise-boucle?tour_origin=smart_tour_search'},
-             {'1.ID': 8, '2.title': 'La Pointe de Talamarche par Montremont - Boucle', '3.difficulty': 'Expert',
-              '4.duration': '05:40', '5.distance': 11.0, '6.average_speed': 2, '7.uphill': 1040.0, '8.downhill': 1040.0,
-              '9.description': 'Expert Hiking Tour. Very good fitness required. Sure-footedness, sturdy shoes and alpine experience required. The starting point of the Tour is right next to a parking lot.',
-              '91.tips': 'Includes a segment that may be dangerous\nA part of this route comprises technical, difficult, or hazardous terrain. Specialist equipment and prior experience may be required.',
-              'Alpine Hiking Path (km)': 0.33, 'Mountain Hiking Path (km)': 6.6, 'Hiking Path (km)': 2.78,
-              'Path (km)': 0.43, 'Street (km)': 0.84, 'Alpine (km)': 6.95, 'Natural (km)': 2.51, 'Unpaved (km)': 0.69,
-              'Paved (km)': 0.3, 'Asphalt (km)': 0.45, 'Unknown (km)': 0.1,
-              'all levels': ['France', 'Auvergne Rhône Alpes', 'Annecy', 'Thônes', ''],
-              'url': 'https://www.komoot.com/smarttour/e925786903/la-pointe-de-talamarche-par-montremont-boucle?tour_origin=smart_tour_search'},
-             {'1.ID': 9, '2.title': 'La Trou de la Mouche - Chaîne des Aravis - Boucle', '3.difficulty': 'Expert',
-              '4.duration': '04:15', '5.distance': 9.49, '6.average_speed': 2, '7.uphill': 930.0, '8.downhill': 930.0,
-              '9.description': 'Expert Hiking Tour. Very good fitness required. Easily-accessible paths. Suitable for all skill levels. The starting point of the Tour is right next to a parking lot.',
-              '91.tips': '', 'Hiking Path (km)': 7.53, 'Path (km)': 1.74, 'Road (km)': 0.22, 'Unpaved (km)': 9.27,
-              'Paved (km)': 0.22, 'all levels': ['France', 'Auvergne Rhône Alpes', 'Annecy', 'La Clusaz'],
-              'url': 'https://www.komoot.com/smarttour/e925813484/la-trou-de-la-mouche-chaine-des-aravis-boucle?tour_origin=smart_tour_search'},
-             {'1.ID': 10, '2.title': 'Roc Lancrenaz et Col des Frêtes par la forêt', '3.difficulty': 'Expert',
-              '4.duration': '04:42', '5.distance': 9.46, '6.average_speed': 2, '7.uphill': 770.0, '8.downhill': 770.0,
-              '9.description': 'Expert Hiking Tour. Good fitness required. Sure-footedness, sturdy shoes and alpine experience required. ',
-              '91.tips': 'Includes a segment that may be dangerous\nA part of this route comprises technical, difficult, or hazardous terrain. Specialist equipment and prior experience may be required.',
-              'Alpine Hiking Path (km)': 0.17, 'Mountain Hiking Path (km)': 6.45, 'Hiking Path (km)': 0.53,
-              'Path (km)': 2.25, 'Road (km)': 0.1, 'Alpine (km)': 7.72, 'Natural (km)': 1.15, 'Unpaved (km)': 0.53,
-              'Paved (km)': 0.1, 'all levels': ['France', 'Auvergne Rhône Alpes', 'Annecy', 'Talloires-Montmin'],
-              'url': 'https://www.komoot.com/smarttour/e925820759/roc-lancrenaz-et-col-des-fretes-par-la-foret?tour_origin=smart_tour_search'},
-             {'1.ID': 11, '2.title': 'La Pointe de la Sambuy — Massif des Bauges - Boucle', '3.difficulty': 'Expert',
-              '4.duration': '07:18', '5.distance': 16.3, '6.average_speed': 2, '7.uphill': 1340.0, '8.downhill': 1340.0,
-              '9.description': 'Expert Hiking Tour. Very good fitness required. Sure-footedness, sturdy shoes and alpine experience required. ',
-              '91.tips': 'Includes a segment that is highly dangerous\nA part of this route comprises highly technical, difficult, or hazardous terrain. Specialist equipment and prior experience is required.',
-              'Alpine Hiking Path (km)': 1.56, 'Mountain Hiking Path (km)': 3.0, 'Hiking Path (km)': 2.59,
-              'Path (km)': 5.33, 'Footpath (km)': 3.14, 'Street (km)': 0.66, 'Alpine (km)': 4.56, 'Natural (km)': 1.85,
-              'Unpaved (km)': 9.2, 'Asphalt (km)': 0.56, 'Unknown (km)': 0.1,
-              'all levels': ['France', 'Auvergne Rhône Alpes', 'Albertville', 'Plancherine'],
-              'url': 'https://www.komoot.com/smarttour/e926594658/la-pointe-de-la-sambuy-massif-des-bauges-boucle?tour_origin=smart_tour_search'}]
-test_list2 = [{'1.ID': 0, '2.title': 'Pointe de Nantaux (2170m)', '3.difficulty': 'Expert', '4.duration': '06:06',
-               '5.distance': 13.7, '6.average_speed': 2, '7.uphill': 1260.0, '8.downhill': 1250.0,
-               '9.description': 'Expert Hiking Tour. Very good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.',
-               '91.tips': '', 'Mountain Hiking Path (km)': 0.63, 'Hiking Path (km)': 8.33, 'Path (km)': 1.99,
-               'Street (km)': 0.58, 'Road (km)': 2.01, 'State Road (km)': 0.12, 'Natural (km)': 0.9,
-               'Unpaved (km)': 8.01, 'Gravel (km)': 2.05, 'Paved (km)': 1.78, 'Asphalt (km)': 0.89, 'Unknown (km)': 0.1,
-               'all levels': ['France', 'Auvergne Rhône Alpes', 'Thonon-Les-Bains', 'Montriond'],
-               'Country': 'England', "Region": "Foking London mate",
-               'url': 'https://www.komoot.com/smarttour/e808650908/pointe-de-nantaux-2170m?tour_origin=smart_tour_search'},
-              {'1.ID': 1, '2.title': 'Pointe de Ressachaux (2173m)', '3.difficulty': 'Expert', '4.duration': '05:00',
-               '5.distance': 12.1, '6.average_speed': 2, '7.uphill': 1150.0, '8.downhill': 1150.0,
-               '9.description': 'Expert Hiking Tour. Very good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is accessible with public transport.',
-               '91.tips': '', 'Mountain Hiking Path (km)': 6.15, 'Hiking Path (km)': 1.69, 'Path (km)': 1.91,
-               'Street (km)': 0.75, 'Road (km)': 1.61, 'Alpine (km)': 6.15, 'Unpaved (km)': 3.22, 'Gravel (km)': 0.1,
-               'Paved (km)': 1.27, 'Asphalt (km)': 1.09, 'Unknown (km)': 0.36,
-               'all levels': ['France', 'Auvergne Rhône Alpes', 'Thonon-Les-Bains', 'Morzine'],
-                'Country': 'France', "Region": "Petite chatte",
-               'url': 'https://www.komoot.com/smarttour/e810584590/pointe-de-ressachaux-2173m?tour_origin=smart_tour_search'}]
-test_list3 = [{'1.ID': 0, '2.title': 'Pointe de Nantaux (2170m)', '3.difficulty': 'Expert', '4.duration': '06:06',
-               '5.distance': 13.7, '6.average_speed': 2, '7.uphill': 1260.0, '8.downhill': 1250.0,
-               '9.description': 'Expert Hiking Tour. Very good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.',
-               '91.tips': '', 'Mountain Hiking Path (km)': 0.63, 'Hiking Path (km)': 8.33, 'Path (km)': 1.99,
-               'Street (km)': 0.58, 'Road (km)': 2.01, 'State Road (km)': 0.12, 'Natural (km)': 0.9,
-               'Unpaved (km)': 8.01, 'Gravel (km)': 2.05, 'Paved (km)': 1.78, 'Asphalt (km)': 0.89, 'Unknown (km)': 0.1,
-               'Country': 'France',
-               'all levels': ['France', 'Auvergne Rhône Alpes', 'Thonon-Les-Bains', 'Montriond'],
-               'url': 'https://www.komoot.com/smarttour/e808650908/pointe-de-nantaux-2170m?tour_origin=smart_tour_search'}]
-
-if __name__ == "__main__":
-    host, user, password = ask_for_user_credentials()
-    create_database_tables(host, user, password)
-    populate_country(test_list2, host, user, password)
-    populate_region(test_list2, host, user, password)
-    populate_difficulty(test_list2, host, user, password)
-    populate_hikes_tables(test_list2, host, user, password)
+def write_database(hikes_infos, host, user, password):
+    create_database(host, user, password)
+    create_table_country(host, user, password)
+    create_table_city(host, user, password)
+    create_table_difficulty(host, user, password)
+    create_table_treks(host, user, password)
+    create_table_main_info(host, user, password)
+    create_table_way_types(host, user, password)
+    create_table_surfaces(host, user, password)
+    populate_country(hikes_infos, host, user, password)
+    populate_city(hikes_infos, host, user, password)
+    populate_difficulty(hikes_infos, host, user, password)
+    populate_hikes_tables(hikes_infos, host, user, password)
