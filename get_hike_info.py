@@ -304,14 +304,3 @@ def get_hike_info(index, url, list_of_datatypes="all"):
     except:
         logging.warning(f'The hike of the {url} url was not recorded')
 
-# if __name__ == "__main__":
-#     index = 1
-#     try:
-#         # print(get_hike_info(1, url, "all"))
-#         print(
-#             get_hike_info(1, TEST_URL,"all"))
-#         end = time.time() - start
-#
-#         print(end)
-#     except:
-#         print('next hike')

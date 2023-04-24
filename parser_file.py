@@ -5,7 +5,7 @@ def parser():
     parser = argparse.ArgumentParser(description="""
     Welcome to the Komoot webscraper, here you can get all the information
     you need about hikes around Lyon. Just choose the amount of hiking pages you want to scrape and the data types you want 
-    to retrieve, the datatypes are set to all datatypes by default, the amount of hikes need specification and is multiplied 
+    to retrieve, the datatypes are set to all datatypes by default, the amount of hikes need specification and are multiplied 
     by 12, since this is how many hikes are present per hiking page!!!!
     Example for scraping all data from 24 hikes:
     python get_all_hike_info.py 2

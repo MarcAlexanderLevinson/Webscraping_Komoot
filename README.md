@@ -2,9 +2,9 @@
 # Website scrapping project
 
 ## Introduction
-As part of our data science studies at ITC, we have been asked to scrap a website of our choosing to practice our python skills.
+As part of our data science studies at ITC, we have been asked as a training to scrap a website of our choosing, create a database from the collected information, and complement it with data from an API.
 
-Marc and I being both passionate about hiking, we decided to scrap [Komoot.com](https://www.komoot.com/), which references hikes around the world
+Marc and I being both passionate about hiking, we decided to scrap [Komoot.com](https://www.komoot.com/), which references hikes around the world.
 
 ## Goal
 
@@ -24,64 +24,78 @@ As a practice exercice, our goal was to scrap the information of 1000 hikes, and
    - Step 2. Scrap each hikes url page 
    - Step 3. Print the collected information, or store it into any type of storage way (we choose a csv file to start with) 
 
-### Step 2: call from terminal + create a database
+### Step 2: wrap the code with a parser + create a database
 
-- Call from terminal: We wrapped our code with argpase to be able to call it from the terminal. More details in the section below
+- Parser: We wrapped our code with argpase to be able to call it from the terminal. More details in the section below
 - Database: we defined our database design and then populated the tables from python directly. More details below on the database structure
+
+
+### Step 3: complement the database with historical weather information based on the location of the hikes
+
+- We first collect the latitude & longitudes for all the cities in our database thanks to api_ninjas.com
+- From these locations, we collect 10 years of weather information thanks to open-meteo.com
 
 
 ## Structure of the code
 
-The code is structured in 4 files:
-- File 1 (get_hiking_urls.py): a function that receives a catalogue page (ie a page that contains 12 url hikes) and collect the url of the hikes into a list. 
-- File 2 (get_hiking_info.py): a series of function that receive the url of one hike and will collect the different relevant information of the hike (mainly the distance, difficulty, description, type of paths, localisation)
-- File 3 (get_all_hikes_info.py): a main function that will call the functions from file 1 and 2, and loop over in a relevant way to collect all the data. In this file, we added the possibility to run the script from the terminal with different argument
-- File 4 (create_database.py): a series of functions that create the database and tables, and then populate them
+The code is structured in 6 files:
+- File 1 (get_hiking_urls.py): a series of functions that return a list of hikes urls by receiving a catalogue page as input (a catalogue page is a page that contains 12 url hikes, like [this one](https://www.komoot.com/discover/Tel_Aviv/@32.0803000%2C34.7805000/tours?max_distance=30000&sport=hike&map=true&startLocation=))
+- File 2 (get_hike_info.py): a series of function that receive the url of one hike and will collect the different relevant information of the hike (mainly the distance, difficulty, description, type of paths, location)
+- File 3 (create_database.py): a series of functions that create the database and hikes related tables (excluding the weather related tables), and then populate them
+- File 4 (weather_API.py): a series of functions that collect historical weather information for the hikes cities in our database through APIs, create a table to store them, and populate it
+- File 5 (parser_file.py): the file that contains the parser wrapping our code. Thanks to it, the user will be able to select whether they want to scrape hikes or complement the locations scrapped with weather info. It also offers additional functionalities : 
+- File 6 (main.py): the file that runs all the others, depending on the choice of the users given through the parser: how many hikes to scrape, which data to scrape, where to store the data (CSV, SQL or both) are configurations that the user can specify in the parser (if SQL or both is choosen, file 3 will also be called)
+   - If the user chooses to scrape, the main function will call the functions from file 1 and 2, and loop over in a relevant way to scrape the data on Kommot. 
+   - If the user chooses to complement the previously scraped info with weather info, the main function will run the file 4 and collect weather info
 
 
 
 ## How to run the file
 
-Install the requirements (from requirements.txt)
+1) Install the requirements (from requirements.txt)
 
-Go into the komoot_config.json file:
-- give the url of the catalogue page that you would like to scrap 
+2) Go into the komoot_config.json file:
+- give the url of the catalogue page that you would like to scrape 
 - indicate the csv in which you would like to store the scraped info (if not in the database)
 
-Then go into the terminal (for the moment it can only be run from the terminal):
-- run get_all_hike_info.py
-- Add the number of catalogue page to scrape (one catalogue page contains 12 hikes)
+3) Add in the Edit Configuration page the parser argument (see below for more details on the parser)
 
-The code will ask you a series of question:
-- if you want to re-use the list of url hikes of previous launches (ie skip step 1 described above), or relaunch from start
-- if you want to store the result in a csv, in a database, or both. In the case of a database (or both), what are you user name and password for mysql. 
-
-
+4) Run the main file
 
 
 ## Argparse details
 
-- First argument - number_of_hiking_pages_to_scrape: indicates the number of catalogue pages to scrape (one catalogue page = 12 hikes)
-- Second argument - datatypes_to_be_scraped : indicates which information you want to scrape. You can one zero (default is all), 1, or several datatype among this list : ["title", "difficulty", "duration", "distance", "average_speed", "uphill", "downhill","description", "tip", "way_types_and_surfaces", "location", "all"]
+- action_to_perform (optional, default = both): indicates whether you want to scrape komoot ("scrape"), complement the collected hike with weather info ("weather_info") or do both ("both")
+- number_of_catalogue_pages_to_scrape (optional, default = 1): the number of catalogue pages to scrape (one catalogue page = 12 hikes)
+- datatypes_to_be_scraped (optional, default = all) : indicates which information you want to scrape, among this list : ["title", "difficulty", "duration", "distance", "average_speed", "uphill", "downhill","description", "tip", "way_types_and_surfaces", "location", "all"]
 
-/!\ Important note: you can only populate the database if you don't indicate a second argument (ie if you want to scrap all the information). If you scrap a narrower scope, it won't populate the database (as we want complete information in our database)
+/!\ Important note: you can only populate the database if you don't indicate a second argument (ie if you want to scrap all the information). If you scrape a narrower scope and ask to store the info in SQL, it will raise an error
+
+- old_catalogue (optional, default = N): with Y the scrapping won't re-scrap the catalogue pages, but will re-use the last scrapped catalogue pages results (stored in the list_of_hiking_urls.csv file). With N, the list of hikes will be determined again, by scrapping first the catalogue page
+- storage (optional, default = CSV): indicates where the result of the scrapping is stored: in the SQL database, in a csv, or in both
+- localhost : used to connect to MySQL. Required in case SQL (or both) is chosen for storage 
+- user : SQL user used to connect to MySQL. Required in case SQL (or both) is chosen for storage 
+- password : SQL password used to connect to MySQL. Required in case SQL (or both) is chosen for storage 
 
 ## Database 
 
 ### Tables
 
-<img width="1018" alt="Capture d’écran 2023-04-03 à 23 56 54" src="https://user-images.githubusercontent.com/127126176/229629441-5cc8dbfc-b51e-4b05-bc8c-c3c851988c7e.png">
+<img width="778" alt="Capture d’écran 2023-04-24 à 23 13 45" src="https://user-images.githubusercontent.com/127126176/234106008-64a456de-3dfe-4f05-a404-77ac8af28ddc.png">
 
 
-The database is made of 7 tables:
-- treks: lists each treks 
-- main_info: lists the main information about the treks
-- way_types: indicates per trek the type of way and the distance of each type
-- surfaces: indicates per trek the type of surfaces and the distance of each type
-- country: lists the possible countries of the hikes
-- region: lists the possible regions of the hikes
-- difficulty: lists the possible difficulties of the hikes
 
+The database is made of 8 tables:
+- Hiking tables:
+   - treks: lists each treks 
+   - main_info: lists the main information about the treks
+   - way_types: indicates per trek the type of way and the distance of each type
+   - surfaces: indicates per trek the type of surfaces and the distance of each type
+   - country: lists the countries of the hikes
+   - city: lists the cities of the hikes
+   - difficulty: lists the difficulties of the hikes
+- Weather tables:
+   - weather : lists for each city and day over the last 10 years some key weather info: the min, max and average temperature of the day, and the daily precipitation in mm and hours
 
 ### Columns
 
@@ -115,13 +129,24 @@ country:
 - id: key
 - country : a country where we found hikes
 
-region:
+city:
 - id: key
-- region : a region where we found hikes
+- city : a region where we found hikes
+- country_id : the country related to this city
 
 difficulty:
 - id: key
 - difficulty : lists the possible difficulties of the hikes (easy, medium, hard,...)
+
+weather:
+- id : key
+- city_id : the id of the city
+- date : the date of the weather info
+- max_temperature : the maximum temperature for this city on the given date
+- min_temperature : the minimum temperature for this city on the given date
+- avg_temperature : the average temperature for this city on the given date
+- daily_precipitation_mm : the mm of rains for this city on the given date
+- daily_precipitation_hours : the hours of rains for this city on the given date
 
 ## About the authors
 

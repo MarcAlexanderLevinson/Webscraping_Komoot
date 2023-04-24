@@ -208,7 +208,6 @@ def populate_city(hikes_infos, host, user, password):
     mydb, mycursor = connect_to_komoot(host, user, password)
     cities = set()
     for hike in hikes_infos:
-        print(hike)
         if CITY in hike:
             cities.add((hike[CITY], hike[COUNTRY]))
     cities = list(cities)
