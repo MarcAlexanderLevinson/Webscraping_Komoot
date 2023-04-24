@@ -238,18 +238,20 @@ def get_location():
     url = driver.current_url
     location = dict()
     try:
-        geography = driver.find_elements(By.XPATH, LOCATION_HTML)
+        geography = driver.find_elements(By.XPATH, "//div[@class='css-1jg13ty']/*[@href]")
         all_loc = [geo.text for geo in
-                   geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking
-        # Trail", but also contains duplicates
-
-        all_loc = list(filter(lambda x: x != 'Discover' and x != 'Hiking trails & Routes',
+                   geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking Trail", but also contains duplicates
+        all_loc = list(filter(lambda x: x != 'Discover' and x != 'Hiking trails & Routes' and x != '',
                               all_loc))  # This removes the generic terms
-        all_loc = list(dict.fromkeys(all_loc))  # This removes all duplicates
 
-        location["Country"] = all_loc[0]
-        location["Region"] = all_loc[1]
-        location["City"] = all_loc[-1]
+        unique_loc = []
+        for index, place in enumerate(all_loc):
+            if place not in all_loc[index + 1:]:
+                unique_loc.append(place)
+
+        location["Country"] = unique_loc[0]
+        location["Region"] = unique_loc[1]
+        location["City"] = unique_loc[-1]
         logging.info(f'Success: The location of this url ({url}) was found')
         return location
 
