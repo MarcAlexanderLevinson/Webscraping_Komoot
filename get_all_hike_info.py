@@ -33,7 +33,7 @@ parser.add_argument('number_of_hiking_pages_to_scrape',
                     help="""each hiking page contains 12 hikes, to the input given is multiplied by 12 for the total of
                          hikes that will be scraped. E.g. if the input is 5, a total of 60 hikes will be scraped""")
 
-    parser.add_argument("datatypes_to_be_scraped",
+parser.add_argument("datatypes_to_be_scraped",
                     choices=["title", "difficulty", "duration", "distance", "average_speed", "uphill", "downhill",
                              "description", "tip", "way_types_and_surfaces", "location", "all"],
                     nargs='*',
