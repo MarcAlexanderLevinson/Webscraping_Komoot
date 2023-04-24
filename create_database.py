@@ -8,7 +8,22 @@ with open("komoot_config.json", 'r') as f:
 SURFACES = config["surfaces"]
 WAY_TYPES = config["way_types"]
 KOMOOT = config["KOMOOT"]
+TITLE_NAME = config["title_name"]
+DIFFICULTY_NAME = config["difficulty_name"]
+DURATION_NAME = config["duration_name"]
+DISTANCE_NAME = config["distance_name"]
+AVERAGE_SPEED_NAME = config["average_speed_name"]
+UPHILL_NAME = config["uphill_name"]
+DOWNHILL_NAME = config["downhill_name"]
+DESCRIPTION_NAME = config["description_name"]
+TIPS_NAME = config["tips_name"]
+TEST_URL = config["test_url"]
+URL = config["url"]
 CREATE_DATABASE = config["CREATE_DATABASE"]
+COUNTRY = config["country"]
+REGION = config["region"]
+CITY = config["city"]
+
 
 
 def create_database(host, user, password):
@@ -163,8 +178,8 @@ def populate_country(hikes_infos, host, user, password):
     mydb, mycursor = connect_to_komoot(host, user, password)
     countries = set()
     for hike in hikes_infos:
-        if "Country" in hike:
-            countries.add(hike["Country"])
+        if COUNTRY in hike:
+            countries.add(hike[COUNTRY])
     countries = list(countries)
 
     for country in countries:
@@ -173,7 +188,7 @@ def populate_country(hikes_infos, host, user, password):
         result = mycursor.fetchall()
         # We're testing if the country already exists in the database. If yes, we don't add it again
         if (country,) in result:
-            print('pass country')
+            logging.info(f'{country} was already present in the table')
             pass
         else:
             sql = """INSERT INTO country (country)
@@ -194,8 +209,8 @@ def populate_city(hikes_infos, host, user, password):
     cities = set()
     for hike in hikes_infos:
         print(hike)
-        if "City" in hike:
-            cities.add((hike["City"], hike["Country"]))
+        if CITY in hike:
+            cities.add((hike[CITY], hike[COUNTRY]))
     cities = list(cities)
 
     for city, country in cities:
@@ -207,7 +222,7 @@ def populate_city(hikes_infos, host, user, password):
             result = mycursor.fetchall()
             # We're testing if the city already exists in the database. If yes, we don't add it again
             if (city,) in result:
-                print('pass city')
+                logging.info(f'{city} was already present in the table')
                 pass
             else:
                 sql = f"SELECT id FROM country WHERE country like '{country}'"
@@ -228,7 +243,7 @@ def populate_difficulty(hikes_infos, host, user, password):
 
     difficulties = set()
     for hike in hikes_infos:
-        difficulties.add(hike["3.difficulty"])
+        difficulties.add(hike[DIFFICULTY_NAME])
     difficulties = list(difficulties)
 
     for difficulty in difficulties:
@@ -251,7 +266,7 @@ def populate_one_hike_into_treks(hike, mycursor):
     mycursor.execute(sql)
     result = mycursor.fetchall()
     # We're testing if the url already exists in the database. If yes, we don't add it again
-    if (hike["url"],) in result:
+    if (hike[URL],) in result:
         pass
     else:
         sql_treks = """INSERT INTO treks (
@@ -263,15 +278,15 @@ def populate_one_hike_into_treks(hike, mycursor):
                         ) 
                          VALUES(%s,%s,%s, (SELECT id FROM country WHERE country = %s), (SELECT id FROM city WHERE city = %s));
                             """
-        title = hike["2.title"]
-        description = hike["9.description"]
-        url = hike["url"]
-        if "Country" in hike:
-            country = hike["Country"]
+        title = hike[TITLE_NAME]
+        description = hike[DESCRIPTION_NAME]
+        url = hike[URL]
+        if COUNTRY in hike:
+            country = hike[COUNTRY]
         else:
             country = ""
-        if "City" in hike:
-            city = hike["City"]
+        if CITY in hike:
+            city = hike[CITY]
         else:
             city = ""
         mycursor.execute(sql_treks, [title, description, url, country, city])
@@ -291,13 +306,13 @@ def populate_one_hike_into_main_info(hike, mycursor, trek_id):
                                  , tips)
                                 VALUES(%s,(SELECT id FROM difficulty WHERE difficulty = %s),%s,%s,%s,%s,%s,%s);
                                 """
-    difficulty = hike["3.difficulty"]
-    duration = hike["4.duration"]
-    distance = hike["5.distance"]
-    average_speed = hike["6.average_speed"]
-    uphill = hike["7.uphill"]
-    downhill = hike["8.downhill"]
-    tips = hike["91.tips"]
+    difficulty = hike[DIFFICULTY_NAME]
+    duration = hike[DURATION_NAME]
+    distance = hike[DISTANCE_NAME]
+    average_speed = hike[AVERAGE_SPEED_NAME]
+    uphill = hike[UPHILL_NAME]
+    downhill = hike[DOWNHILL_NAME]
+    tips = hike[TIPS_NAME]
     mycursor.execute(sql_main_infos,
                      [trek_id, difficulty, duration, distance, average_speed, uphill, downhill, tips])
 

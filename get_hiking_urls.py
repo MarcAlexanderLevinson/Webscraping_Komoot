@@ -45,12 +45,7 @@ def get_html_blocks(catalogue_url):
 
 def get_one_hike_url(block, urls_of_hikes, number_of_hikes_found_on_this_page, number_of_hikes_found, catalogue_url):
     """
-    :param block:
-    :param urls_of_hikes:
-    :param number_of_hikes_found_on_this_page:
-    :param number_of_hikes_found:
-    :param catalogue_url:
-    :return:
+    From one given block on a catalogue page, extracts the url of the hike
     """
     try:
         urls_of_hikes.append(block.find_element(By.TAG_NAME, "a").get_attribute("href"))

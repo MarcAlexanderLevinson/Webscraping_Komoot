@@ -30,6 +30,20 @@
   "way_types": ["alpine_hiking_path", "ferry", "footpath", "hiking_path", "mountain_hiking_path", "path", "road",
              "state_road", "street"],
   "CREATE_DATABASE": "CREATE DATABASE IF NOT EXISTS komoot",
-  "KOMOOT": "komoot"
-
+  "KOMOOT": "komoot",
+  "id_name": "1.ID",
+  "title_name": "2.title",
+  "difficulty_name": "3.difficulty",
+  "duration_name":"4.duration",
+  "distance_name":"5.distance",
+  "average_speed_name": "6.average_speed",
+  "uphill_name": "7.uphill",
+  "downhill_name": "8.downhill",
+  "description_name" : "9.description",
+  "tips_name": "91.tips",
+  "test_url": "https://www.komoot.com/smarttour/e930384063/puy-pariou-boucle-depuis-le-parking-des-[…]regional-des-volcans-d-auvergne?tour_origin=smart_tour_search"
+  "url": "url",
+  "country": "Country",
+  "region": "Region",
+  "city": "City"
 }
