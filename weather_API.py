@@ -46,7 +46,7 @@ def get_latitude_longitude(df_locations):
     df_locations['long'] = 0
 
     # This adds lat and long per city to the locations
-    for index, row in tqdm(df_locations.iterrows(), len(df_locations)):
+    for index, row in tqdm(df_locations.iterrows()):
         city = df_locations.loc[index, 'city']
         country = df_locations.loc[index, 'country']
 
@@ -76,7 +76,7 @@ def create_weather_table(df_locations_lat_long):
 
     weather_table = pd.DataFrame()
 
-    for index, row in tqdm(df_locations_lat_long.iterrows(), len(df_locations_lat_long)):
+    for index, row in tqdm(df_locations_lat_long.iterrows()):
         lat = df_locations_lat_long.loc[index, 'lat']
         long = df_locations_lat_long.loc[index, 'long']
 

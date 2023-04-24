@@ -16,7 +16,6 @@ with open("komoot_config.json", 'r') as f:
     config = json.load(f)
 BASE_URL = config["URL"]
 HIKING_DATA_CSV = config["HIKES_INFO_CSV"]
-######
 BOTH = config["BOTH"]
 SQL = config["SQL"]
 CSV = config["CSV"]

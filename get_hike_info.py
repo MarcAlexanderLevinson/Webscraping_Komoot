@@ -9,23 +9,11 @@ import json
 
 with open("komoot_config.json", 'r') as f:
     config = json.load(f)
+ALL = config["ALL"]
 WINDOW_SIZE_WIDTH = config["set_window_size_width"]
 WINDOW_SIZE_HEIGHT = config["set_window_size_height"]
 IMPLICIT_WAIT_1 = config["implicit_wait_1"]
 IMPLICIT_WAIT_2 = config["implicit_wait_2"]
-
-start = time.time()
-# start by defining the options
-options = webdriver.ChromeOptions()
-options.add_argument("--headless=new")  # it's more scalable to work in headless mode
-options.page_load_strategy = config["page_load_strategy"]
-# this returns the path web driver downloaded
-chrome_path = ChromeDriverManager().install()
-chrome_service = Service(chrome_path)
-# pass the defined options and service objects to initialize the web driver
-driver = Chrome(options=options, service=chrome_service)
-driver.set_window_size(WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT)
-driver.implicitly_wait(IMPLICIT_WAIT_1)
 CONVERSIONS_TO_KM = config["conversions_to_km"]
 TITLE_HTML = config["title_html"]
 DIFFICULTY_HTML = config["difficulty_html"]
@@ -39,8 +27,30 @@ DESCRIPTION_2_HTML = config["description_2_html"]
 TIP_HTML = config["tip_html"]
 WAY_TYPES_SURFACES_HTML = config["way_types_surfaces_html"]
 LOCATION_HTML = config["location_html"]
+ID_NAME = config["id_name"]
+TITLE_NAME = config["title_name"]
+DIFFICULTY_NAME = config["difficulty_name"]
+DURATION_NAME = config["duration_name"]
+DISTANCE_NAME = config["distance_name"]
+AVERAGE_SPEED_NAME = config["average_speed_name"]
+UPHILL_NAME = config["uphill_name"]
+DOWNHILL_NAME = config["downhill_name"]
+DESCRIPTION_NAME = config["description_name"]
+TIPS_NAME = config["tips_name"]
+TEST_URL = config["test_url"]
 
-url = """https://www.komoot.com/smarttour/e930384063/puy-pariou-boucle-depuis-le-parking-des-[…]regional-des-volcans-d-auvergne?tour_origin=smart_tour_search"""
+start = time.time()
+# start by defining the options
+options = webdriver.ChromeOptions()
+options.add_argument("--headless=new")  # it's more scalable to work in headless mode
+options.page_load_strategy = config["page_load_strategy"]
+# this returns the path web driver downloaded
+chrome_path = ChromeDriverManager().install()
+chrome_service = Service(chrome_path)
+# pass the defined options and service objects to initialize the web driver
+driver = Chrome(options=options, service=chrome_service)
+driver.set_window_size(WINDOW_SIZE_WIDTH, WINDOW_SIZE_HEIGHT)
+driver.implicitly_wait(IMPLICIT_WAIT_1)
 
 
 def distance_converter(distance_with_unit):
@@ -62,36 +72,39 @@ def get_hike_title():
     """
     :return the title of the hike
     """
+    url = driver.current_url
     try:
         title = driver.find_element(By.CSS_SELECTOR, TITLE_HTML).text
-        return {f"2.title": title}
+        return {TITLE_NAME: title}
     except:
         logging.warning(f'The hike title of this url ({url}) was not found')
-        return {"2.title": ""}
+        return {TITLE_NAME: ""}
 
 
 def get_difficulty():
     """
     :return the difficulty of the hike
     """
+    url = driver.current_url
     try:
         difficulty = driver.find_element(By.CSS_SELECTOR, DIFFICULTY_HTML).text
-        return {f"3.difficulty": difficulty}
+        return {DIFFICULTY_NAME: difficulty}
     except:
         logging.warning(f'The hike difficulty of this url ({url}) was not found')
-        return {"3.difficulty": ""}
+        return {DIFFICULTY_NAME: ""}
 
 
 def get_duration():
     """
     :return the duration of the hike
     """
+    url = driver.current_url
     try:
         duration = driver.find_element(By.CSS_SELECTOR, DURATION_HTML).text
-        return {f"4.duration": duration}
+        return {DURATION_NAME: duration}
     except:
         logging.warning(f'The hike duration of this url ({url}) was not found')
-        return {"4.duration": ""}
+        return {DURATION_NAME: ""}
 
 
 def get_distance():
@@ -102,10 +115,10 @@ def get_distance():
     try:
         distance_text = driver.find_element(By.CSS_SELECTOR, DISTANCE_HTML).text
         distance = round(distance_converter(distance_text), 2)
-        return {f"5.distance": distance}
+        return {DISTANCE_NAME: distance}
     except:
         logging.warning(f'The hike distance of this url ({url}) was not found')
-        return {"5.distance": ""}
+        return {DISTANCE_NAME: ""}
 
 
 def get_average_speed():
@@ -116,10 +129,10 @@ def get_average_speed():
     try:
         average_speed_text = driver.find_element(By.CSS_SELECTOR, SPEED_HTML).text
         average_speed = round(distance_converter(average_speed_text))
-        return {f"6.average_speed": average_speed}
+        return {AVERAGE_SPEED_NAME: average_speed}
     except:
         logging.warning(f'The hike average speed of this url ({url}) was not found')
-        return {"6.average_speed": ""}
+        return {AVERAGE_SPEED_NAME: ""}
 
 
 def get_uphill():
@@ -131,10 +144,10 @@ def get_uphill():
         uphill_text = driver.find_element(By.CSS_SELECTOR, UPHILL_HTML).text
         uphill_text = uphill_text.replace(",", "")
         uphill = round(distance_converter(uphill_text) * 1000, 2)  # This one is put in m instead of km's
-        return {f"7.uphill": uphill}
+        return {UPHILL_NAME: uphill}
     except:
         logging.warning(f'The hike uphill meters of this url ({url}) was not found')
-        return {"7.uphill": ""}
+        return {UPHILL_NAME: ""}
 
 
 def get_downhill():
@@ -146,10 +159,10 @@ def get_downhill():
         downhill_text = driver.find_element(By.CSS_SELECTOR, DOWNHILL_HTML).text
         downhill_text = downhill_text.replace(",", "")
         downhill = round(distance_converter(downhill_text) * 1000, 2)  # This one is put in m instead of km's
-        return {f"8.downhill": downhill}
+        return {DOWNHILL_NAME: downhill}
     except:
         logging.warning(f'The hike downhill meters of this url ({url}) was not found')
-        return {"8.downhill": ""}
+        return {DOWNHILL_NAME: ""}
 
 
 def get_description():
@@ -164,7 +177,7 @@ def get_description():
         logging.info(f'Success: The description level 1 of this url ({url}) was found')
     except:
         logging.warning(f'The description level 1 of this url ({url}) was not found')
-        return {f"9.description": ""}
+        return {DESCRIPTION_NAME: ""}
 
     try:  # Try/except to handle cases without the 2nd part of the description
         descriptions_niv2 = driver.find_element(By.XPATH,
@@ -172,7 +185,7 @@ def get_description():
     except:
         descriptions_niv2 = ''
     description = descriptions_niv1 + ' ' + descriptions_niv2
-    return {f"9.description": description}
+    return {DESCRIPTION_NAME: description}
 
 
 def get_tip():
@@ -183,10 +196,10 @@ def get_tip():
     try:
         tips = driver.find_element(By.CSS_SELECTOR, TIP_HTML).text
         logging.info(f'Success: The hike tip this url ({url}) was found')
-        return {f"91.tips": tips}
+        return {TIPS_NAME: tips}
     except:
         logging.warning(f'The hike tip of this url ({url}) was not found')
-        return {f"91.tips": ""}
+        return {TIPS_NAME: ""}
 
 
 def way_type_converter(raw_way_type_info):
@@ -197,7 +210,8 @@ def way_type_converter(raw_way_type_info):
     converts it into km, e.g. {"Path": 1.06}
     """
     way_type = raw_way_type_info.split(":")[0].lower()
-    if way_type == 'natural':  # we change the name of this column because 'natural' is a word in SQL
+    if way_type == 'natural':  # we change the name of this column because 'natural' is a word in SQL,
+        # which poses problem down the line
         way_type = 'natural_terrain'
     distance_string = raw_way_type_info.split(":")[1]
     if "<" in distance_string:
@@ -240,7 +254,8 @@ def get_location():
     try:
         geography = driver.find_elements(By.XPATH, "//div[@class='css-1jg13ty']/*[@href]")
         all_loc = [geo.text for geo in
-                   geography]  # This returns a list of locations and some generic terms like "Discover" and "Hiking Trail", but also contains duplicates
+                   geography]  # This returns a list of locations and some generic terms like "Discover" and
+        # "Hiking Trail", but also contains duplicates
         all_loc = list(filter(lambda x: x != 'Discover' and x != 'Hiking trails & Routes' and x != '',
                               all_loc))  # This removes the generic terms
 
@@ -262,25 +277,28 @@ def get_location():
 
 def get_hike_info(index, url, list_of_datatypes="all"):
     """
-    :param index: the id of the hike for the database, url: url of the link to the hike, list_of_datatypes: list of
-    datatypes that the user wants to retrieve from the url. This can be set at "all" or as a list of strings, such as
+    :param
+    index: the id of the hike for the database,
+    url: url of the link to the hike,
+    list_of_datatypes: list of datatypes that the user wants to retrieve from the url.
+    This can be set at "all" or as a list of strings, such as
     ["title", "description", "location"]
     :return: a dictionary of the requested hiking datatypes
     """
 
     driver_get_url(url)
-    dictionary_of_datatype_functions = {"title": get_hike_title, "difficulty": get_difficulty, "duration": get_duration,
+    DICTIONARY_OF_DATATYPE_FUNCTIONS = {"title": get_hike_title, "difficulty": get_difficulty, "duration": get_duration,
                                         "distance": get_distance, "average_speed": get_average_speed,
                                         "uphill": get_uphill,
                                         "downhill": get_downhill, "description": get_description, "tip": get_tip,
                                         "way_types_and_surfaces": get_way_types_and_surfaces, "location": get_location}
 
-    if list_of_datatypes == "all":
-        list_of_datatypes = list(dictionary_of_datatype_functions)
+    if list_of_datatypes == ALL:
+        list_of_datatypes = list(DICTIONARY_OF_DATATYPE_FUNCTIONS)
     try:
-        hike_info = {"1.ID": index}
+        hike_info = {ID_NAME: index}
         for data_type in list_of_datatypes:
-            hike_info.update(dictionary_of_datatype_functions[data_type]())
+            hike_info.update(DICTIONARY_OF_DATATYPE_FUNCTIONS[data_type]())
         hike_info.update({"url": url})
         return hike_info
     except:
