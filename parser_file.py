@@ -44,8 +44,8 @@ def parser():
     parser.add_argument('-c', '--old_catalogue',
                         choices=["Y", "N"],
                         default="N",
-                        help="""with Y the scrapping won't re-scrap the catalogue page, but will re-use the last scrapped 
-                        catalogue page results (stored in the list_of_hiking_urls.csv file).
+                        help="""with Y the scrapping won't re-scrap the catalogue pages, but will re-use the last scrapped 
+                        catalogue pages results (stored in the list_of_hiking_urls.csv file).
                         With N, the list of hikes will be determined again, by scrapping first the catalogue page""")
 
     parser.add_argument('-s', '--storage',
