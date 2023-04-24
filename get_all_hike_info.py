@@ -24,10 +24,18 @@ Y = config["Y"]
 
 
 def check_sql_info(storage, localhost, user, password, datatypes_to_be_scraped):
+    """
+    This function will:
+    - check that the choices of the user are consistent :
+      - if he chooses to store in SQL, he must provide the connection information (localhost, user, password).
+        Otherwise it raises an error
+      - if he chooses to store in SQL, he must choose to scrape all the information, not just a subset
+    - if he chooses to store in SQL, that the connection can be made. Otherwise it returns an error
+    """
     if (BOTH in storage or SQL in storage) and (localhost is None or user is None or password is None):
         raise Exception(
             "Sorry, if you want to store the data in SQL, you need to provide the localhost, user and password info")
-    else:
+    elif BOTH in storage or SQL in storage:
         try:
             mydb = pymysql.connect(
                 host=localhost,
@@ -98,7 +106,6 @@ def main():
     # we store it in the list 'hikes_infos'
     for hike_id, hike_url in enumerate(tqdm(hiking_urls)):
         hikes_infos.append(hi.get_hike_info(hike_id, hike_url, list_of_datatypes))
-
 
     # We create a csv from the list of hikes infos
     if data_storage == CSV or data_storage == BOTH:

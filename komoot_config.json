@@ -42,7 +42,7 @@
   "description_name" : "9.description",
   "tips_name": "91.tips",
   "test_url": "https://www.komoot.com/smarttour/e930384063/puy-pariou-boucle-depuis-le-parking-des-[…]regional-des-volcans-d-auvergne?tour_origin=smart_tour_search"
-  "url": "url",
+  "url_name": "url",
   "country": "Country",
   "region": "Region",
   "city": "City"
