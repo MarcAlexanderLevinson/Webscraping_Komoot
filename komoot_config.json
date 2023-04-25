@@ -4,6 +4,7 @@
   "BOTH":"BOTH",
   "SQL":"SQL",
   "ALL":"all",
+  "WEATHER_INFO":"weather_info",
   "CSV":"CSV",
   "Y":"Y",
   "N":"N",
@@ -60,5 +61,7 @@
   "temperature_2m_min": "temperature_2m_min",
   "temperature_2m_mean": "temperature_2m_mean",
   "precipitation_sum": "precipitation_sum",
-  "precipitation_hours": "precipitation_hours"
+  "precipitation_hours": "precipitation_hours",
+  "input_for_weather_api": "daily=temperature_2m_max,temperature_2m_min,temperature_2m_mean,precipitation_sum,precipitation_hours&timezone=Europe%2FBerlin",
+  "base_for_weather_api": "https://archive-api.open-meteo.com/v1/archive?"
 }

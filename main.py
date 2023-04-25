@@ -22,23 +22,29 @@ CSV = config["CSV"]
 ALL = config["ALL"]
 N = config["N"]
 Y = config["Y"]
-START_DATE = config["START_DATE"]
-END_DATE = config["END_DATE"]
+START_DATE = config["start_date"]
+END_DATE = config["end_date"]
+WEATHER_INFO = config["WEATHER_INFO"]
 
 
-def check_sql_info(storage, localhost, user, password, datatypes_to_be_scraped):
+def check_sql_info(storage, action_to_perform, localhost, user, password, datatypes_to_be_scraped):
     """
     This function will:
     - check that the choices of the user are consistent :
       - if he chooses to store in SQL, he must provide the connection information (localhost, user, password).
         Otherwise it raises an error
       - if he chooses to store in SQL, he must choose to scrape all the information, not just a subset
-    - if he chooses to store in SQL, that the connection can be made. Otherwise it returns an error
+      - if he chooses to add API data, he must provide the connection information (localhost, user, password).
+    - if he chooses to store in SQL or add API data, that the connection can be made. Otherwise it returns an error
     """
     if (BOTH in storage or SQL in storage) and (localhost is None or user is None or password is None):
         raise Exception(
             "Sorry, if you want to store the data in SQL, you need to provide the localhost, user and password info")
-    elif BOTH in storage or SQL in storage:
+    elif (BOTH in action_to_perform or "weather_info" in action_to_perform) and (
+            localhost is None or user is None or password is None):
+        raise Exception(
+            "Sorry, if you want to add API information, you need to provide the SQL localhost, user and password info")
+    elif BOTH in storage or SQL in storage or BOTH in action_to_perform or "weather_info" in action_to_perform:
         try:
             mydb = pymysql.connect(
                 host=localhost,
@@ -126,14 +132,11 @@ def main():
     list_of_datatypes = user_inputs.datatypes_to_be_scraped
 
     # Stop the program if there is a mismatch in the user inputs
-    check_sql_info(data_storage, host, user, password, list_of_datatypes)
-
+    check_sql_info(data_storage, action_to_perform, host, user, password, list_of_datatypes)
     if action_to_perform == 'scrape' or action_to_perform == 'both':
         scraper(old_catalogue, user_inputs, list_of_datatypes, data_storage, host, user, password)
-
     if action_to_perform == 'weather_info' or action_to_perform == 'both':
         add_weather_info(host, user, password)
-
 
 if __name__ == "__main__":
     main()

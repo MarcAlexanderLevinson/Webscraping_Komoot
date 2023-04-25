@@ -5,7 +5,6 @@ import create_database as cd
 import logging
 import json
 
-
 with open("komoot_config.json", 'r') as f:
     config = json.load(f)
 
@@ -21,9 +20,9 @@ TEMPERATURE_2M_MIN = config["temperature_2m_min"]
 TEMPERATURE_2M_MEAN = config["temperature_2m_mean"]
 PRECIPITATION_SUM = config["precipitation_sum"]
 PRECIPITATION_HOURS = config["precipitation_hours"]
-START_DATE = config["START_DATE"]
-END_DATE = config["END_DATE"]
 CITY_ID = config["city_id"]
+VARIABLES = config["input_for_weather_api"]
+BASE_API = config["base_for_weather_api"]
 
 
 def create_table_weather(host, user, password):
@@ -99,8 +98,7 @@ def get_latitude_longitude(df_locations):
     return df_locations
 
 
-
-def create_weather_dataframe(df_locations_lat_long, START_DATE, END_DATE):
+def create_weather_dataframe(df_locations_lat_long, SDATE, EDATE):
     """
     This function takes in a pandas dataframe with city locations and creates a new dataframe containing the daily
     weather information per city between 2013-04-01 and 2023-04-01. So that is approximately 3650 rows per city.
@@ -114,10 +112,7 @@ def create_weather_dataframe(df_locations_lat_long, START_DATE, END_DATE):
     for index, row in tqdm(df_locations_lat_long.iterrows()):
         lat = df_locations_lat_long.loc[index, LAT]
         long = df_locations_lat_long.loc[index, LONG]
-
-        url = f"""https://archive-api.open-meteo.com/v1/archive?latitude={str(lat)}&longitude={str(long)}&start_date=
-                    {START_DATE}&end_date={END_DATE}&daily=temperature_2m_max,temperature_2m_min,temperature_2m_mean,
-                    precipitation_sum,precipitation_hours&timezone=Europe%2FBerlin"""
+        url = f"""{BASE_API}latitude={str(lat)}&longitude={str(long)}&start_date={SDATE}&end_date={EDATE}&{VARIABLES}"""
 
         r = requests.get(url, timeout=10)
         data = r.json()
