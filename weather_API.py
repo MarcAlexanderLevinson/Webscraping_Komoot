@@ -8,7 +8,6 @@ import json
 
 with open("komoot_config.json", 'r') as f:
     config = json.load(f)
-<<<<<<< HEAD
 
 LAT = config["lat"]
 LONG = config["long"]
@@ -60,7 +59,7 @@ def select_locations(host, user, password):
                 WHERE city.id NOT IN (SELECT city_id FROM weather)"""
     mycursor.execute(sql)
     locations = mycursor.fetchall()
-    df_locations = pd.DataFrame(locations, columns=[CITY_ID, CITY, COUNTRY])
+    df_locations = pd.DataFrame(locations, columns=[CITY_ID, CITY2, COUNTRY2])
     logging.info(f'Success: locations dataframe has been made')
     return df_locations
 
