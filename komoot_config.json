@@ -45,5 +45,10 @@
   "url_name": "url",
   "country": "Country",
   "region": "Region",
-  "city": "City"
+  "city": "City",
+  "START_DATE": "2013-04-01",
+  "END_DATE": "2023-04-1",
+  "city_id":  "city_id",
+  "city":  "city",
+  "country": "country"
 }
