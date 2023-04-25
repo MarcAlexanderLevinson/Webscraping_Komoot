@@ -45,5 +45,20 @@
   "url_name": "url",
   "country": "Country",
   "region": "Region",
-  "city": "City"
+  "city": "City",
+  "country2": "country",
+  "city2": "city",
+  "city_id": "city_id",
+  "lat": "lat",
+  "long":"long",
+  "latitude":"latitude",
+  "longitude":"longitude",
+  "start_date": "2013-04-01",
+  "end_date": "2023-04-01",
+  "time": "time",
+  "temperature_2m_max": "temperature_2m_max",
+  "temperature_2m_min": "temperature_2m_min",
+  "temperature_2m_mean": "temperature_2m_mean",
+  "precipitation_sum": "precipitation_sum",
+  "precipitation_hours": "precipitation_hours"
 }

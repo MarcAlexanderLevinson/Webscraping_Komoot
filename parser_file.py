@@ -8,9 +8,9 @@ def parser():
     to retrieve, the datatypes are set to all datatypes by default, the amount of hikes need specification and are multiplied 
     by 12, since this is how many hikes are present per hiking page!!!!
     Example for scraping all data from 24 hikes:
-    python get_all_hike_info.py 2
+    python main.py 2
     Example for scraping title, location and difficulty from 120 hikes:
-    python get_all_hike_info.py 10 title location difficulty
+    python main.py 10 title location difficulty
     """)
 
     parser.add_argument('-a',
