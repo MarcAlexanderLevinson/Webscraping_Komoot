@@ -22,8 +22,8 @@ CSV = config["CSV"]
 ALL = config["ALL"]
 N = config["N"]
 Y = config["Y"]
-START_DATE = config["START_DATE"]
-END_DATE = config["END_DATE"]
+START_DATE = config["start_date"]
+END_DATE = config["end_date"]
 
 
 def check_sql_info(storage, localhost, user, password, datatypes_to_be_scraped):

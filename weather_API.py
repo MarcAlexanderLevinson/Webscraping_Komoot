@@ -8,11 +8,24 @@ import json
 
 with open("komoot_config.json", 'r') as f:
     config = json.load(f)
-START_DATE = config["START_DATE"]
-END_DATE = config["END_DATE"]
+
+LAT = config["lat"]
+LONG = config["long"]
+CITY2 = config["city2"]
+COUNTRY2 = config["country2"]
+LONGITUDE = config["longitude"]
+LATITUDE = config["latitude"]
+TIME = config["time"]
+TEMPERATURE_2M_MAX = config["temperature_2m_max"]
+TEMPERATURE_2M_MIN = config["temperature_2m_min"]
+TEMPERATURE_2M_MEAN = config["temperature_2m_mean"]
+PRECIPITATION_SUM = config["precipitation_sum"]
+PRECIPITATION_HOURS = config["precipitation_hours"]
+START_DATE = config["start_date"]
+END_DATE = config["end_date"]
 CITY_ID = config["city_id"]
-CITY = config["city"]
-COUNTRY = config["country"]
+VARIABLES = config["input_for_weather_api"]
+BASE_API = config["base_for_weather_api"]
 
 
 def create_table_weather(host, user, password):
@@ -48,7 +61,7 @@ def select_locations(host, user, password):
                 WHERE city.id NOT IN (SELECT city_id FROM weather)"""
     mycursor.execute(sql)
     locations = mycursor.fetchall()
-    df_locations = pd.DataFrame(locations, columns=[CITY_ID, CITY, COUNTRY])
+    df_locations = pd.DataFrame(locations, columns=[CITY_ID, CITY2, COUNTRY2])
     logging.info(f'Success: locations dataframe has been made')
     return df_locations
 
@@ -60,13 +73,13 @@ def get_latitude_longitude(df_locations):
     :param df_locations: pandas dataframe with three columns: city_id, city, country.
     :return: a pandas dataframe with 5 columns: city_id, city, country, lat, long.
     """
-    df_locations['lat'] = 0
-    df_locations['long'] = 0
+    df_locations[LAT] = 0
+    df_locations[LONG] = 0
 
     # This adds lat and long per city to the locations
     for index, row in tqdm(df_locations.iterrows()):
-        city = df_locations.loc[index, 'city']
-        country = df_locations.loc[index, 'country']
+        city = df_locations.loc[index, CITY2]
+        country = df_locations.loc[index, COUNTRY2]
 
         api_url = f"https://api.api-ninjas.com/v1/geocoding?city={city}&country={country}"
         response = requests.get(api_url, headers={'X-Api-Key': 'qTqfq/KXTqb6JVfGoAynbA==Pmkuqirz5JiJL68B'})
@@ -74,9 +87,9 @@ def get_latitude_longitude(df_locations):
         if response.status_code == requests.codes.ok:
 
             try:
-                lat, long = response.json()[0]['latitude'], response.json()[0]['longitude']
-                df_locations.loc[index, 'lat'] = lat
-                df_locations.loc[index, 'long'] = long
+                lat, long = response.json()[0][LATITUDE], response.json()[0][LONGITUDE]
+                df_locations.loc[index, LAT] = lat
+                df_locations.loc[index, LONG] = long
 
             except IndexError:
                 pass
@@ -88,7 +101,8 @@ def get_latitude_longitude(df_locations):
     return df_locations
 
 
-def create_weather_dataframe(df_locations_lat_long, START_DATE, END_DATE):
+
+def create_weather_dataframe(df_locations_lat_long, SDATE, EDATE):
     """
     This function takes in a pandas dataframe with city locations and creates a new dataframe containing the daily
     weather information per city between 2013-04-01 and 2023-04-01. So that is approximately 3650 rows per city.
@@ -100,12 +114,9 @@ def create_weather_dataframe(df_locations_lat_long, START_DATE, END_DATE):
     weather_dataframe = pd.DataFrame()
 
     for index, row in tqdm(df_locations_lat_long.iterrows()):
-        lat = df_locations_lat_long.loc[index, 'lat']
-        long = df_locations_lat_long.loc[index, 'long']
-
-        url = f"""https://archive-api.open-meteo.com/v1/archive?latitude={str(lat)}&longitude={str(long)}&start_date=
-                    {START_DATE}&end_date={END_DATE}&daily=temperature_2m_max,temperature_2m_min,temperature_2m_mean,
-                    precipitation_sum,precipitation_hours&timezone=Europe%2FBerlin"""
+        lat = df_locations_lat_long.loc[index, LAT]
+        long = df_locations_lat_long.loc[index, LONG]
+        url = f"""{BASE_API}latitude={str(lat)}&longitude={str(long)}&start_date={SDATE}&end_date={EDATE}&{VARIABLES}"""
 
         r = requests.get(url, timeout=10)
         data = r.json()
@@ -117,6 +128,7 @@ def create_weather_dataframe(df_locations_lat_long, START_DATE, END_DATE):
 
     logging.info(f'Success: weather dataframe has been made')
     return weather_dataframe
+
 
 def populate_weather(weather_table, host, user, password):
     """
@@ -130,15 +142,17 @@ def populate_weather(weather_table, host, user, password):
                 VALUES(%s, %s, %s, %s, %s, %s, %s)
                 """
 
-        city_id = row["city_id"]
-        date = row["time"]
-        max_temperature = row["temperature_2m_max"]
-        min_temperature = row["temperature_2m_min"]
-        avg_temperature = row["temperature_2m_mean"]
-        daily_precipitation_mm = row["precipitation_sum"]
-        daily_precipitation_hours = row["precipitation_hours"]
+        city_id = row[CITY_ID]
+        date = row[TIME]
+        max_temperature = row[TEMPERATURE_2M_MAX]
+        min_temperature = row[TEMPERATURE_2M_MIN]
+        avg_temperature = row[TEMPERATURE_2M_MEAN]
+        daily_precipitation_mm = row[PRECIPITATION_SUM]
+        daily_precipitation_hours = row[PRECIPITATION_HOURS]
 
-        mycursor.execute(sql_weather, [city_id, date, max_temperature, min_temperature, avg_temperature, daily_precipitation_mm, daily_precipitation_hours])
+        mycursor.execute(sql_weather,
+                         [city_id, date, max_temperature, min_temperature, avg_temperature, daily_precipitation_mm,
+                          daily_precipitation_hours])
 
     logging.info(f'Success: weather table has been populated')
     mydb.commit()

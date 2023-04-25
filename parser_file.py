@@ -8,9 +8,9 @@ def parser():
     to retrieve, the datatypes are set to all datatypes by default, the amount of hikes need specification and are multiplied 
     by 12, since this is how many hikes are present per hiking page!!!!
     Example for scraping all data from 24 hikes:
-    python get_all_hike_info.py 2
+    python main.py 2
     Example for scraping title, location and difficulty from 120 hikes:
-    python get_all_hike_info.py 10 title location difficulty
+    python main.py 10 title location difficulty
     """)
 
     parser.add_argument('-a',
@@ -44,8 +44,8 @@ def parser():
     parser.add_argument('-c', '--old_catalogue',
                         choices=["Y", "N"],
                         default="N",
-                        help="""with Y the scrapping won't re-scrap the catalogue page, but will re-use the last scrapped 
-                        catalogue page results (stored in the list_of_hiking_urls.csv file).
+                        help="""with Y the scrapping won't re-scrap the catalogue pages, but will re-use the last scrapped 
+                        catalogue pages results (stored in the list_of_hiking_urls.csv file).
                         With N, the list of hikes will be determined again, by scrapping first the catalogue page""")
 
     parser.add_argument('-s', '--storage',

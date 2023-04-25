@@ -331,6 +331,7 @@ tqdm @ file:///C:/b/abs_0axbz66qik/croots/recipe/tqdm_1664392691071/work
 traitlets @ file:///tmp/build/80754af9/traitlets_1636710298902/work
 trio==0.22.0
 trio-websocket==0.10.0
+<<<<<<< HEAD
 Twisted @ file:///C:/ci/twisted_1646835413846/work
 twisted-iocpsupport @ file:///C:/ci/twisted-iocpsupport_1646798932792/work
 typed-ast @ file:///C:/ci/typed-ast_1624953797214/work
@@ -342,6 +343,12 @@ urllib3 @ file:///C:/ci/urllib3_1650639883891/work
 w3lib @ file:///Users/ktietz/demo/mc3/conda-bld/w3lib_1629359764703/work
 watchdog @ file:///C:/ci/watchdog_1638367441841/work
 wcwidth @ file:///Users/ktietz/demo/mc3/conda-bld/wcwidth_1629357192024/work
+=======
+urllib3==1.26.14
+varname==0.11.0
+w3lib==2.1.1
+wcwidth==0.2.6
+>>>>>>> 3b328f060342a44b43457bb0f43b4ac4c9e7e7c8
 webdriver-manager==3.8.5
 webencodings==0.5.1
 websocket-client @ file:///C:/ci/websocket-client_1614804375980/work
