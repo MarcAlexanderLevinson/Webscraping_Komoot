@@ -109,7 +109,7 @@ def add_weather_info(host, user, password):
     w_api.create_table_weather(host, user, password)
     df_locations = w_api.select_locations(host, user, password)
     df_locations_lat_long = w_api.get_latitude_longitude(df_locations)
-    weather_table = w_api.create_weather_table(df_locations_lat_long)
+    weather_table = w_api.create_weather_dataframe(df_locations_lat_long, START_DATE, END_DATE)
     w_api.populate_weather(weather_table, host, user, password)
 
 

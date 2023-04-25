@@ -1,15 +1,19 @@
-import warnings
 import requests
 import pandas as pd
 from tqdm.auto import tqdm
 import create_database as cd
 import logging
+import json
 
-warnings.filterwarnings('ignore')
 
-host = "localhost"
-user = "root"
-password = "root"
+with open("komoot_config.json", 'r') as f:
+    config = json.load(f)
+START_DATE = config["START_DATE"]
+END_DATE = config["END_DATE"]
+CITY_ID = config["city_id"]
+CITY = config["city"]
+COUNTRY = config["country"]
+
 
 def create_table_weather(host, user, password):
     sql = """CREATE TABLE IF NOT EXISTS weather (
@@ -28,6 +32,14 @@ def create_table_weather(host, user, password):
 
 
 def select_locations(host, user, password):
+    """
+    This function connects to the SQL database and fetches the cities and their corresponding countries and
+    puts these in a pandas dataframe.
+    :param host: hostname provided as parameter
+    :param user: username provided as parameter
+    :param password: password provided as parameter
+    :return: pandas dataframe with three columns: city_id, city, country.
+    """
     mydb, mycursor = cd.connect_to_komoot(host, user, password)
     sql = """SELECT city.id, city.city, country.country
                 FROM city
@@ -36,12 +48,18 @@ def select_locations(host, user, password):
                 WHERE city.id NOT IN (SELECT city_id FROM weather)"""
     mycursor.execute(sql)
     locations = mycursor.fetchall()
-    df_locations = pd.DataFrame(locations, columns=['city_id', 'city', 'country'])
+    df_locations = pd.DataFrame(locations, columns=[CITY_ID, CITY, COUNTRY])
     logging.info(f'Success: locations dataframe has been made')
     return df_locations
 
 
 def get_latitude_longitude(df_locations):
+    """
+    This function takes in a pandas dataframe with cities and adds the latitude and longitude info to it by using an
+    API.
+    :param df_locations: pandas dataframe with three columns: city_id, city, country.
+    :return: a pandas dataframe with 5 columns: city_id, city, country, lat, long.
+    """
     df_locations['lat'] = 0
     df_locations['long'] = 0
 
@@ -66,30 +84,39 @@ def get_latitude_longitude(df_locations):
         else:
             pass
 
-    logging.info(f'Success: locations dataframe has been made')
+    logging.info(f'Success: latitude and longitude have been added to the locations dataframe')
     return df_locations
 
 
-def create_weather_table(df_locations_lat_long):
-    start_date = '2013-04-01'
-    end_date = '2023-04-01'
+def create_weather_dataframe(df_locations_lat_long, START_DATE, END_DATE):
+    """
+    This function takes in a pandas dataframe with city locations and creates a new dataframe containing the daily
+    weather information per city between 2013-04-01 and 2023-04-01. So that is approximately 3650 rows per city.
+    :param df_locations_lat_long: a pandas dataframe with 5 columns: city_id, city, country, lat, long.
+    :return: a pandas dataframe with 8 columns: id, city_id, date, max_temperature, min_temperature, avg_temperature,
+    daily_precipitation_mm, daily_precipitation_hours.
+    """
 
-    weather_table = pd.DataFrame()
+    weather_dataframe = pd.DataFrame()
 
     for index, row in tqdm(df_locations_lat_long.iterrows()):
         lat = df_locations_lat_long.loc[index, 'lat']
         long = df_locations_lat_long.loc[index, 'long']
 
-        url = f"https://archive-api.open-meteo.com/v1/archive?latitude={str(lat)}&longitude={str(long)}&start_date={start_date}&end_date={end_date}&daily=temperature_2m_max,temperature_2m_min,temperature_2m_mean,precipitation_sum,precipitation_hours&timezone=Europe%2FBerlin"
+        url = f"""https://archive-api.open-meteo.com/v1/archive?latitude={str(lat)}&longitude={str(long)}&start_date=
+                    {START_DATE}&end_date={END_DATE}&daily=temperature_2m_max,temperature_2m_min,temperature_2m_mean,
+                    precipitation_sum,precipitation_hours&timezone=Europe%2FBerlin"""
+
         r = requests.get(url, timeout=10)
         data = r.json()
         weather_per_location = pd.DataFrame(data['daily'])
         weather_per_location['city_id'] = df_locations_lat_long['city_id'][index]
 
-        weather_table = pd.concat([weather_table, weather_per_location], ignore_index=True)
-        weather_table['id'] = weather_table.index
+        weather_dataframe = pd.concat([weather_dataframe, weather_per_location], ignore_index=True)
+        weather_dataframe['id'] = weather_dataframe.index
 
-    return weather_table
+    logging.info(f'Success: weather dataframe has been made')
+    return weather_dataframe
 
 def populate_weather(weather_table, host, user, password):
     """
@@ -113,4 +140,5 @@ def populate_weather(weather_table, host, user, password):
 
         mycursor.execute(sql_weather, [city_id, date, max_temperature, min_temperature, avg_temperature, daily_precipitation_mm, daily_precipitation_hours])
 
+    logging.info(f'Success: weather table has been populated')
     mydb.commit()
