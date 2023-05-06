@@ -102,7 +102,8 @@ def create_weather_dataframe(df_locations_lat_long, SDATE, EDATE):
     """
     This function takes in a pandas dataframe with city locations and creates a new dataframe containing the daily
     weather information per city between 2013-04-01 and 2023-04-01. So that is approximately 3650 rows per city.
-    :param df_locations_lat_long: a pandas dataframe with 5 columns: city_id, city, country, lat, long.
+    :param df_locations_lat_long: a pandas dataframe with 5 columns: city_id, city, ountry, lat, long. SDATE: start date
+    for our historical weather info. EDATE: end date for our historical weather info.
     :return: a pandas dataframe with 8 columns: id, city_id, date, max_temperature, min_temperature, avg_temperature,
     daily_precipitation_mm, daily_precipitation_hours.
     """
@@ -134,7 +135,8 @@ def populate_weather(weather_table, host, user, password):
 
     for index, row in tqdm(weather_table.iterrows()):
         sql_weather = """INSERT INTO weather
-                (city_id, date, max_temperature, min_temperature, avg_temperature, daily_precipitation_mm, daily_precipitation_hours)
+                (city_id, date, max_temperature, min_temperature, avg_temperature, daily_precipitation_mm, 
+                yydaily_precipitation_hours)
                 VALUES(%s, %s, %s, %s, %s, %s, %s)
                 """
 

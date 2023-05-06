@@ -46,11 +46,7 @@ def check_sql_info(storage, action_to_perform, localhost, user, password, dataty
             "Sorry, if you want to add API information, you need to provide the SQL localhost, user and password info")
     elif BOTH in storage or SQL in storage or BOTH in action_to_perform or "weather_info" in action_to_perform:
         try:
-            mydb = pymysql.connect(
-                host=localhost,
-                user=user,
-                password=password
-            )
+            pymysql.connect(host=localhost, user=user, password=password)
         except RuntimeError:
             raise Exception("There was a problem to connect to MySQL. You may need to"
                             " open MySQL first on your computer, and/or check the SQL information provided "
@@ -88,7 +84,8 @@ def write_csv(hikes_infos):
 
 
 def scraper(old_catalogue, user_inputs, list_of_datatypes, data_storage, host, user, password):
-    # Get the list of hiking urls to scrap: either re-use the previous list of hiking_urls (Y) or re-scrap from scratch (N)
+    """Get the list of hiking urls to scrap: either re-use the previous list of hiking_urls (Y) or re-scrap from
+    scratch (N)"""
     if old_catalogue == N:
         hiking_urls = gu.get_all_hikes_urls(BASE_URL, user_inputs.number_of_catalogue_pages_to_scrape)
         gu.write_urls_to_csv(hiking_urls)
@@ -122,7 +119,7 @@ def add_weather_info(host, user, password):
 
 
 def main():
-    user_inputs = pa.parser()
+    user_inputs = pa.parser_func()
     action_to_perform = user_inputs.action_to_perform
     old_catalogue = user_inputs.old_catalogue
     data_storage = user_inputs.storage
@@ -137,6 +134,7 @@ def main():
         scraper(old_catalogue, user_inputs, list_of_datatypes, data_storage, host, user, password)
     if action_to_perform == 'weather_info' or action_to_perform == 'both':
         add_weather_info(host, user, password)
+
 
 if __name__ == "__main__":
     main()
