@@ -55,7 +55,9 @@ driver.implicitly_wait(IMPLICIT_WAIT_1)
 
 def distance_converter(distance_with_unit):
     """ Takes a string as an argument with a distance e.g. "10.20 mi" and converts this a float in km's, e.g. 16.41 """
-    distance_in_km = float(distance_with_unit.split()[0]) * CONVERSIONS_TO_KM[distance_with_unit.split()[1]]
+    unit = distance_with_unit.split()[1]
+    distance_with_unit = distance_with_unit.split()[0].replace(",", ".")
+    distance_in_km = float(distance_with_unit) * CONVERSIONS_TO_KM[unit]
     return distance_in_km
 
 
@@ -303,4 +305,3 @@ def get_hike_info(index, url, list_of_datatypes="all"):
         return hike_info
     except:
         logging.warning(f'The hike of the {url} url was not recorded')
-

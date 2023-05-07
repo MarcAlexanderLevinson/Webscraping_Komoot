@@ -88,14 +88,15 @@ def write_csv(hikes_infos):
 
 
 def scraper(old_catalogue, user_inputs, list_of_datatypes, data_storage, host, user, password):
+
     # Get the list of hiking urls to scrap: either re-use the previous list of hiking_urls (Y) or re-scrap from scratch (N)
     if old_catalogue == N:
+
         hiking_urls = gu.get_all_hikes_urls(BASE_URL, user_inputs.number_of_catalogue_pages_to_scrape)
         gu.write_urls_to_csv(hiking_urls)
     elif old_catalogue == Y:
         with open("list_of_hiking_urls.csv", "r") as hike_urls_csv:
             hiking_urls = hike_urls_csv.read().splitlines()
-
     # Create the list that will store all the hikes infos (the infos of one hike are stored in a dictionary)
     hikes_infos = []
 
@@ -133,9 +134,10 @@ def main():
 
     # Stop the program if there is a mismatch in the user inputs
     check_sql_info(data_storage, action_to_perform, host, user, password, list_of_datatypes)
-    if action_to_perform == 'scrape' or action_to_perform == 'both':
+    if action_to_perform == 'scrape' or action_to_perform == 'BOTH':
+
         scraper(old_catalogue, user_inputs, list_of_datatypes, data_storage, host, user, password)
-    if action_to_perform == 'weather_info' or action_to_perform == 'both':
+    if action_to_perform == 'weather_info' or action_to_perform == 'BOTH':
         add_weather_info(host, user, password)
 
 if __name__ == "__main__":

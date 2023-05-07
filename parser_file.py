@@ -15,8 +15,8 @@ def parser():
 
     parser.add_argument('-a',
                         '--action_to_perform',
-                        choices=["scrape", "weather_info", 'both'],
-                        default="both",
+                        choices=["scrape", "weather_info", 'BOTH'],
+                        default="BOTH",
                         help="""which action would you like to perform, please choose any of the following options:
                         - scrap: scrap the website and populate the database with the collected information
                         - weather_info : get the weather info from all the cities of hikes previously collected

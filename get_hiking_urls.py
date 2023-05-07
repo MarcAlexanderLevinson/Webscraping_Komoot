@@ -30,7 +30,7 @@ def get_all_catalogues_urls(base_url, number_of_page_to_scrap):
         catalogues_urls.append(f"{base_url}" + str(page_num))
     return catalogues_urls
 
-
+# <div class="css-1tdtx4c">
 def get_html_blocks(catalogue_url):
     """
     On one catalogue page, get the 12 html blocks that contains the 12 hikes url
@@ -38,7 +38,7 @@ def get_html_blocks(catalogue_url):
     driver.get(catalogue_url)
     time.sleep(5)
     try:
-        return driver.find_elements(By.CSS_SELECTOR, "div[class*='css-1dzdr7g']")  # this is a "block"
+        return driver.find_elements(By.CSS_SELECTOR, 'div[class="css-1u8qly9"]')[0:12]  # this is 12 "blocks"
     except common.exceptions.WebDriverException as err:
         logging.error(f'the contents of this url {catalogue_url} was not found: {err}')
 
@@ -48,7 +48,13 @@ def get_one_hike_url(block, urls_of_hikes, number_of_hikes_found_on_this_page, n
     From one given block on a catalogue page, extracts the url of the hike
     """
     try:
-        urls_of_hikes.append(block.find_element(By.TAG_NAME, "a").get_attribute("href"))
+        block.click()
+        url = block.find_element(By.XPATH,
+                        '//*[@id="pageMountNode"]/div/div[3]/div[3]/div[2]/div[2]/div[8]/ul/li[2]/a').get_attribute(
+            "href")
+        block_quiter = block.find_element(By.XPATH, '//*[@id="pageMountNode"]/div/div[3]/div[3]/div[1]/div/button[3]')
+        block_quiter.click()
+        urls_of_hikes.append(url)
         number_of_hikes_found_on_this_page += 1
         number_of_hikes_found += 1
         logging.info(
@@ -74,6 +80,7 @@ def get_all_hikes_urls(base_url, number_of_pages_to_scrap):
         for block in blocks:
             result = get_one_hike_url(block, urls_of_hikes, number_of_hikes_found_on_this_page, number_of_hikes_found,
                                       catalogue_url)
+            print(urls_of_hikes)
             number_of_hikes_found_on_this_page = result[0]
             number_of_hikes_found = result[1]
     return urls_of_hikes
