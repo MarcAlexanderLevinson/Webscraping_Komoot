@@ -136,7 +136,7 @@ def populate_weather(weather_table, host, user, password):
     for index, row in tqdm(weather_table.iterrows()):
         sql_weather = """INSERT INTO weather
                 (city_id, date, max_temperature, min_temperature, avg_temperature, daily_precipitation_mm, 
-                yydaily_precipitation_hours)
+                daily_precipitation_hours)
                 VALUES(%s, %s, %s, %s, %s, %s, %s)
                 """
 
