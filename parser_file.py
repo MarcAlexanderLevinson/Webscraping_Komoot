@@ -1,14 +1,16 @@
 import argparse
 
 
-def parser():
+def parser_func():
     parser = argparse.ArgumentParser(description="""
     Welcome to the Komoot webscraper, here you can get all the information
-    you need about hikes around Lyon. Just choose the amount of hiking pages you want to scrape and the data types you want 
-    to retrieve, the datatypes are set to all datatypes by default, the amount of hikes need specification and are multiplied 
-    by 12, since this is how many hikes are present per hiking page!!!!
+    you need about hikes around Lyon. Just choose the amount of hiking pages you want to scrape and the data types you
+    want to retrieve, the datatypes are set to all datatypes by default, the amount of hikes need specification and are 
+    multiplied by 12, since this is how many hikes are present per hiking page!!!!
+    
     Example for scraping all data from 24 hikes:
     python main.py 2
+    
     Example for scraping title, location and difficulty from 120 hikes:
     python main.py 10 title location difficulty
     """)
@@ -35,17 +37,17 @@ def parser():
                                  "description", "tip", "way_types_and_surfaces", "location", "all"],
                         nargs='*',
                         default="all",
-                        help="""which datatypes would you like to scrape, please choose any of the following options: title,
-                        difficulty, duration, distance, average_speed, uphill, downhill, description, tip,
+                        help="""which datatypes would you like to scrape, please choose any of the following options: 
+                        title, difficulty, duration, distance, average_speed, uphill, downhill, description, tip,
                         way_types_and_surfaces, location or all. The later selects all of the elements. BEWARE!!!! You
-                        can only add the scraped data to an SQL database if you scrape all datatypes. If that is what you
-                        want the default input is good, so just skipp this part""")
+                        can only add the scraped data to an SQL database if you scrape all datatypes. If that is what 
+                        you want the default input is good, so just skipp this part""")
 
     parser.add_argument('-c', '--old_catalogue',
                         choices=["Y", "N"],
                         default="N",
-                        help="""with Y the scrapping won't re-scrap the catalogue pages, but will re-use the last scrapped 
-                        catalogue pages results (stored in the list_of_hiking_urls.csv file).
+                        help="""with Y the scrapping won't re-scrap the catalogue pages, but will re-use the last 
+                        scrapped catalogue pages results (stored in the list_of_hiking_urls.csv file).
                         With N, the list of hikes will be determined again, by scrapping first the catalogue page""")
 
     parser.add_argument('-s', '--storage',

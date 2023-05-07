@@ -25,7 +25,6 @@ REGION = config["region"]
 CITY = config["city"]
 
 
-
 def create_database(host, user, password):
     """
     Create the komoot database (or do nothing if already exists)
@@ -275,7 +274,8 @@ def populate_one_hike_into_treks(hike, mycursor):
                         , country_id
                         , city_id
                         ) 
-                         VALUES(%s,%s,%s, (SELECT id FROM country WHERE country = %s), (SELECT id FROM city WHERE city = %s));
+                         VALUES(%s,%s,%s, (SELECT id FROM country WHERE country = %s), 
+                         (SELECT id FROM city WHERE city = %s));
                             """
         title = hike[TITLE_NAME]
         description = hike[DESCRIPTION_NAME]

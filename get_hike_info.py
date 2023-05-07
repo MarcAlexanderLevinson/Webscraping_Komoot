@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium import common
 from webdriver_manager.chrome import ChromeDriverManager
 import logging
 import json
@@ -78,8 +79,8 @@ def get_hike_title():
     try:
         title = driver.find_element(By.CSS_SELECTOR, TITLE_HTML).text
         return {TITLE_NAME: title}
-    except:
-        logging.warning(f'The hike title of this url ({url}) was not found')
+    except common.exceptions.WebDriverException as err:
+        logging.warning(f'The hike title of this url ({url}) was not found: {err}')
         return {TITLE_NAME: ""}
 
 
@@ -91,8 +92,8 @@ def get_difficulty():
     try:
         difficulty = driver.find_element(By.CSS_SELECTOR, DIFFICULTY_HTML).text
         return {DIFFICULTY_NAME: difficulty}
-    except:
-        logging.warning(f'The hike difficulty of this url ({url}) was not found')
+    except common.exceptions.WebDriverException as err:
+        logging.warning(f'The hike difficulty of this url ({url}) was not found: {err}')
         return {DIFFICULTY_NAME: ""}
 
 
@@ -104,8 +105,8 @@ def get_duration():
     try:
         duration = driver.find_element(By.CSS_SELECTOR, DURATION_HTML).text
         return {DURATION_NAME: duration}
-    except:
-        logging.warning(f'The hike duration of this url ({url}) was not found')
+    except common.exceptions.WebDriverException as err:
+        logging.warning(f'The hike duration of this url ({url}) was not found: {err}')
         return {DURATION_NAME: ""}
 
 
@@ -118,8 +119,8 @@ def get_distance():
         distance_text = driver.find_element(By.CSS_SELECTOR, DISTANCE_HTML).text
         distance = round(distance_converter(distance_text), 2)
         return {DISTANCE_NAME: distance}
-    except:
-        logging.warning(f'The hike distance of this url ({url}) was not found')
+    except common.exceptions.WebDriverException as err:
+        logging.warning(f'The hike distance of this url ({url}) was not found: {err}')
         return {DISTANCE_NAME: ""}
 
 
@@ -132,8 +133,8 @@ def get_average_speed():
         average_speed_text = driver.find_element(By.CSS_SELECTOR, SPEED_HTML).text
         average_speed = round(distance_converter(average_speed_text))
         return {AVERAGE_SPEED_NAME: average_speed}
-    except:
-        logging.warning(f'The hike average speed of this url ({url}) was not found')
+    except common.exceptions.WebDriverException as err:
+        logging.warning(f'The hike average speed of this url ({url}) was not found: {err}')
         return {AVERAGE_SPEED_NAME: ""}
 
 
@@ -147,8 +148,8 @@ def get_uphill():
         uphill_text = uphill_text.replace(",", "")
         uphill = round(distance_converter(uphill_text) * 1000, 2)  # This one is put in m instead of km's
         return {UPHILL_NAME: uphill}
-    except:
-        logging.warning(f'The hike uphill meters of this url ({url}) was not found')
+    except common.exceptions.WebDriverException as err:
+        logging.warning(f'The hike uphill meters of this url ({url}) was not found: {err}')
         return {UPHILL_NAME: ""}
 
 
@@ -162,8 +163,8 @@ def get_downhill():
         downhill_text = downhill_text.replace(",", "")
         downhill = round(distance_converter(downhill_text) * 1000, 2)  # This one is put in m instead of km's
         return {DOWNHILL_NAME: downhill}
-    except:
-        logging.warning(f'The hike downhill meters of this url ({url}) was not found')
+    except common.exceptions.WebDriverException as err:
+        logging.warning(f'The hike downhill meters of this url ({url}) was not found: {err}')
         return {DOWNHILL_NAME: ""}
 
 
@@ -177,14 +178,14 @@ def get_description():
         descriptions_niv1 = driver.find_element(By.XPATH,
                                                 DESCRIPTION_1_HTML).text
         logging.info(f'Success: The description level 1 of this url ({url}) was found')
-    except:
-        logging.warning(f'The description level 1 of this url ({url}) was not found')
+    except common.exceptions.WebDriverException as err:
+        logging.warning(f'The description level 1 of this url ({url}) was not found: {err}')
         return {DESCRIPTION_NAME: ""}
 
     try:  # Try/except to handle cases without the 2nd part of the description
         descriptions_niv2 = driver.find_element(By.XPATH,
                                                 DESCRIPTION_2_HTML).text
-    except:
+    except common.exceptions.WebDriverException:
         descriptions_niv2 = ''
     description = descriptions_niv1 + ' ' + descriptions_niv2
     return {DESCRIPTION_NAME: description}
@@ -199,8 +200,8 @@ def get_tip():
         tips = driver.find_element(By.CSS_SELECTOR, TIP_HTML).text
         logging.info(f'Success: The hike tip this url ({url}) was found')
         return {TIPS_NAME: tips}
-    except:
-        logging.warning(f'The hike tip of this url ({url}) was not found')
+    except common.exceptions.WebDriverException as err:
+        logging.warning(f'The hike tip of this url ({url}) was not found: {err}')
         return {TIPS_NAME: ""}
 
 
@@ -238,8 +239,8 @@ def get_way_types_and_surfaces():
             types_and_distances.update(way_type_converter(raw_way_type_info))
         logging.info(f'Success: The way types and surfaces of this url ({url}) was found')
         return types_and_distances
-    except:
-        logging.warning(f'The way types and surfaces of this url ({url}) was not found')
+    except common.exceptions.WebDriverException as err:
+        logging.warning(f'The way types and surfaces of this url ({url}) was not found: {err}')
         return {}
 
 
@@ -272,8 +273,8 @@ def get_location():
         logging.info(f'Success: The location of this url ({url}) was found')
         return location
 
-    except:
-        logging.warning(f'The location of this url ({url}) was not found')
+    except common.exceptions.WebDriverException as err:
+        logging.warning(f'The location of this url ({url}) was not found: {err}')
         return {}
 
 
@@ -305,3 +306,4 @@ def get_hike_info(index, url, list_of_datatypes="all"):
         return hike_info
     except:
         logging.warning(f'The hike of the {url} url was not recorded')
+
