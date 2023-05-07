@@ -129,14 +129,14 @@ def create_weather_dataframe(df_locations_lat_long, SDATE, EDATE):
 
 def populate_weather(weather_table, host, user, password):
     """
-        Takes all the difficulties of the newly scrapped hikes and write them in SQL (if not already in there)
+        Takes all the weather of the newly scrapped hikes and write them in SQL (if not already in there)
     """
     mydb, mycursor = cd.connect_to_komoot(host, user, password)
 
     for index, row in tqdm(weather_table.iterrows()):
         sql_weather = """INSERT INTO weather
                 (city_id, date, max_temperature, min_temperature, avg_temperature, daily_precipitation_mm, 
-                yydaily_precipitation_hours)
+                daily_precipitation_hours)
                 VALUES(%s, %s, %s, %s, %s, %s, %s)
                 """
 
