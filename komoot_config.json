@@ -30,7 +30,7 @@
   "surfaces": ["asphalt", "gravel", "natural_terrain", "paved", "unknown", "unpaved", "alpine"],
   "way_types": ["alpine_hiking_path", "ferry", "footpath", "hiking_path", "mountain_hiking_path", "path", "road",
              "state_road", "street"],
-  "CREATE_DATABASE": "CREATE DATABASE IF NOT EXISTS komoot",
+  "CREATE_DATABASE": "CREATE DATABASE IF NOT EXISTS marc_eliott",
   "KOMOOT": "marc_eliott",
   "id_name": "1.ID",
   "title_name": "2.title",
