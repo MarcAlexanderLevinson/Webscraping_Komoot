@@ -79,7 +79,6 @@ def get_all_hikes_urls(base_url, number_of_pages_to_scrap):
         for block in blocks:
             result = get_one_hike_url(block, urls_of_hikes, number_of_hikes_found_on_this_page, number_of_hikes_found,
                                       catalogue_url)
-            print(urls_of_hikes)
             number_of_hikes_found_on_this_page = result[0]
             number_of_hikes_found = result[1]
     return urls_of_hikes
