@@ -38,7 +38,7 @@ def get_html_blocks(catalogue_url):
     try:
         return driver.find_elements(By.CSS_SELECTOR, 'div[class="css-1u8qly9"]')[0:12]  # this is 12 "blocks"
     except common.exceptions.WebDriverException as err:
-        logging.error(f'the contents of this url {catalogue_url} was not found: {err}')
+        logging.error(f'the contents of this url {catalogue_url} was not found')
 
 
 def get_one_hike_url(block, urls_of_hikes, number_of_hikes_found_on_this_page, number_of_hikes_found, catalogue_url):
@@ -59,7 +59,7 @@ def get_one_hike_url(block, urls_of_hikes, number_of_hikes_found_on_this_page, n
         logging.info(
             f'{number_of_hikes_found_on_this_page} hikes url found on this page, {number_of_hikes_found} in total')
     except common.exceptions.WebDriverException as err:
-        logging.warning(f'The url of one hike on page ({catalogue_url}) was not found: {err}')
+        logging.warning(f'The url of one hike on page ({catalogue_url}) was not found')
     return number_of_hikes_found_on_this_page, number_of_hikes_found
 
 

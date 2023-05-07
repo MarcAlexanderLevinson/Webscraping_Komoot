@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9edbc75-816e-4c9c-b893-3e620c1c9eee" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Hiking_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Hiking_data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_hike_info.py" beforeDir="false" afterPath="$PROJECT_DIR$/get_hike_info.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/get_hiking_urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/get_hiking_urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/komoot_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/komoot_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/list_of_hiking_urls.csv" beforeDir="false" afterPath="$PROJECT_DIR$/list_of_hiking_urls.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/weather_API.py" beforeDir="false" afterPath="$PROJECT_DIR$/weather_API.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -201,7 +201,7 @@ def get_tip():
         logging.info(f'Success: The hike tip this url ({url}) was found')
         return {TIPS_NAME: tips}
     except common.exceptions.WebDriverException as err:
-        logging.warning(f'The hike tip of this url ({url}) was not found: {err}')
+        logging.warning(f'The hike tip of this url ({url}) was not found')
         return {TIPS_NAME: ""}
 
 
