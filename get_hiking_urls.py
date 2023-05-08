@@ -36,7 +36,7 @@ def get_html_blocks(catalogue_url):
     driver.get(catalogue_url)
     time.sleep(5)
     try:
-        return driver.find_elements(By.CSS_SELECTOR, 'div[class="css-1u8qly9"]')[0:12]  # this is 12 "blocks"
+        return driver.find_elements(By.CSS_SELECTOR, 'div[class="css-1tdtx4c"]')[0:12]  # this is 12 "blocks"
     except common.exceptions.WebDriverException as err:
         logging.error(f'the contents of this url {catalogue_url} was not found')
 
