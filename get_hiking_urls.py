@@ -34,7 +34,7 @@ def get_html_blocks(catalogue_url):
     On one catalogue page, get the 12 html blocks that contains the 12 hikes url
     """
     driver.get(catalogue_url)
-    # time.sleep(1)
+    time.sleep(1)
     try:
         return driver.find_elements(By.CSS_SELECTOR, 'div[class="css-1tdtx4c"]')[0:12]  # this is 12 "blocks"
     except common.exceptions.WebDriverException as err:
