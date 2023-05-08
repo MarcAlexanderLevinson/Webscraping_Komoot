@@ -99,7 +99,11 @@ def scraper(old_catalogue, user_inputs, list_of_datatypes, data_storage, host, u
     # For each hike url, we call get_hike_info(). Once we collected the info (and stored it in a dictionary),
     # we store it in the list 'hikes_infos'
     for hike_id, hike_url in enumerate(tqdm(hiking_urls)):
-        hikes_infos.append(hi.get_hike_info(hike_id, hike_url, list_of_datatypes))
+        hike = hi.get_hike_info(hike_id, hike_url, list_of_datatypes)
+        if hike is None:
+            pass
+        else:
+            hikes_infos.append(hike)
 
     # We create a csv from the list of hikes infos
     if data_storage == CSV or data_storage == BOTH:
