@@ -175,20 +175,22 @@ def get_description():
     """
     url = driver.current_url
     try:
-        descriptions_niv1 = driver.find_element(By.XPATH,
-                                                DESCRIPTION_1_HTML).text
-        logging.info(f'Success: The description level 1 of this url ({url}) was found')
+        pass
+        # descriptions_niv1 = driver.find_element(By.XPATH,
+        #                                         DESCRIPTION_1_HTML).text
+        # logging.info(f'Success: The description level 1 of this url ({url}) was found')
     except common.exceptions.WebDriverException as err:
         logging.warning(f'The description level 1 of this url ({url}) was not found: {err}')
         return {DESCRIPTION_NAME: ""}
 
     try:  # Try/except to handle cases without the 2nd part of the description
-        descriptions_niv2 = driver.find_element(By.XPATH,
-                                                DESCRIPTION_2_HTML).text
+        # descriptions_niv2 = driver.find_element(By.XPATH,
+        #                                         DESCRIPTION_2_HTML).text
+        pass
     except common.exceptions.WebDriverException:
         descriptions_niv2 = ''
-    description = descriptions_niv1 + ' ' + descriptions_niv2
-    return {DESCRIPTION_NAME: description}
+    # description = descriptions_niv1 + ' ' + descriptions_niv2
+    return {DESCRIPTION_NAME: "Taken out of latest version"}
 
 
 def get_tip():
