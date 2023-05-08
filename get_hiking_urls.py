@@ -47,7 +47,7 @@ def get_one_hike_url(block, urls_of_hikes, number_of_hikes_found_on_this_page, n
     """
     try:
         block.click()
-        time.sleep(5)
+        # time.sleep(5)
         url = block.find_element(By.XPATH,
                         '//*[@id="pageMountNode"]/div/div[3]/div[3]/div[2]/div[2]/div[8]/ul/li[2]/a').get_attribute(
             "href")
