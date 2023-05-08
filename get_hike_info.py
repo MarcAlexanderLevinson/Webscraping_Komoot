@@ -197,9 +197,9 @@ def get_tip():
     """
     url = driver.current_url
     try:
-        tips = driver.find_element(By.CSS_SELECTOR, TIP_HTML).text
-        logging.info(f'Success: The hike tip this url ({url}) was found')
-        return {TIPS_NAME: tips}
+        # tips = driver.find_element(By.CSS_SELECTOR, TIP_HTML).text
+        # logging.info(f'Success: The hike tip this url ({url}) was found')
+        return {TIPS_NAME: "Taken out of latest version"}
     except common.exceptions.WebDriverException as err:
         logging.warning(f'The hike tip of this url ({url}) was not found')
         return {TIPS_NAME: ""}
