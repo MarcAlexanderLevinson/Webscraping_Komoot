@@ -177,7 +177,6 @@ def populate_country(hikes_infos, host, user, password):
     mydb, mycursor = connect_to_komoot(host, user, password)
     countries = set()
     for hike in hikes_infos:
-        print(hikes_infos)
         if COUNTRY in hike:
             countries.add(hike[COUNTRY])
     countries = list(countries)
